@@ -4,6 +4,7 @@ import quoridor.utils.Coordinate;
 
 public class Tile {
 
-    private Coordinate position;
+    private Wall eastWall;
+    private Wall northWall;
 
 }
