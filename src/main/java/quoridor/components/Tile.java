@@ -1,15 +1,28 @@
 package quoridor.components;
 
-import quoridor.utils.Coordinate;
-
 public class Tile {
 
     private Wall eastWall;
     private Wall northWall;
 
-    public Tile(Wall eastWall, Wall northWall){
-        this.eastWall = Wall.newInstance(eastWall);
-        this.northWall = Wall.newInstance(northWall);
+    public Tile(){
+        this.northWall = null;
+        this.eastWall = null;
     }
 
+    public void setEastWall(Wall eastWall){
+        this.eastWall = eastWall;
+    }
+
+    public void setNorthWall(Wall northWall){
+        this.northWall = northWall;
+    }
+
+    public Wall getEastWall() {
+        return eastWall;
+    }
+
+    public Wall getNorthWall() {
+        return northWall;
+    }
 }
