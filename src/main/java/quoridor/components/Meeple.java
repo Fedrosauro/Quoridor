@@ -26,12 +26,12 @@ public class Meeple {
         try {
             switch (direction) {
 
-                case RIGHT -> this.position = board.getPosition(actualCoordinates.getRow(), actualCoordinates.getColumn()+1);
-                case LEFT -> this.position = board.getPosition(actualCoordinates.getRow(), actualCoordinates.getColumn()-1);
+                case RIGHT -> this.position = board.getPosition(actualCoordinates.getRow(), actualCoordinates.getColumn() + 1);
+                case LEFT -> this.position = board.getPosition(actualCoordinates.getRow(), actualCoordinates.getColumn() - 1);
                 case UP -> this.position = board.getPosition(actualCoordinates.getRow() + 1, actualCoordinates.getColumn());
                 case DOWN -> this.position = board.getPosition(actualCoordinates.getRow() - 1, actualCoordinates.getColumn());
             }
-        }catch (PositionException e){
+        } catch (PositionException e) {
             e.printStackTrace();
         }
     }

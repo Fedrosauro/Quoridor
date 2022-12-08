@@ -19,28 +19,27 @@ public class MeepleMovementTests {
 
     @ParameterizedTest
     @CsvSource({"0,0", "0,2", "9,9", "12,45", "-1,9", "5,-9", "-1,-4"})
-    public void checkMeeplePosition(int row, int column){
-        Board board = new Board(9,9);
+    public void checkMeeplePosition(int row, int column) {
+        Board board = new Board(9, 9);
 
-        try{
-            Tile position = board.getPosition(row,column);
+        try {
+            Tile position = board.getPosition(row, column);
             Meeple meeple = new Meeple(position, Color.BLUE);
 
             assertSame(meeple.getPosition(), position);
 
-        }catch (PositionException e){
-            if(row >= 9 || row < 0 || column >= 9 || column < 0) {
+        } catch (PositionException e) {
+            if (row >= 9 || row < 0 || column >= 9 || column < 0) {
                 assert true;
-            }
-            else assert false;
+            } else assert false;
         }
 
     }
 
     @ParameterizedTest
     @CsvSource({"0,0", "2,5", "8,8"})
-    public void findPositionsGivenATile(int row, int column){
-        Board board = new Board(9,9);
+    public void findPositionsGivenATile(int row, int column) {
+        Board board = new Board(9, 9);
         Tile tile = new Tile();
         Tile tileToCheck = new Tile();
         try {
@@ -51,7 +50,7 @@ public class MeepleMovementTests {
 
         Coordinates coordinates = board.findPosition(tile);
         try {
-            tileToCheck = board.getPosition(coordinates.getRow(),coordinates.getColumn());
+            tileToCheck = board.getPosition(coordinates.getRow(), coordinates.getColumn());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -62,23 +61,23 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkIfNullIsReturnedUsingGenericTile(){
-        Board board = new Board(9,9);
+    public void checkIfNullIsReturnedUsingGenericTile() {
+        Board board = new Board(9, 9);
         Tile tile = new Tile();
 
         assertNull(board.findPosition(tile));
     }
 
     @Test
-    public void checkRightMovement(){
-        Board board = new Board(9,9);
+    public void checkRightMovement() {
+        Board board = new Board(9, 9);
 
         try {
 
-            Meeple meeple = new Meeple(board.getPosition(1,4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
             meeple.move(Direction.RIGHT, board);
 
-            assertSame(board.getPosition(1,5), meeple.getPosition());
+            assertSame(board.getPosition(1, 5), meeple.getPosition());
 
         } catch (PositionException e) {
             e.printStackTrace();
@@ -87,15 +86,15 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkLeftMovement(){
-        Board board = new Board(9,9);
+    public void checkLeftMovement() {
+        Board board = new Board(9, 9);
 
         try {
 
-            Meeple meeple = new Meeple(board.getPosition(1,4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
             meeple.move(Direction.LEFT, board);
 
-            assertSame(board.getPosition(1,3), meeple.getPosition());
+            assertSame(board.getPosition(1, 3), meeple.getPosition());
 
         } catch (PositionException e) {
             e.printStackTrace();
@@ -104,15 +103,15 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkUpMovement(){
-        Board board = new Board(9,9);
+    public void checkUpMovement() {
+        Board board = new Board(9, 9);
 
         try {
 
-            Meeple meeple = new Meeple(board.getPosition(1,4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
             meeple.move(Direction.UP, board);
 
-            assertSame(board.getPosition(2,4), meeple.getPosition());
+            assertSame(board.getPosition(2, 4), meeple.getPosition());
 
         } catch (PositionException e) {
             e.printStackTrace();
@@ -121,15 +120,15 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkDownMovement(){
-        Board board = new Board(9,9);
+    public void checkDownMovement() {
+        Board board = new Board(9, 9);
 
         try {
 
-            Meeple meeple = new Meeple(board.getPosition(1,4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
             meeple.move(Direction.DOWN, board);
 
-            assertSame(board.getPosition(0,4), meeple.getPosition());
+            assertSame(board.getPosition(0, 4), meeple.getPosition());
 
         } catch (PositionException e) {
             e.printStackTrace();
@@ -139,19 +138,19 @@ public class MeepleMovementTests {
 
     @ParameterizedTest
     @EnumSource(Direction.class)
-    public void checkSingleMovement(Direction direction){
-        Board board = new Board(9,9);
+    public void checkSingleMovement(Direction direction) {
+        Board board = new Board(9, 9);
 
         try {
 
-            Meeple meeple = new Meeple(board.getPosition(1,4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
             meeple.move(direction, board);
 
-            switch (direction){
-                case RIGHT -> assertSame(board.getPosition(1,5), meeple.getPosition());
-                case LEFT -> assertSame(board.getPosition(1,3), meeple.getPosition());
-                case DOWN -> assertSame(board.getPosition(0,4), meeple.getPosition());
-                case UP -> assertSame(board.getPosition(2,4), meeple.getPosition());
+            switch (direction) {
+                case RIGHT -> assertSame(board.getPosition(1, 5), meeple.getPosition());
+                case LEFT -> assertSame(board.getPosition(1, 3), meeple.getPosition());
+                case DOWN -> assertSame(board.getPosition(0, 4), meeple.getPosition());
+                case UP -> assertSame(board.getPosition(2, 4), meeple.getPosition());
             }
 
         } catch (PositionException e) {
@@ -163,8 +162,7 @@ public class MeepleMovementTests {
     //TODO: try a path and see if the destination is right
     @Test
     @Disabled
-    public void testPath(){
-
+    public void testPath() {
 
 
     }
@@ -172,7 +170,7 @@ public class MeepleMovementTests {
     //TODO: meeple should not move if the player is trying to move it out of bounds
     @Test
     @Disabled
-    public void checkOutOfBoundMovement(){
+    public void checkOutOfBoundMovement() {
 
     }
 

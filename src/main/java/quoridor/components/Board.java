@@ -20,8 +20,8 @@ public class Board {
 
         matrix = new Tile[rows][columns];
 
-        for (int i = 0; i < rows; i++){
-            for (int j=0; j < columns; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 matrix[i][j] = new Tile();
             }
         }
@@ -36,11 +36,11 @@ public class Board {
         else return matrix[row][column];
     }
 
-    public Coordinates findPosition(Tile tile){
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
+    public Coordinates findPosition(Tile tile) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 if (tile.equals(matrix[i][j]))
-                        return new Coordinates(j,i);
+                    return new Coordinates(j, i);
             }
         }
         return null;
