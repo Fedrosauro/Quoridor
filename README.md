@@ -1,4 +1,6 @@
-#Quoridor
+<div align="center">
+  <h1>Quoridor</h1>
+</div>
 
 This is the final project of the Software Development Methods course.
 
@@ -9,10 +11,10 @@ Group:
 
 ## Rules
 
-Quoridor is an abstract game for 2 players.
+Quoridor is an abstract game for 2 players (or 4 players).
 
 ### Setup
-Each player has a meeple, and a set of walls.
+  Each player has a meeple, and a set of walls.
 
 The players stay on opposite sides of the board.
 
