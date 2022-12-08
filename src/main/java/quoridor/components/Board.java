@@ -1,6 +1,8 @@
 package quoridor.components;
 
+import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
+import quoridor.utils.Direction;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
@@ -46,11 +48,17 @@ public class Board {
         return null;
     }
 
-    public int getRows() {
-        return rows;
-    }
+    public void move(Meeple meeple, Direction direction) {
 
-    public int getColumns() {
-        return columns;
+        Coordinates actualCoordinates = this.findPosition(meeple.getPosition());
+
+        switch (direction) {
+
+            case RIGHT -> meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + 1]);
+            case LEFT -> meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1]);
+            case UP -> meeple.setPosition(matrix[actualCoordinates.getRow() + 1][actualCoordinates.getColumn()]);
+            case DOWN -> meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
+
+        }
     }
 }

@@ -15,24 +15,12 @@ public class Meeple {
         this.color = color;
     }
 
+    public void setPosition(Tile position) {
+        this.position = position;
+    }
+
     public Tile getPosition() {
         return position;
     }
 
-    public void move(Direction direction, Board board) {
-
-        Coordinates actualCoordinates = board.findPosition(position);
-
-        try {
-            switch (direction) {
-
-                case RIGHT -> this.position = board.getPosition(actualCoordinates.getRow(), actualCoordinates.getColumn() + 1);
-                case LEFT -> this.position = board.getPosition(actualCoordinates.getRow(), actualCoordinates.getColumn() - 1);
-                case UP -> this.position = board.getPosition(actualCoordinates.getRow() + 1, actualCoordinates.getColumn());
-                case DOWN -> this.position = board.getPosition(actualCoordinates.getRow() - 1, actualCoordinates.getColumn());
-            }
-        } catch (PositionException e) {
-            e.printStackTrace();
-        }
-    }
 }

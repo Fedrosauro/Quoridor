@@ -57,7 +57,6 @@ public class MeepleMovementTests {
 
 
         assertSame(tile, tileToCheck);
-        //assertEquals("" + row + column, "" + coordinates.getRow() + coordinates.getColumn());
     }
 
     @Test
@@ -75,7 +74,7 @@ public class MeepleMovementTests {
         try {
 
             Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
-            meeple.move(Direction.RIGHT, board);
+            board.move(meeple, Direction.RIGHT);
 
             assertSame(board.getPosition(1, 5), meeple.getPosition());
 
@@ -92,7 +91,7 @@ public class MeepleMovementTests {
         try {
 
             Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
-            meeple.move(Direction.LEFT, board);
+            board.move(meeple, Direction.LEFT);
 
             assertSame(board.getPosition(1, 3), meeple.getPosition());
 
@@ -109,7 +108,7 @@ public class MeepleMovementTests {
         try {
 
             Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
-            meeple.move(Direction.UP, board);
+            board.move(meeple, Direction.UP);
 
             assertSame(board.getPosition(2, 4), meeple.getPosition());
 
@@ -126,7 +125,7 @@ public class MeepleMovementTests {
         try {
 
             Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
-            meeple.move(Direction.DOWN, board);
+            board.move(meeple, Direction.DOWN);
 
             assertSame(board.getPosition(0, 4), meeple.getPosition());
 
@@ -144,7 +143,7 @@ public class MeepleMovementTests {
         try {
 
             Meeple meeple = new Meeple(board.getPosition(1, 4), Color.BLUE);
-            meeple.move(direction, board);
+            board.move(meeple, direction);
 
             switch (direction) {
                 case RIGHT -> assertSame(board.getPosition(1, 5), meeple.getPosition());
@@ -167,7 +166,7 @@ public class MeepleMovementTests {
 
     }
 
-    //TODO: meeple should not move if the player is trying to move it out of bounds
+    //TODO: meeple should not move if the player is trying to move it out of bounds, this is done in the move method
     @Test
     @Disabled
     public void checkOutOfBoundMovement() {
