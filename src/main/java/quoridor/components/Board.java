@@ -1,5 +1,6 @@
 package quoridor.components;
 
+import quoridor.utils.Coordinates;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
@@ -35,4 +36,21 @@ public class Board {
         else return matrix[row][column];
     }
 
+    public Coordinates findPosition(Tile tile){
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if (tile.equals(matrix[i][j]))
+                        return new Coordinates(j,i);
+            }
+        }
+        return null;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
 }
