@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.components.Tile;
+import quoridor.components.Wall;
 import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Direction;
@@ -307,5 +308,76 @@ public class MeepleMovementTests {
 
     }
 
+    @Test
+    public void testUpMovementWhenThereIsAWall(){
+
+        Board board = new Board(9,9);
+
+        try {
+            board.getPosition(1,1).setNorthWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+
+            board.move(meeple, Direction.UP);
+
+            assertSame(board.getPosition(1,1), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testDownMovementWhenThereIsAWall(){
+
+        Board board = new Board(9,9);
+
+        try {
+            board.getPosition(0,1).setNorthWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+
+            board.move(meeple, Direction.DOWN);
+
+            assertSame(board.getPosition(1,1), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testLeftMovementWhenThereIsAWall(){
+
+        Board board = new Board(9,9);
+
+        try {
+            board.getPosition(1,0).setEastWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+
+            board.move(meeple, Direction.LEFT);
+
+            assertSame(board.getPosition(1,1), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testRightMovementWhenThereIsAWall(){
+
+        Board board = new Board(9,9);
+
+        try {
+            board.getPosition(1,1).setEastWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+
+            board.move(meeple, Direction.RIGHT);
+
+            assertSame(board.getPosition(1,1), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

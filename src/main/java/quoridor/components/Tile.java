@@ -11,4 +11,20 @@ public class Tile {
         this.northWall = null;
 
     }
+
+    public Wall getEastWall() {
+        return eastWall;
+    }
+
+    public Wall getNorthWall() {
+        return northWall;
+    }
+
+    public void setEastWall(Wall eastWall) {
+        this.eastWall = eastWall;
+    }
+
+    public void setNorthWall(Wall northWall) {
+        this.northWall = northWall;
+    }
 }

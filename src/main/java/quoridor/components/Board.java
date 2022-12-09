@@ -52,26 +52,72 @@ public class Board {
 
         Coordinates actualCoordinates = this.findPosition(meeple.getPosition());
 
-        switch (direction) {
+        if(thereIsNoWall(actualCoordinates, direction)) {
 
-            case RIGHT -> {
-                if(actualCoordinates.getColumn() < columns - 1)
-                meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + 1]);
-            }
-            case LEFT -> {
-                if(actualCoordinates.getColumn() > 0)
-                meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1]);
-            }
-            case UP -> {
-                if (actualCoordinates.getRow() < columns - 1)
-                    meeple.setPosition(matrix[actualCoordinates.getRow() + 1][actualCoordinates.getColumn()]);
-            }
-            case DOWN -> {
-                if (actualCoordinates.getRow() > 0)
-                    meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
+            switch (direction) {
+
+                case RIGHT -> {
+                    if (actualCoordinates.getColumn() < columns - 1)
+                        meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + 1]);
+                }
+                case LEFT -> {
+                    if (actualCoordinates.getColumn() > 0)
+                        meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1]);
+                }
+                case UP -> {
+                    if (actualCoordinates.getRow() < columns - 1)
+                        meeple.setPosition(matrix[actualCoordinates.getRow() + 1][actualCoordinates.getColumn()]);
+                }
+                case DOWN -> {
+                    if (actualCoordinates.getRow() > 0)
+                        meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
+                }
+
             }
 
         }
+    }
+
+    private boolean thereIsNoWall(Coordinates actualCoordinates, Direction direction) {
+
+        Tile tile;
+
+        switch (direction){
+            case RIGHT -> {
+
+                if(actualCoordinates.getColumn() == columns - 1) return true;
+
+                tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
+                if(tile.getEastWall() == null) return true;
+
+            }
+            case LEFT -> {
+
+                if(actualCoordinates.getColumn() == 0) return true;
+
+                tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()-1];
+                if(tile.getEastWall() == null) return true;
+
+            }
+            case UP -> {
+
+                if(actualCoordinates.getRow() == rows - 1) return true;
+
+                tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
+                if(tile.getNorthWall() == null) return true;
+
+            }
+            case DOWN -> {
+
+                if(actualCoordinates.getRow() == 0) return true;
+
+                tile = matrix[actualCoordinates.getRow()-1][actualCoordinates.getColumn()];
+                if(tile.getNorthWall() == null) return true;
+
+            }
+        }
+
+        return false;
     }
 
     public void doSequenceOfMoves(Meeple meeple, ArrayList<Direction> directions) {
