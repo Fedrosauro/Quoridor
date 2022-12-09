@@ -13,6 +13,8 @@ import quoridor.utils.Coordinates;
 import quoridor.utils.Direction;
 import quoridor.utils.PositionException;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MeepleMovementTests {
@@ -38,7 +40,7 @@ public class MeepleMovementTests {
 
     @ParameterizedTest
     @CsvSource({"0,0", "2,5", "8,8"})
-    public void findPositionsGivenATile(int row, int column) {
+    public void checkCorrectCoordinatesAreReturned(int row, int column) {
         Board board = new Board(9, 9);
         Tile tile = new Tile();
         Tile tileToCheck = new Tile();
@@ -158,19 +160,150 @@ public class MeepleMovementTests {
 
     }
 
-    //TODO: try a path and see if the destination is right
-
     @Test
-    @Disabled
-    public void testPath() {
+    public void checkPathOfMoves() {
+
+        Board board = new Board(9,9);
+
+        ArrayList<Direction> directions = new ArrayList<>();
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.LEFT);
+        directions.add(Direction.UP);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.DOWN);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(3,5), Color.BLUE);
+
+            board.doSequenceOfMoves(meeple, directions);
+
+            assertSame(board.getPosition(5,5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
-    //TODO: meeple should not move if the player is trying to move it out of bounds, this is done in the move method
     @Test
-    @Disabled
-    public void checkOutOfBoundMovement() {
+    public void checkOutOfBoundUpMovement() {
+
+        Board board = new Board(9,9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(8,5), Color.BLUE);
+
+            board.move(meeple, Direction.UP);
+
+            assertSame(board.getPosition(8,5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void checkOutOfBoundDownMovement() {
+
+        Board board = new Board(9,9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(0,5), Color.BLUE);
+
+            board.move(meeple, Direction.DOWN);
+
+            assertSame(board.getPosition(0,5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void checkOutOfBoundRightMovement() {
+
+        Board board = new Board(9,9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5,8), Color.BLUE);
+
+            board.move(meeple, Direction.RIGHT);
+
+            assertSame(board.getPosition(5,8), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void checkOutOfBoundLeftMovement() {
+
+        Board board = new Board(9,9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5,0), Color.BLUE);
+
+            board.move(meeple, Direction.LEFT);
+
+            assertSame(board.getPosition(5,0), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testInvalidPath(){
+
+        Board board = new Board(9,9);
+
+        ArrayList<Direction> directions = new ArrayList<>();
+        directions.add(Direction.DOWN);
+        directions.add(Direction.LEFT);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.UP);
+        directions.add(Direction.LEFT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.RIGHT);
+        directions.add(Direction.UP);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.DOWN);
+        directions.add(Direction.RIGHT); //create path with out of bounds moves
+
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(0,0), Color.BLUE);
+
+            board.doSequenceOfMoves(meeple, directions);
+
+            assertSame(board.getPosition(0,8), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
 
     }
 

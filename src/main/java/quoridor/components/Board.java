@@ -54,11 +54,30 @@ public class Board {
 
         switch (direction) {
 
-            case RIGHT -> meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + 1]);
-            case LEFT -> meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1]);
-            case UP -> meeple.setPosition(matrix[actualCoordinates.getRow() + 1][actualCoordinates.getColumn()]);
-            case DOWN -> meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
+            case RIGHT -> {
+                if(actualCoordinates.getColumn() < columns - 1)
+                meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + 1]);
+            }
+            case LEFT -> {
+                if(actualCoordinates.getColumn() > 0)
+                meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1]);
+            }
+            case UP -> {
+                if (actualCoordinates.getRow() < columns - 1)
+                    meeple.setPosition(matrix[actualCoordinates.getRow() + 1][actualCoordinates.getColumn()]);
+            }
+            case DOWN -> {
+                if (actualCoordinates.getRow() > 0)
+                    meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
+            }
 
         }
     }
+
+    public void doSequenceOfMoves(Meeple meeple, ArrayList<Direction> directions) {
+        for (Direction direction : directions) {
+            this.move(meeple, direction);
+        }
+    }
+
 }
