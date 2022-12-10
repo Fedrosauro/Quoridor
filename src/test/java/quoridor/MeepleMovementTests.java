@@ -1,6 +1,5 @@
 package quoridor;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,13 +15,14 @@ import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-public class MeepleMovementTests {
+class MeepleMovementTests {
 
     @ParameterizedTest
     @CsvSource({"0,0", "0,2", "9,9", "12,45", "-1,9", "5,-9", "-1,-4"})
-    public void checkMeeplePosition(int row, int column) {
+    void checkMeeplePosition(int row, int column) {
         Board board = new Board(9, 9);
 
         try {
@@ -41,7 +41,7 @@ public class MeepleMovementTests {
 
     @ParameterizedTest
     @CsvSource({"0,0", "2,5", "8,8"})
-    public void checkCorrectCoordinatesAreReturned(int row, int column) {
+    void checkCorrectCoordinatesAreReturned(int row, int column) {
         Board board = new Board(9, 9);
         Tile tile = new Tile();
         Tile tileToCheck = new Tile();
@@ -63,7 +63,7 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkIfNullIsReturnedUsingGenericTile() {
+    void checkIfNullIsReturnedUsingGenericTile() {
         Board board = new Board(9, 9);
         Tile tile = new Tile();
 
@@ -71,7 +71,7 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkRightMovement() {
+    void checkRightMovement() {
         Board board = new Board(9, 9);
 
         try {
@@ -88,7 +88,7 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkLeftMovement() {
+    void checkLeftMovement() {
         Board board = new Board(9, 9);
 
         try {
@@ -105,7 +105,7 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkUpMovement() {
+    void checkUpMovement() {
         Board board = new Board(9, 9);
 
         try {
@@ -122,7 +122,7 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkDownMovement() {
+    void checkDownMovement() {
         Board board = new Board(9, 9);
 
         try {
@@ -140,7 +140,7 @@ public class MeepleMovementTests {
 
     @ParameterizedTest
     @EnumSource(Direction.class)
-    public void checkSingleMovement(Direction direction) {
+    void checkSingleMovement(Direction direction) {
         Board board = new Board(9, 9);
 
         try {
@@ -162,9 +162,9 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkPathOfMoves() {
+    void checkPathOfMoves() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         ArrayList<Direction> directions = new ArrayList<>();
         directions.add(Direction.UP);
@@ -175,11 +175,11 @@ public class MeepleMovementTests {
         directions.add(Direction.DOWN);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(3,5), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(3, 5), Color.BLUE);
 
             board.doSequenceOfMoves(meeple, directions);
 
-            assertSame(board.getPosition(5,5), meeple.getPosition());
+            assertSame(board.getPosition(5, 5), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -188,16 +188,16 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkOutOfBoundUpMovement() {
+    void checkOutOfBoundUpMovement() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(8,5), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(8, 5), Color.BLUE);
 
             board.move(meeple, Direction.UP);
 
-            assertSame(board.getPosition(8,5), meeple.getPosition());
+            assertSame(board.getPosition(8, 5), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -205,16 +205,16 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkOutOfBoundDownMovement() {
+    void checkOutOfBoundDownMovement() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(0,5), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(0, 5), Color.BLUE);
 
             board.move(meeple, Direction.DOWN);
 
-            assertSame(board.getPosition(0,5), meeple.getPosition());
+            assertSame(board.getPosition(0, 5), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -222,16 +222,16 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkOutOfBoundRightMovement() {
+    void checkOutOfBoundRightMovement() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(5,8), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(5, 8), Color.BLUE);
 
             board.move(meeple, Direction.RIGHT);
 
-            assertSame(board.getPosition(5,8), meeple.getPosition());
+            assertSame(board.getPosition(5, 8), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -239,16 +239,16 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void checkOutOfBoundLeftMovement() {
+    void checkOutOfBoundLeftMovement() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(5,0), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(5, 0), Color.BLUE);
 
             board.move(meeple, Direction.LEFT);
 
-            assertSame(board.getPosition(5,0), meeple.getPosition());
+            assertSame(board.getPosition(5, 0), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -256,9 +256,9 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void testInvalidPath(){
+    void testInvalidPath() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         ArrayList<Direction> directions = new ArrayList<>();
         directions.add(Direction.DOWN);
@@ -293,15 +293,15 @@ public class MeepleMovementTests {
         directions.add(Direction.DOWN);
         directions.add(Direction.DOWN);
         directions.add(Direction.DOWN);
-        directions.add(Direction.RIGHT); //create path with out of bounds moves
+        directions.add(Direction.RIGHT); //create path without of bounds moves
 
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(0,0), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(0, 0), Color.BLUE);
 
             board.doSequenceOfMoves(meeple, directions);
 
-            assertSame(board.getPosition(0,8), meeple.getPosition());
+            assertSame(board.getPosition(0, 8), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -309,17 +309,17 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void testUpMovementWhenThereIsAWall(){
+    void testUpMovementWhenThereIsAWall() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            board.getPosition(1,1).setNorthWall(new Wall());
-            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+            board.getPosition(1, 1).setNorthWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1, 1), Color.BLUE);
 
             board.move(meeple, Direction.UP);
 
-            assertSame(board.getPosition(1,1), meeple.getPosition());
+            assertSame(board.getPosition(1, 1), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -327,17 +327,17 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void testDownMovementWhenThereIsAWall(){
+    void testDownMovementWhenThereIsAWall() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            board.getPosition(0,1).setNorthWall(new Wall());
-            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+            board.getPosition(0, 1).setNorthWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1, 1), Color.BLUE);
 
             board.move(meeple, Direction.DOWN);
 
-            assertSame(board.getPosition(1,1), meeple.getPosition());
+            assertSame(board.getPosition(1, 1), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -345,17 +345,17 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void testLeftMovementWhenThereIsAWall(){
+    void testLeftMovementWhenThereIsAWall() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            board.getPosition(1,0).setEastWall(new Wall());
-            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+            board.getPosition(1, 0).setEastWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1, 1), Color.BLUE);
 
             board.move(meeple, Direction.LEFT);
 
-            assertSame(board.getPosition(1,1), meeple.getPosition());
+            assertSame(board.getPosition(1, 1), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
@@ -363,17 +363,17 @@ public class MeepleMovementTests {
     }
 
     @Test
-    public void testRightMovementWhenThereIsAWall(){
+    void testRightMovementWhenThereIsAWall() {
 
-        Board board = new Board(9,9);
+        Board board = new Board(9, 9);
 
         try {
-            board.getPosition(1,1).setEastWall(new Wall());
-            Meeple meeple = new Meeple(board.getPosition(1,1), Color.BLUE);
+            board.getPosition(1, 1).setEastWall(new Wall());
+            Meeple meeple = new Meeple(board.getPosition(1, 1), Color.BLUE);
 
             board.move(meeple, Direction.RIGHT);
 
-            assertSame(board.getPosition(1,1), meeple.getPosition());
+            assertSame(board.getPosition(1, 1), meeple.getPosition());
         } catch (PositionException e) {
             e.printStackTrace();
         }
