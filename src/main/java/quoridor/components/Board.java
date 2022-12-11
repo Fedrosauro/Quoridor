@@ -1,8 +1,8 @@
 package quoridor.components;
 
-import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Direction;
+import quoridor.utils.Margin;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ public class Board {
     private int columns;
     private Tile[][] matrix;
     private ArrayList<Wall> walls;
-    private ArrayList<Meeple> meeples;
 
     public Board(int rows, int columns) {
 
@@ -27,6 +26,25 @@ public class Board {
                 matrix[i][j] = new Tile();
             }
         }
+
+    }
+
+    public void findFinalMargin(Meeple meeple) {
+        Coordinates meeplePosition = this.findPosition(meeple.getPosition());
+        int row = meeplePosition.getRow();
+        int column = meeplePosition.getColumn();
+        Margin finalMargin;
+
+        if (row > column) {
+            if (rows - row > column)
+                finalMargin = Margin.RIGHT; //it means the meeple is in the left triangle, so it has to move to the right
+            else finalMargin = Margin.TOP;
+        } else {
+            if (rows - row > column) finalMargin = Margin.BOTTOM;
+            else finalMargin = Margin.LEFT;
+        }
+
+        meeple.setFinalPosition(finalMargin);
 
     }
 
@@ -60,5 +78,30 @@ public class Board {
             case DOWN -> meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
 
         }
+    }
+
+    public boolean checkFinalMarginReached(Meeple meeple) {
+
+        Margin finalMargin = meeple.getFinalMargin();
+
+        Coordinates meeplePosition = this.findPosition(meeple.getPosition());
+
+        switch (finalMargin) {
+            case TOP -> {
+                if (meeplePosition.getRow() == 0) return true;
+            }
+            case BOTTOM -> {
+                if (meeplePosition.getRow() == rows - 1) return true;
+            }
+            case LEFT -> {
+                if (meeplePosition.getColumn() == 0) return true;
+            }
+            case RIGHT -> {
+                if (meeplePosition.getColumn() == columns - 1) return true;
+            }
+        }
+
+        return false;
+
     }
 }
