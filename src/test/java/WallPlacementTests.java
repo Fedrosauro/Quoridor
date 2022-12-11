@@ -5,6 +5,8 @@ import quoridor.components.Board;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WallPlacementTests {
@@ -122,7 +124,12 @@ public class WallPlacementTests {
         board.placeWall(wallCoordinates1, or1, 2);
         board.placeWall(wallCoordinates3, or2, 2);
 
-        boolean cross = board.checkCross(wallCoordinates1, wallCoordinates2, wallCoordinates3);
+        ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
+        coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
+
+        boolean cross = board.checkCross(coordinatesArrayList);
 
         assertTrue(cross);
     }
@@ -141,9 +148,64 @@ public class WallPlacementTests {
         board.placeWall(wallCoordinates1, or1, 2);
         board.placeWall(wallCoordinates3, or2, 1);
 
-        boolean cross = board.checkCross(wallCoordinates1, wallCoordinates2, wallCoordinates3);
+        ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
+        coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
+
+        boolean cross = board.checkCross(coordinatesArrayList);
 
         assertFalse(cross);
+    }
+
+    @Test
+    void checkIllegalCombinationWallsID2x2Test(){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(0, 0);
+        Coordinates wallCoordinates2 = new Coordinates(1, 0);
+        Coordinates wallCoordinates3 = new Coordinates(1, 1);
+
+        Orientation or1 = Orientation.VERTICAL;
+        Orientation or2 = Orientation.HORIZONTAL;
+
+        board.placeWall(wallCoordinates1, or1, 2);
+        board.placeWall(wallCoordinates3, or2, 2);
+
+        ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
+        coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
+
+        boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
+
+        assertTrue(illegalWallCombination);
+    }
+
+    @Test
+    void checkLegalCombinationWallsID2x2Test(){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(0, 0);
+        Coordinates wallCoordinates2 = new Coordinates(1, 0);
+        Coordinates wallCoordinates3 = new Coordinates(1, 1);
+
+        Orientation or1 = Orientation.VERTICAL;
+        Orientation or2 = Orientation.HORIZONTAL;
+
+        board.placeWall(wallCoordinates1, or1, 2);
+
+        board.placeWall(wallCoordinates2, or2, 1);
+        board.placeWall(wallCoordinates3, or2, 1);
+
+        ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
+        coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
+
+        boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
+
+        assertFalse(illegalWallCombination);
     }
 
 

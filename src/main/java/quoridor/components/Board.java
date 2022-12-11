@@ -9,6 +9,7 @@ public class Board {
 
     private int rows;
     private int columns;
+    private int wallID;
     private Tile[][] matrix;
     private ArrayList<Wall> walls;
     private ArrayList<Meeple> meeples;
@@ -25,6 +26,8 @@ public class Board {
                 matrix[i][j] = new Tile();
             }
         }
+
+        this.wallID = 1;
     }
 
     public int getColumns() {
@@ -41,8 +44,8 @@ public class Board {
 
     public void singletPlacement(Coordinates wallC, Orientation orientation) {
         switch (orientation){
-            case HORIZONTAL -> matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall());
-            case VERTICAL -> matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall());
+            case HORIZONTAL -> matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID));
+            case VERTICAL -> matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID));
         }
     }
 
@@ -57,6 +60,7 @@ public class Board {
             singletPlacement(wallC, orientation);
             i++;
         }
+        wallID++;
     }
 
     public boolean checkWallPresence(Coordinates wallC, Orientation orientation, int dimension) {
@@ -75,10 +79,32 @@ public class Board {
         } return result;
     }
 
-    public boolean checkCross(Coordinates wallC1, Coordinates wallC2, Coordinates wallC3){
-        return matrix[wallC1.getRow()][wallC1.getColumn()].getEastWall() != null &&
-                matrix[wallC2.getRow()][wallC2.getColumn()].getEastWall() != null &&
-                matrix[wallC2.getRow()][wallC2.getColumn()].getNorthWall() != null &&
-                matrix[wallC3.getRow()][wallC3.getColumn()].getNorthWall() != null;
+    public boolean checkCross(ArrayList<Coordinates> arrListC){
+        return matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getEastWall() != null &&
+                matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall() != null &&
+                matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall() != null &&
+                matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getNorthWall() != null;
+    }
+
+    public boolean illegalWallIDsCombinationChecker(ArrayList<Coordinates> arrListC) {
+        ArrayList<Integer> IDsCount = new ArrayList<>();
+
+        //IDsCount at first is empty so we add the first ID of the first wall checked
+        IDsCount.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getEastWall().getID());
+
+        if(!IDsCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID())){
+            IDsCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID());
+        }
+
+        if(!IDsCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID())){
+            IDsCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID());
+        }
+
+        if(!IDsCount.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getNorthWall().getID())){
+            IDsCount.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getNorthWall().getID());
+        }
+
+        if(IDsCount.size() == 2) return true;
+        else return false;
     }
 }
