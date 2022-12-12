@@ -1,11 +1,11 @@
 package quoridor.components;
 
-import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Direction;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
@@ -13,7 +13,6 @@ public class Board {
     private int columns;
     private Tile[][] matrix;
     private ArrayList<Wall> walls;
-    private ArrayList<Meeple> meeples;
 
     public Board(int rows, int columns) {
 
@@ -42,7 +41,7 @@ public class Board {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (tile.equals(matrix[i][j]))
-                    return new Coordinates(j, i);
+                    return new Coordinates(i, j);
             }
         }
         return null;
@@ -120,7 +119,7 @@ public class Board {
         return false;
     }
 
-    public void doSequenceOfMoves(Meeple meeple, ArrayList<Direction> directions) {
+    public void doSequenceOfMoves(Meeple meeple, List<Direction> directions) {
         for (Direction direction : directions) {
             this.move(meeple, direction);
         }

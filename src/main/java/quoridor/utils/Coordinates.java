@@ -5,7 +5,7 @@ public class Coordinates {
     private int column;
     private int row;
 
-    public Coordinates(int column, int row) {
+    public Coordinates(int row, int column) {
         this.column = column;
         this.row = row;
     }
