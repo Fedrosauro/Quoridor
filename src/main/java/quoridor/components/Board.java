@@ -1,12 +1,12 @@
 package quoridor.components;
 
-import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Direction;
 import quoridor.utils.Margin;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
@@ -139,35 +139,10 @@ public class Board {
         return false;
     }
 
-    public void doSequenceOfMoves(Meeple meeple, ArrayList<Direction> directions) {
+    public void doSequenceOfMoves(Meeple meeple, List<Direction> directions) {
         for (Direction direction : directions) {
             this.move(meeple, direction);
         }
-    }
-
-    public boolean checkFinalMarginReached(Meeple meeple) {
-
-        Margin finalMargin = meeple.getFinalMargin();
-
-        Coordinates meeplePosition = this.findPosition(meeple.getPosition());
-
-        switch (finalMargin) {
-            case TOP -> {
-                if (meeplePosition.getRow() == 0) return true;
-            }
-            case BOTTOM -> {
-                if (meeplePosition.getRow() == rows - 1) return true;
-            }
-            case LEFT -> {
-                if (meeplePosition.getColumn() == 0) return true;
-            }
-            case RIGHT -> {
-                if (meeplePosition.getColumn() == columns - 1) return true;
-            }
-        }
-
-        return false;
-
     }
 
     public boolean checkFinalMarginReached(Meeple meeple) {
