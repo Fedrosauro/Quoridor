@@ -4,6 +4,8 @@ public class Wall {
 
     private int ID;
 
+    public Wall(){}
+
     public Wall(int ID){
         this.ID = ID;
     }
