@@ -2,6 +2,7 @@ package quoridor.components;
 
 public class Wall {
 
+    //add adiacencies field to make the getAdiacenciesOfLastWallPlaced method easier
     private int ID;
 
     public Wall(){}

@@ -207,4 +207,38 @@ public class Board {
         if(IDsCount.size() == 2) return true;
         else return false;
     }
+
+    public boolean wallOutOfBoundChecker(Coordinates wallC, Orientation orientation, int dimension) {
+        switch (orientation){
+            case VERTICAL -> {
+                return wallC.getRow() + dimension - 1 >= matrix.length;
+            }
+            case HORIZONTAL -> {
+                return (wallC.getColumn() - dimension + 1) < 0;
+            }
+        } return false;
+    }
+
+    public ArrayList<Tile> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
+        /*ArrayList<Tile> adiacencies = new ArrayList<>();
+        int initialColumn = wallC.getColumn();
+
+        for(int i = 0; i < dimension * 2; i++){
+            switch (orientation){
+                case HORIZONTAL -> {
+                    if(i <= dimension - 1){
+                        if(i != 0) wallC.setColumn(wallC.getColumn() - 1);
+                        adiacencies.add(matrix[wallC.getRow()][wallC.getColumn()]);
+                    } else{
+                        if(i == dimension) { //reset column and set row above the first one
+                            wallC.setRow(wallC.getRow() - 1);
+                            wallC.setColumn(initialColumn);
+                        } else wallC.setColumn(wallC.getColumn() - 1);
+                        adiacencies.add(matrix[wallC.getRow()][wallC.getColumn()]);
+                    }
+                }
+            }
+        }*/
+        return null;
+    }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
+import quoridor.components.Tile;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
 
@@ -208,6 +209,44 @@ public class WallPlacementTests {
         boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
 
         assertFalse(illegalWallCombination);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1", "2"})
+    void horizontalWallOutOfBoundCheck(int dimension){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+        Orientation or1 = Orientation.HORIZONTAL;
+
+        boolean northWallOutOfBounds = board.wallOutOfBoundChecker(wallCoordinates1, or1, dimension);
+
+        assertFalse(northWallOutOfBounds);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1", "2", "3", "4"})
+    void verticalWallOutOfBoundCheck(int dimension){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+        Orientation or1 = Orientation.VERTICAL;
+
+        boolean northWallOutOfBounds = board.wallOutOfBoundChecker(wallCoordinates1, or1, dimension);
+
+        assertFalse(northWallOutOfBounds);
+    }
+
+    @Test
+    void checkWallAdiacenciesTest(){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+        Orientation or1 = Orientation.VERTICAL;
+
+        board.placeWall(wallCoordinates1, or1, 3);
+
+        ArrayList<Tile> adiacencies = board.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 3);
     }
 
 
