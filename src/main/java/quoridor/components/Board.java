@@ -14,7 +14,6 @@ public class Board {
     private int columns;
     private Tile[][] matrix;
     private ArrayList<Wall> walls;
-    private ArrayList<Meeple> meeples;
 
     public Board(int rows, int columns) {
 
@@ -144,6 +143,31 @@ public class Board {
         for (Direction direction : directions) {
             this.move(meeple, direction);
         }
+    }
+
+    public boolean checkFinalMarginReached(Meeple meeple) {
+
+        Margin finalMargin = meeple.getFinalMargin();
+
+        Coordinates meeplePosition = this.findPosition(meeple.getPosition());
+
+        switch (finalMargin) {
+            case TOP -> {
+                if (meeplePosition.getRow() == 0) return true;
+            }
+            case BOTTOM -> {
+                if (meeplePosition.getRow() == rows - 1) return true;
+            }
+            case LEFT -> {
+                if (meeplePosition.getColumn() == 0) return true;
+            }
+            case RIGHT -> {
+                if (meeplePosition.getColumn() == columns - 1) return true;
+            }
+        }
+
+        return false;
+
     }
 
     public boolean checkFinalMarginReached(Meeple meeple) {
