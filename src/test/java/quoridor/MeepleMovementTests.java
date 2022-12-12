@@ -14,6 +14,7 @@ import quoridor.utils.Direction;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -260,7 +261,7 @@ class MeepleMovementTests {
 
         Board board = new Board(9, 9);
 
-        ArrayList<Direction> directions = new ArrayList<>();
+        List<Direction> directions = new ArrayList<>();
         directions.add(Direction.DOWN);
         directions.add(Direction.LEFT);
         directions.add(Direction.UP);
