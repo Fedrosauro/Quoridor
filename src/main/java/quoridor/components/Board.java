@@ -46,7 +46,7 @@ public class Board {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (tile.equals(matrix[i][j]))
-                    return new Coordinates(j, i);
+                    return new Coordinates(i, j);
             }
         }
         return null;
