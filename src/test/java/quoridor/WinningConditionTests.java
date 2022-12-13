@@ -17,7 +17,7 @@ class WinningConditionTests {
         Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(0, 4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(1, 3), Color.BLUE);
 
             board.findFinalMargin(meeple);
 
@@ -36,7 +36,7 @@ class WinningConditionTests {
         Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(8, 4), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(6, 5), Color.BLUE);
 
             board.findFinalMargin(meeple);
 
@@ -55,7 +55,7 @@ class WinningConditionTests {
         Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(4, 8), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(5, 7), Color.BLUE);
 
             board.findFinalMargin(meeple);
 
@@ -74,7 +74,7 @@ class WinningConditionTests {
         Board board = new Board(9, 9);
 
         try {
-            Meeple meeple = new Meeple(board.getPosition(4, 0), Color.BLUE);
+            Meeple meeple = new Meeple(board.getPosition(3, 1), Color.BLUE);
 
             board.findFinalMargin(meeple);
 
@@ -86,7 +86,6 @@ class WinningConditionTests {
 
 
     }
-
     @ParameterizedTest
     @CsvSource({"0,4,UP", "8,4,DOWN", "4,8,LEFT", "4,0,RIGHT"})
     void checkFinalPositionReached(int row, int column, Direction direction) {
