@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Tile;
+import quoridor.components.Wall;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
 
@@ -41,7 +42,7 @@ public class WallPlacementTests {
     }
 
     @ParameterizedTest
-    @CsvSource({"1,1,2", "0,2,3", "2,1,1", "2,2,2"})
+    @CsvSource({"1,1,2", "2,1,1", "2,2,2"})
     void horizontalWallPlacement(int row, int column, int dimension){
         Board board = new Board(3, 3);
 
@@ -56,7 +57,7 @@ public class WallPlacementTests {
     }
 
     @ParameterizedTest
-    @CsvSource({"1,1,2", "0,2,3", "2,1,1", "1,0,2"})
+    @CsvSource({"1,1,2", "2,1,1", "1,0,2"})
     void verticalWallPlacement(int row, int column, int dimension){
         Board board = new Board(3, 3);
 
@@ -237,16 +238,115 @@ public class WallPlacementTests {
         assertFalse(northWallOutOfBounds);
     }
 
+    @ParameterizedTest
+    @CsvSource({"0,1", "0,3"})
+    void illegalHorizontalWallPlacementFirstRow(int row, int column){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(row, column);
+        Orientation or1 = Orientation.HORIZONTAL;
+
+        boolean horizontalWallOnFirtsRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+
+        assertTrue(horizontalWallOnFirtsRow);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,1", "2,3"})
+    void legalHorizontalWallPlacementNotFirstRow(int row, int column){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(row, column);
+        Orientation or1 = Orientation.HORIZONTAL;
+
+        boolean horizontalWallOnFirtsRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+
+        assertFalse(horizontalWallOnFirtsRow);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,4", "3,4"})
+    void illegalVerticalWallPlacementLastColumn(int row, int column){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(row, column);
+        Orientation or1 = Orientation.VERTICAL;
+
+        boolean verticalWallOnLastColumn = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+
+        assertTrue(verticalWallOnLastColumn);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,1", "2,3"})
+    void legalVerticalWallPlacementNotLastColumn(int row, int column){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(row, column);
+        Orientation or1 = Orientation.VERTICAL;
+
+        boolean verticalWallOnFirtsRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+
+        assertFalse(verticalWallOnFirtsRow);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,1", "2,1", "3,1", "2,2"})
+    void trueSameMatrixOfCopyBoardObjectTest(int row, int column){
+        Board board = new Board(5, 5);
+
+        Board copyBoard = board.cloneObject();
+
+        Coordinates wallCoordinates = new Coordinates(row, column);
+        Orientation or1 = Orientation.VERTICAL;
+
+        board.placeWall(wallCoordinates, or1, 1);
+        copyBoard.placeWall(wallCoordinates, or1, 1);
+
+        boolean sameBoard = board.equalMatrix(copyBoard);
+
+        assertTrue(sameBoard);
+    }
+
+    @Test
+    void falseSameMatrixOfCopyBoardObjectTest(){
+        Board board = new Board(5, 5);
+
+        Board copyBoard = board.cloneObject();
+
+        Coordinates wallCoordinates = new Coordinates(1, 1);
+        Orientation or1 = Orientation.VERTICAL;
+
+        copyBoard.placeWall(wallCoordinates, or1, 2);
+
+        boolean sameBoard = board.equalMatrix(copyBoard);
+
+        assertFalse(sameBoard);
+    }
+
     @Test
     void checkWallAdiacenciesTest(){
         Board board = new Board(5, 5);
 
+        Board copyBoard = board.cloneObject();
+
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
-        Orientation or1 = Orientation.VERTICAL;
+        Orientation or1 = Orientation.HORIZONTAL;
 
-        board.placeWall(wallCoordinates1, or1, 3);
+        copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        ArrayList<Tile> adiacencies = board.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 3);
+        ArrayList<Tile[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+
+        boolean correctTiles = true;
+
+        for(int i = 0; i < adiacencies.size(); i++){
+            correctTiles = adiacencies.get(i)[0].getNorthWall() != null
+                    && adiacencies.get(i)[0].getEastWall() == null
+                    && adiacencies.get(i)[1].getNorthWall() == null
+                    && adiacencies.get(i)[1].getEastWall() == null;
+        }
+
+        assertTrue(correctTiles);
     }
 
 

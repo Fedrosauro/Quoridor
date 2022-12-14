@@ -25,4 +25,17 @@ public class Tile {
     public Wall getNorthWall() {
         return northWall;
     }
+
+    public boolean equalTile(Tile tile) {
+        boolean equalWalls = true;
+        if(this.northWall == null)
+            equalWalls = tile.getNorthWall() == null;
+        else equalWalls = this.northWall.getID() == tile.getNorthWall().getID();
+        if(equalWalls) {
+            if (this.eastWall == null)
+                equalWalls = tile.getEastWall() == null;
+            else equalWalls = this.eastWall.getID() == tile.getEastWall().getID();
+        }
+        return equalWalls;
+    }
 }

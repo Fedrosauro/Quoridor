@@ -34,6 +34,19 @@ public class Board {
         this.wallID = 1;
     }
 
+    public Board(Tile[][] matrix){
+        this.matrix = new Tile[matrix.length][matrix[0].length];
+
+        for (int i = 0; i < this.matrix.length; i++) {
+            for (int j = 0; j < this.matrix[0].length; j++) {
+                this.matrix[i][j] = new Tile();
+                this.matrix[i][j].setNorthWall(matrix[i][j].getNorthWall());
+                this.matrix[i][j].setEastWall(matrix[i][j].getEastWall());
+            }
+        }
+        this.wallID = 1;
+    }
+
     public Tile getPosition(int row, int column) throws PositionException {
 
         if (row >= rows || row < 0 || column >= columns || column < 0)
@@ -143,21 +156,32 @@ public class Board {
     }
 
     public void singletPlacement(Coordinates wallC, Orientation orientation) {
+        Tile[] adiacencies = new Tile[2];
+        adiacencies[0] = matrix[wallC.getRow()][wallC.getColumn()];
+
         switch (orientation){
-            case HORIZONTAL -> matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID));
-            case VERTICAL -> matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID));
+            case HORIZONTAL -> {
+                adiacencies[1] = matrix[wallC.getRow() - 1][wallC.getColumn()];
+                matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID, adiacencies));
+            }
+            case VERTICAL -> {
+                adiacencies[1] = matrix[wallC.getRow()][wallC.getColumn() + 1];
+                matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID, adiacencies));
+            }
         }
     }
 
     public void placeWall(Coordinates wallC, Orientation orientation, int dim) {
-        singletPlacement(wallC, orientation);
+        Coordinates copyWallC = new Coordinates(wallC.getRow(), wallC.getColumn());
+        //in this way we don't compromise the initial coordinates that may be used later
+        singletPlacement(copyWallC, orientation);
         int i = 1;
         while(i < dim){
             switch (orientation) {
-                case HORIZONTAL -> wallC.setColumn(wallC.getColumn() - 1);
-                case VERTICAL -> wallC.setRow(wallC.getRow() + 1);
+                case HORIZONTAL -> copyWallC.setColumn(copyWallC.getColumn() - 1);
+                case VERTICAL -> copyWallC.setRow(copyWallC.getRow() + 1);
             }
-            singletPlacement(wallC, orientation);
+            singletPlacement(copyWallC, orientation);
             i++;
         }
         wallID++;
@@ -219,26 +243,46 @@ public class Board {
         } return false;
     }
 
-    public ArrayList<Tile> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
-        /*ArrayList<Tile> adiacencies = new ArrayList<>();
-        int initialColumn = wallC.getColumn();
+    public boolean wallOnFirstRowOrLastColumnChecker(Coordinates wallC, Orientation orientation) {
+        switch (orientation){
+            case HORIZONTAL -> {
+                if(wallC.getRow() == 0) return true;
+            }
+            case VERTICAL -> {
+                if(wallC.getColumn() == matrix[0].length - 1) return true;
+            }
+        }
+        return false;
+    }
 
-        for(int i = 0; i < dimension * 2; i++){
+    public Board cloneObject() {
+        return new Board(this.matrix);
+    }
+
+    public boolean equalMatrix(Board board){
+        boolean equal = true;
+        for(int i = 0; i < this.matrix.length && equal; i++){
+            for(int j = 0; j < this.matrix[0].length && equal; j++){
+                equal = this.matrix[i][j].equalTile(board.getMatrix()[i][j]);
+            }
+        }
+        return equal;
+    }
+
+    public ArrayList<Tile[]> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
+        ArrayList<Tile[]> adiacencies = new ArrayList<>();
+        for(int i = 0; i < dimension; i++){
             switch (orientation){
                 case HORIZONTAL -> {
-                    if(i <= dimension - 1){
-                        if(i != 0) wallC.setColumn(wallC.getColumn() - 1);
-                        adiacencies.add(matrix[wallC.getRow()][wallC.getColumn()]);
-                    } else{
-                        if(i == dimension) { //reset column and set row above the first one
-                            wallC.setRow(wallC.getRow() - 1);
-                            wallC.setColumn(initialColumn);
-                        } else wallC.setColumn(wallC.getColumn() - 1);
-                        adiacencies.add(matrix[wallC.getRow()][wallC.getColumn()]);
-                    }
+                    adiacencies.add(matrix[wallC.getRow()][wallC.getColumn()].getNorthWall().getAdiacencies());
+                    wallC.setColumn(wallC.getColumn() - 1);
+                }
+                case VERTICAL -> {
+                    adiacencies.add(matrix[wallC.getRow()][wallC.getColumn()].getEastWall().getAdiacencies());
+                    wallC.setRow(wallC.getRow() + 1);
                 }
             }
-        }*/
-        return null;
+        }
+        return adiacencies;
     }
 }
