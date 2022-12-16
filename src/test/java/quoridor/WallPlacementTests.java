@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
-import quoridor.components.Tile;
-import quoridor.components.Wall;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
 
@@ -49,7 +47,7 @@ public class WallPlacementTests {
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation orientation = Orientation.HORIZONTAL;
 
-        board.placeWall(wallCoordinates, orientation, dimension);
+            board.placeWall(wallCoordinates, orientation, dimension);
 
         for(int i = 0; i < dimension; i++){
             assertNotNull(board.getMatrix()[row][column - i].getNorthWall());
@@ -84,16 +82,9 @@ public class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row, column); //another same wall placed
         Orientation orientation2 = Orientation.HORIZONTAL;
 
-        boolean freePlace = board.checkWallPresence(wallCoordinates2, orientation2, dimension);
+        boolean placeTaken = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
 
-        assertFalse(freePlace);
-
-        /*
-        tipical usage: if(!board.checkWallPresence(...){
-                            board.placeWall
-                       else
-                            //pick another coordinate or another orientation
-         */
+        assertFalse(placeTaken);
     }
 
     @ParameterizedTest
@@ -109,7 +100,7 @@ public class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row, column); //different wall placed
         Orientation orientation2 = Orientation.VERTICAL;
 
-        boolean freePlace = board.checkWallPresence(wallCoordinates2, orientation2, dimension);
+        boolean freePlace = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertTrue(freePlace);
     }
@@ -129,9 +120,9 @@ public class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 2);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates1);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates1);
 
         boolean cross = board.checkCross(coordinatesArrayList);
 
@@ -153,9 +144,9 @@ public class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 1);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates1);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates1);
 
         boolean cross = board.checkCross(coordinatesArrayList);
 
@@ -177,9 +168,9 @@ public class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 2);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates1);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates1);
 
         boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
 
@@ -203,9 +194,9 @@ public class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 1);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates1);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates1);
 
         boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
 
@@ -335,19 +326,62 @@ public class WallPlacementTests {
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        ArrayList<Tile[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
-        boolean correctTiles = true;
+        boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
+                && adiacencies.get(0)[0].getColumn() == 1
 
-        for(int i = 0; i < adiacencies.size(); i++){
-            correctTiles = adiacencies.get(i)[0].getNorthWall() != null
-                    && adiacencies.get(i)[0].getEastWall() == null
-                    && adiacencies.get(i)[1].getNorthWall() == null
-                    && adiacencies.get(i)[1].getEastWall() == null;
-        }
+                && adiacencies.get(0)[1].getRow() == 0
+                && adiacencies.get(0)[1].getColumn() == 1
 
-        assertTrue(correctTiles);
+                && adiacencies.get(1)[0].getRow() == 1
+                && adiacencies.get(1)[0].getColumn() == 0
+
+                && adiacencies.get(1)[1].getRow() == 0
+                && adiacencies.get(1)[1].getColumn() == 0;
+
+        assertTrue(correctAdiacencies);
     }
 
+    @ParameterizedTest
+    @CsvSource({"2,3", "0,4", "0,2", "1,3", "1,1"})
+    void testWallPlacedWithConflict(int row, int column){
+        Board board = new Board(5, 5);
 
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+        Coordinates wallCoordinates2 = new Coordinates(1, 2);
+
+        Orientation or1 = Orientation.VERTICAL;
+        Orientation or2 = Orientation.HORIZONTAL;
+
+        board.placeWall(wallCoordinates1, or1, 3);
+        board.placeWall(wallCoordinates2, or2, 3);
+
+        Coordinates wallCoordinates3 = new Coordinates(row, column); //the wall we want to place
+
+        boolean placeable = board.isWallPlaceable(wallCoordinates3, or2, 3);
+
+        assertFalse(placeable);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"4,3", "2,1", "1,4"})
+    void testWallPlacedWithNoConflict(int row, int column){
+        Board board = new Board(5, 5);
+
+        Coordinates wallCoordinates1 = new Coordinates(1, 2);
+        Coordinates wallCoordinates2 = new Coordinates(2, 2);
+
+        Orientation or1 = Orientation.VERTICAL;
+        Orientation or2 = Orientation.HORIZONTAL;
+
+        board.placeWall(wallCoordinates1, or2, 2);
+        board.placeWall(wallCoordinates2, or1, 2);
+
+        Coordinates wallCoordinates3 = new Coordinates(row, column); //the wall we want to place
+
+        boolean placeable = board.isWallPlaceable(wallCoordinates3, or2, 2);
+
+        assertTrue(placeable);
+    }
 }
