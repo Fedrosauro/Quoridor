@@ -226,8 +226,7 @@ public class Board {
             IDsCount.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID());
         }
 
-        if(IDsCount.size() == 2) return true;
-        else return false;
+        return IDsCount.size() == 2;
     }
 
     public boolean wallOutOfBoundChecker(Coordinates wallC, Orientation orientation, int dimension) {
