@@ -1,19 +1,17 @@
 package quoridor.components;
 
-import quoridor.utils.Coordinates;
-import quoridor.utils.Direction;
-import quoridor.utils.Margin;
-import quoridor.utils.PositionException;
+import quoridor.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
-    private int rows;
-    private int columns;
-    private Tile[][] matrix;
+    final private int rows;
+    final private int columns;
+    final private Tile[][] matrix;
     private ArrayList<Wall> walls;
+    private List<Meeple> meeples;
 
     public Board(int rows, int columns) {
 
@@ -28,6 +26,12 @@ public class Board {
             }
         }
 
+        this.meeples = new ArrayList<>();
+
+    }
+
+    public void setMeeples(List<Meeple> meeples) {
+        this.meeples = meeples;
     }
 
     public void findFinalMargin(Meeple meeple) {
@@ -51,8 +55,7 @@ public class Board {
 
     public Tile getPosition(int row, int column) throws PositionException {
 
-        if (row >= rows || row < 0 || column >= columns || column < 0)
-            throw new PositionException(row, column);
+        if (row >= rows || row < 0 || column >= columns || column < 0) throw new PositionException(row, column);
 
         else return matrix[row][column];
     }
@@ -60,8 +63,7 @@ public class Board {
     public Coordinates findPosition(Tile tile) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if (tile.equals(matrix[i][j]))
-                    return new Coordinates(i, j);
+                if (tile.equals(matrix[i][j])) return new Coordinates(i, j);
             }
         }
         return null;
@@ -71,67 +73,88 @@ public class Board {
 
         Coordinates actualCoordinates = this.findPosition(meeple.getPosition());
 
-        if(thereIsNoWall(actualCoordinates, direction)) {
+        if (!thereIsNoWall(actualCoordinates, direction)) {
+            return;
+        }
+        if (isOpponentClose(meeple, direction)) {
+            Meeple opponent = getCloseOpponent(meeple, direction);
+            if (thereIsNoWallBehindOpponent(opponent, direction)) {
+                jump(meeple, direction, actualCoordinates);
+            }
+        } else step(meeple, direction, actualCoordinates);
+    }
 
-            switch (direction) {
+    private void jump(Meeple meeple, Direction direction, Coordinates actualCoordinates) {
+        moveWithStep(meeple, direction, actualCoordinates, 2);
+    }
 
-                case RIGHT -> {
-                    if (actualCoordinates.getColumn() < columns - 1)
-                        meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + 1]);
-                }
-                case LEFT -> {
-                    if (actualCoordinates.getColumn() > 0)
-                        meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1]);
-                }
-                case UP -> {
-                    if (actualCoordinates.getRow() < columns - 1)
-                        meeple.setPosition(matrix[actualCoordinates.getRow() + 1][actualCoordinates.getColumn()]);
-                }
-                case DOWN -> {
-                    if (actualCoordinates.getRow() > 0)
-                        meeple.setPosition(matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()]);
-                }
+    private void step(Meeple meeple, Direction direction, Coordinates actualCoordinates) {
+        moveWithStep(meeple, direction, actualCoordinates, 1);
+    }
 
+    private void moveWithStep(Meeple meeple, Direction direction, Coordinates actualCoordinates, int step) {
+        switch (direction) {
+
+            case RIGHT -> {
+                if (actualCoordinates.getColumn() < columns - step)
+                    meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() + step]);
+            }
+            case LEFT -> {
+                if (actualCoordinates.getColumn() > (step - 1))
+                    meeple.setPosition(matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - step]);
+            }
+            case UP -> {
+                if (actualCoordinates.getRow() < columns - step)
+                    meeple.setPosition(matrix[actualCoordinates.getRow() + step][actualCoordinates.getColumn()]);
+            }
+            case DOWN -> {
+                if (actualCoordinates.getRow() > (step - 1))
+                    meeple.setPosition(matrix[actualCoordinates.getRow() - step][actualCoordinates.getColumn()]);
             }
 
         }
+    }
+
+    private boolean thereIsNoWallBehindOpponent(Meeple opponent, Direction direction) {
+        Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
+        return thereIsNoWall(opponentCoordinates, direction);
     }
 
     private boolean thereIsNoWall(Coordinates actualCoordinates, Direction direction) {
 
         Tile tile;
 
-        switch (direction){
+        switch (direction) {
             case RIGHT -> {
 
-                if(actualCoordinates.getColumn() == columns - 1) return true;
+                if (actualCoordinates.getColumn() == columns - 1) return true;
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
-                if(tile.getEastWall() == null) return true;
+                if (tile.getEastWall() == null) return true;
 
             }
             case LEFT -> {
 
-                if(actualCoordinates.getColumn() == 0) return true;
+                if (actualCoordinates.getColumn() == 0) return true;
 
-                tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()-1];
-                if(tile.getEastWall() == null) return true;
+                tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1];
+                if (tile.getEastWall() == null) return true;
 
             }
             case UP -> {
 
-                if(actualCoordinates.getRow() == rows - 1) return true;
+                if (actualCoordinates.getRow() == rows - 1) return true;
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
-                if(tile.getNorthWall() == null) return true;
+                if (tile.getNorthWall() == null) return true;
 
             }
             case DOWN -> {
 
-                if(actualCoordinates.getRow() == 0) return true;
+                if (actualCoordinates.getRow() == 0) return true;
 
-                tile = matrix[actualCoordinates.getRow()-1][actualCoordinates.getColumn()];
-                if(tile.getNorthWall() == null) return true;
+                tile = matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()];
+                if (tile.getNorthWall() == null) return true;
 
             }
         }
@@ -143,6 +166,55 @@ public class Board {
         for (Direction direction : directions) {
             this.move(meeple, direction);
         }
+    }
+
+    public boolean isOpponentClose(Meeple meeple, Direction direction) {
+
+        Coordinates coordinates = this.findPosition(meeple.getPosition());
+
+        for (Meeple opponent : this.meeples) {
+
+            Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
+            if (canMeepleBeJumpedOver(coordinates, opponentCoordinates, direction)) return true;
+        }
+
+        return false;
+
+    }
+
+    public Meeple getCloseOpponent(Meeple meeple, Direction direction) {
+
+        Coordinates coordinates = this.findPosition(meeple.getPosition());
+
+        for (Meeple opponent : this.meeples) {
+
+            Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
+            if (canMeepleBeJumpedOver(coordinates, opponentCoordinates, direction)) return opponent;
+        }
+
+        return null;
+
+    }
+
+    private boolean canMeepleBeJumpedOver(Coordinates coordinates, Coordinates opponentCoordinates, Direction direction) {
+
+        switch (direction) {
+            case RIGHT -> {
+                if (coordinates.getColumn() == opponentCoordinates.getColumn() - 1) return true;
+            }
+            case LEFT -> {
+                if (coordinates.getColumn() == opponentCoordinates.getColumn() + 1) return true;
+            }
+            case UP -> {
+                if (coordinates.getRow() == opponentCoordinates.getRow() - 1) return true;
+            }
+            case DOWN -> {
+                if (coordinates.getRow() == opponentCoordinates.getRow() + 1) return true;
+            }
+        }
+
+        return false;
+
     }
 
     public boolean checkFinalMarginReached(Meeple meeple) {
@@ -169,4 +241,5 @@ public class Board {
         return false;
 
     }
+
 }
