@@ -2,9 +2,10 @@ package quoridor.utils;
 
 public enum Margin {
 
-    TOP,
-    BOTTOM,
-    LEFT,
-    RIGHT
+        LEFT,
+        RIGHT,
+        TOP,
+        BOTTOM
 
-}
+    }
+

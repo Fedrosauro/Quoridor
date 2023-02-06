@@ -5,6 +5,7 @@ import quoridor.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Board {
 
     private int rows;
@@ -344,4 +345,39 @@ public class Board {
 
         return false;
     }
+}
+
+    public int centreOfLine(int number) {
+        return ((number - 1) / 2);
+    }
+
+
+    public Tile setMeeplePositionGivenMargin(Meeple meeple, Margin margin) throws PositionException {
+        switch (margin){
+            case LEFT:
+                meeple.setPosition(getPosition(centreOfLine(getRows()),0));
+                return meeple.getPosition();
+            case RIGHT:
+                meeple.setPosition(getPosition(centreOfLine(getRows()),getColumns()-1));
+                return meeple.getPosition();
+            case TOP:
+                meeple.setPosition(getPosition(0,centreOfLine(getColumns())));
+                return meeple.getPosition();
+            case BOTTOM:
+                meeple.setPosition(getPosition(getRows()-1,centreOfLine(getColumns())));
+                return meeple.getPosition();
+        }
+        return null;
+    }
+
+    public boolean isOdd() {
+        return ((this.getRows() % 2) != 0 && (this.getColumns() % 2) != 0);
+    }
+
+
+    public boolean isEqual() {
+        return (this.getColumns() == this.getRows());
+    }
+
+
 }
