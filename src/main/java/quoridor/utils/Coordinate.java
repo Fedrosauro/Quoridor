@@ -2,12 +2,14 @@ package quoridor.utils;
 
 public class Coordinate {
 
-    private int x;
-    private int y;
+    private int row;
+    private int column;
 
-    public Coordinate(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Coordinate(int row, int column) {
+        this.row= row;
+        this.column = column;
+
     }
+    //set e get
 
 }
