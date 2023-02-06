@@ -1,18 +1,17 @@
 package quoridor.components;
 
-import quoridor.utils.Color;
-import quoridor.utils.Coordinates;
-import quoridor.utils.Direction;
-import quoridor.utils.PositionException;
+import quoridor.utils.*;
 
 public class Meeple {
 
     private Tile position;
     private Color color;
+    private Margin finalMargin;
 
     public Meeple(Tile initialPosition, Color color) {
         this.position = initialPosition;
         this.color = color;
+
     }
 
     public void setPosition(Tile position) {
@@ -23,4 +22,11 @@ public class Meeple {
         return position;
     }
 
+    public void setFinalPosition(Margin finalMargin) {
+        this.finalMargin = finalMargin;
+    }
+
+    public Margin getFinalMargin() {
+        return finalMargin;
+    }
 }
