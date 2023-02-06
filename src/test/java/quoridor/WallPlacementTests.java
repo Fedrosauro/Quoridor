@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WallPlacementTests {
+class WallPlacementTests {
 
     @ParameterizedTest
     @CsvSource({"1,1", "2,2"})
