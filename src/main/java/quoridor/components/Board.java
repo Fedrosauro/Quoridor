@@ -345,7 +345,6 @@ public class Board {
 
         return false;
     }
-}
 
     public int centreOfLine(int number) {
         return ((number - 1) / 2);
@@ -372,11 +371,6 @@ public class Board {
 
     public boolean isOdd() {
         return ((this.getRows() % 2) != 0 && (this.getColumns() % 2) != 0);
-    }
-
-
-    public boolean isEqual() {
-        return (this.getColumns() == this.getRows());
     }
 
 
