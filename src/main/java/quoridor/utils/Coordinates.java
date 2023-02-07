@@ -17,4 +17,12 @@ public class Coordinates {
     public int getRow() {
         return row;
     }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
+    }
 }

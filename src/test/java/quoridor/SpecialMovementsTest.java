@@ -206,4 +206,136 @@ class SpecialMovementsTest {
         }
 
     }
+
+    @Test
+    void testAlignCondition() {
+
+        Board board = new Board(9, 9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5, 5), Color.BLUE);
+            Meeple firstOpponent = new Meeple(board.getPosition(6, 5), Color.GREEN);
+            Meeple secondOpponent = new Meeple(board.getPosition(7, 5), Color.RED);
+
+            ArrayList<Meeple> meeples = new ArrayList<>();
+            meeples.add(meeple);
+            meeples.add(firstOpponent);
+            meeples.add(secondOpponent);
+
+            board.setMeeples(meeples);
+
+            board.move(meeple, Direction.UP);
+
+            assertTrue(board.areTwoOpponentsAligned(meeple, Direction.UP));
+
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    void testUpJumpWithOpponentsAligned() {
+
+        Board board = new Board(9, 9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5, 5), Color.BLUE);
+            Meeple firstOpponent = new Meeple(board.getPosition(6, 5), Color.GREEN);
+            Meeple secondOpponent = new Meeple(board.getPosition(7, 5), Color.RED);
+
+            ArrayList<Meeple> meeples = new ArrayList<>();
+            meeples.add(meeple);
+            meeples.add(firstOpponent);
+            meeples.add(secondOpponent);
+
+            board.setMeeples(meeples);
+
+            board.move(meeple, Direction.UP);
+
+            assertSame(board.getPosition(5, 5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    void testDownJumpWithOpponentsAligned() {
+
+        Board board = new Board(9, 9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5, 5), Color.BLUE);
+            Meeple firstOpponent = new Meeple(board.getPosition(4, 5), Color.GREEN);
+            Meeple secondOpponent = new Meeple(board.getPosition(3, 5), Color.RED);
+
+            ArrayList<Meeple> meeples = new ArrayList<>();
+            meeples.add(meeple);
+            meeples.add(firstOpponent);
+            meeples.add(secondOpponent);
+
+            board.setMeeples(meeples);
+
+            board.move(meeple, Direction.DOWN);
+
+            assertSame(board.getPosition(5, 5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    void testRightJumpWithOpponentsAligned() {
+
+        Board board = new Board(9, 9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5, 5), Color.BLUE);
+            Meeple firstOpponent = new Meeple(board.getPosition(5, 6), Color.GREEN);
+            Meeple secondOpponent = new Meeple(board.getPosition(5, 7), Color.RED);
+
+            ArrayList<Meeple> meeples = new ArrayList<>();
+            meeples.add(meeple);
+            meeples.add(firstOpponent);
+            meeples.add(secondOpponent);
+
+            board.setMeeples(meeples);
+
+            board.move(meeple, Direction.RIGHT);
+
+            assertSame(board.getPosition(5, 5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    void testLeftJumpWithOpponentsAligned() {
+
+        Board board = new Board(9, 9);
+
+        try {
+            Meeple meeple = new Meeple(board.getPosition(5, 5), Color.BLUE);
+            Meeple firstOpponent = new Meeple(board.getPosition(5, 4), Color.GREEN);
+            Meeple secondOpponent = new Meeple(board.getPosition(5, 3), Color.RED);
+
+            ArrayList<Meeple> meeples = new ArrayList<>();
+            meeples.add(meeple);
+            meeples.add(firstOpponent);
+            meeples.add(secondOpponent);
+
+            board.setMeeples(meeples);
+
+            board.move(meeple, Direction.LEFT);
+
+            assertSame(board.getPosition(5, 5), meeple.getPosition());
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

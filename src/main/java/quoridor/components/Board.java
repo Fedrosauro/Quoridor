@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Board {
 
-    final private int rows;
-    final private int columns;
-    final private Tile[][] matrix;
+    private final int rows;
+    private final int columns;
+    private final Tile[][] matrix;
     private ArrayList<Wall> walls;
     private List<Meeple> meeples;
 
@@ -78,10 +78,17 @@ public class Board {
         }
         if (isOpponentClose(meeple, direction)) {
             Meeple opponent = getCloseOpponent(meeple, direction);
-            if (thereIsNoWallBehindOpponent(opponent, direction)) {
+            if (thereIsNoWallBehindOpponent(opponent, direction) && !areTwoOpponentsAligned(meeple, direction)) {
                 jump(meeple, direction, actualCoordinates);
             }
         } else step(meeple, direction, actualCoordinates);
+    }
+
+    public boolean areTwoOpponentsAligned(Meeple playerMeeple, Direction direction) {
+
+        Meeple firstOpponent = getCloseOpponent(playerMeeple, direction);
+        return isOpponentClose(firstOpponent, direction);
+
     }
 
     private void jump(Meeple meeple, Direction direction, Coordinates actualCoordinates) {
