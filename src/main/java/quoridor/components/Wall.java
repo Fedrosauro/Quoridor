@@ -8,9 +8,10 @@ public class Wall {
     private int ID;
     private Coordinates[] coordinates;
 
-    public Wall(){}
+    public Wall() {
+    }
 
-    public Wall(int ID, Coordinates[] coordinates){
+    public Wall(int ID, Coordinates[] coordinates) {
         this.ID = ID;
         this.coordinates = coordinates;
     }

@@ -6,7 +6,7 @@ public class Coordinate {
     private int column;
 
     public Coordinate(int row, int column) {
-        this.row= row;
+        this.row = row;
         this.column = column;
 
     }

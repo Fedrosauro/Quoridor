@@ -15,6 +15,7 @@ public class Meeple {
         this.position = position;
         this.color = color;
     }
+
     public void setInitialMargin(Margin margin) {
         this.margin = margin;
     }

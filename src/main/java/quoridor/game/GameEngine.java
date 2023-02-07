@@ -2,6 +2,7 @@ package quoridor.game;
 
 import quoridor.components.Board;
 import quoridor.utils.*;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -19,10 +20,11 @@ public class GameEngine {
     }
 
 
-    public boolean illegalWall(int totalWalls){
-        return totalWalls>1;
+    public boolean illegalWall(int totalWalls) {
+        return totalWalls > 1;
     }
-    public void getPossibleMoves(Player player){
+
+    public void getPossibleMoves(Player player) {
 
         //aggiorna le positions nei meeple per ottenere di quanto puoi spostarti in ogni direzione (anche obliqua se vuoi)
 
@@ -34,7 +36,7 @@ public class GameEngine {
         if (totalPlayers < 2 || totalPlayers == 3 || totalPlayers > 4) {
             throw new NumberOfPlayerException(totalPlayers);
         }
-        if (illegalWall(totalWalls)){
+        if (illegalWall(totalWalls)) {
             int division = totalWalls / totalPlayers;
             for (int i = 0; i < totalPlayers; i++) {
                 players.get(i).setWalls(division);
@@ -51,16 +53,15 @@ public class GameEngine {
 
 
     public void setInitialMeepleDependingOnPlayers() throws NumberOfPlayerException, PositionException {
-        if ( players.size()<2 || players.size()==3 || players.size() > 4) {
+        if (players.size() < 2 || players.size() == 3 || players.size() > 4) {
             throw new NumberOfPlayerException(players.size());
         }
         List<Margin> marginList = new ArrayList<>(EnumSet.allOf(Margin.class));
 
-        for(int i=0; i<players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             board.setMeeplePositionGivenMargin(players.get(i).getMeeple(), marginList.get(i));
         }
     }
-
 
 
 }
