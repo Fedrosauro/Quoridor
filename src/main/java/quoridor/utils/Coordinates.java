@@ -25,4 +25,12 @@ public class Coordinates {
     public void setRow(int row) {
         this.row = row;
     }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
+    }
 }

@@ -167,7 +167,7 @@ class MeepleMovementTests {
 
         Board board = new Board(9, 9);
 
-        List<Direction> directions = new ArrayList<>();
+        ArrayList<Direction> directions = new ArrayList<>();
         directions.add(Direction.UP);
         directions.add(Direction.UP);
         directions.add(Direction.LEFT);
@@ -261,7 +261,7 @@ class MeepleMovementTests {
 
         Board board = new Board(9, 9);
 
-        List<Direction> directions = new ArrayList<>();
+        ArrayList<Direction> directions = new ArrayList<>();
         directions.add(Direction.DOWN);
         directions.add(Direction.LEFT);
         directions.add(Direction.UP);

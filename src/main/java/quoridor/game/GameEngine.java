@@ -1,4 +1,5 @@
 package quoridor.game;
+
 import quoridor.components.Board;
 import quoridor.utils.*;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.EnumSet;
 
 
 public class GameEngine {
+
     ArrayList<Player> players;
     Board board;
 
@@ -20,6 +22,12 @@ public class GameEngine {
     public boolean illegalWall(int totalWalls){
         return totalWalls>1;
     }
+    public void getPossibleMoves(Player player){
+
+        //aggiorna le positions nei meeple per ottenere di quanto puoi spostarti in ogni direzione (anche obliqua se vuoi)
+
+    }
+
 
     public List<Player> divideWallPerPlayer(int totalWalls) throws NumberOfPlayerException {
         int totalPlayers = players.size();
