@@ -2,8 +2,8 @@ package quoridor;
 
 import org.junit.jupiter.api.Test;
 
-public class GameTests {
+import static org.junit.jupiter.api.Assertions.*;
 
-    
+public class GameTests {
 
 }
