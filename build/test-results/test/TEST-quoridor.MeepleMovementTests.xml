@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="quoridor.MeepleMovementTests" tests="29" skipped="0" failures="0" errors="0" timestamp="2023-02-07T08:56:30" hostname="DESKTOP-QVTEACG" time="0.19">
+<testsuite name="quoridor.MeepleMovementTests" tests="29" skipped="0" failures="0" errors="0" timestamp="2023-02-07T09:48:47" hostname="DESKTOP-QVTEACG" time="0.112">
   <properties/>
-  <testcase name="checkOutOfBoundRightMovement()" classname="quoridor.MeepleMovementTests" time="0.024"/>
-  <testcase name="testInvalidPath()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="checkUpMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="checkPathOfMoves()" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="checkOutOfBoundRightMovement()" classname="quoridor.MeepleMovementTests" time="0.002"/>
+  <testcase name="testInvalidPath()" classname="quoridor.MeepleMovementTests" time="0.004"/>
+  <testcase name="checkUpMovement()" classname="quoridor.MeepleMovementTests" time="0.004"/>
+  <testcase name="checkPathOfMoves()" classname="quoridor.MeepleMovementTests" time="0.002"/>
   <testcase name="checkRightMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="[1] UP" classname="quoridor.MeepleMovementTests" time="0.041"/>
-  <testcase name="[2] DOWN" classname="quoridor.MeepleMovementTests" time="0.003"/>
-  <testcase name="[3] LEFT" classname="quoridor.MeepleMovementTests" time="0.002"/>
+  <testcase name="[1] UP" classname="quoridor.MeepleMovementTests" time="0.002"/>
+  <testcase name="[2] DOWN" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="[3] LEFT" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="[4] RIGHT" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="checkLeftMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="checkLeftMovement()" classname="quoridor.MeepleMovementTests" time="0.0"/>
   <testcase name="checkOutOfBoundUpMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="testRightMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="testRightMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.002"/>
   <testcase name="testUpMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="[1] 0, 0" classname="quoridor.MeepleMovementTests" time="0.008"/>
-  <testcase name="[2] 0, 2" classname="quoridor.MeepleMovementTests" time="0.0"/>
-  <testcase name="[3] 9, 9" classname="quoridor.MeepleMovementTests" time="0.005"/>
+  <testcase name="[1] 0, 0" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="[2] 0, 2" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="[3] 9, 9" classname="quoridor.MeepleMovementTests" time="0.007"/>
   <testcase name="[4] 12, 45" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="[5] -1, 9" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="[6] 5, -9" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="[7] -1, -4" classname="quoridor.MeepleMovementTests" time="0.0"/>
   <testcase name="checkOutOfBoundLeftMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="checkIfNullIsReturnedUsingGenericTile()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="[1] 0, 0" classname="quoridor.MeepleMovementTests" time="0.002"/>
+  <testcase name="[1] 0, 0" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="[2] 2, 5" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="[3] 8, 8" classname="quoridor.MeepleMovementTests" time="0.001"/>
   <testcase name="checkDownMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="testDownMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.002"/>
-  <testcase name="checkOutOfBoundDownMovement()" classname="quoridor.MeepleMovementTests" time="0.001"/>
-  <testcase name="testLeftMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="testDownMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.001"/>
+  <testcase name="checkOutOfBoundDownMovement()" classname="quoridor.MeepleMovementTests" time="0.002"/>
+  <testcase name="testLeftMovementWhenThereIsAWall()" classname="quoridor.MeepleMovementTests" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

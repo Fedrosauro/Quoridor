@@ -11,6 +11,8 @@ build/
 *.iws
 *.iml
 *.ipr
+*.bin
+*.lock
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
