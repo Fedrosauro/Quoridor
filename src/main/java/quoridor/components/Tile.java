@@ -5,9 +5,12 @@ public class Tile {
     private Wall eastWall;
     private Wall northWall;
 
+    private boolean visitedTile;
+
     public Tile(){
         this.northWall = null;
         this.eastWall = null;
+        this.visitedTile = false;
     }
 
     public void setEastWall(Wall eastWall){
@@ -37,5 +40,13 @@ public class Tile {
             else equalWalls = this.eastWall.getID() == tile.getEastWall().getID();
         }
         return equalWalls;
+    }
+
+    public void setVisitedTile(){
+        this.visitedTile = true;
+    }
+
+    public void resetVisitedTile() {
+        this.visitedTile = false;
     }
 }

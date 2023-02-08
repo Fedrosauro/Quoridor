@@ -34,4 +34,16 @@ public class Meeple {
     public Margin getFinalMargin() {
         return finalMargin;
     }
+
+    public Meeple cloneObject() {
+        return new Meeple(this.position, this.color);
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

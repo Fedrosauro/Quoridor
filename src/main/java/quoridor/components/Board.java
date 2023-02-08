@@ -1,5 +1,6 @@
 package quoridor.components;
 
+import quoridor.game.Player;
 import quoridor.utils.*;
 
 import java.util.ArrayList;
@@ -374,6 +375,84 @@ public class Board {
     }
 
 
-}
+    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {
+        boolean placeable = wallNotPresent(wallC, orientation, dimension)
+                && !wallOutOfBoundChecker(wallC, orientation, dimension)
+                && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
+                && winningPathCheck(wallC, orientation, dimension, player);
 
-//prova
+        if(placeable){
+            Board copyBoard = this.cloneObject();
+            copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
+
+            ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
+            for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
+                ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
+
+                coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
+                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
+                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
+
+                if(copyBoard.checkCross(coordinatesOf2x2Tiles)){
+                    placeable = !copyBoard.illegalWallIDsCombinationChecker(coordinatesOf2x2Tiles);
+                }
+            }
+        }
+
+        return placeable;
+    }
+
+    private boolean winningPathCheck(Coordinates wallC, Orientation orientation, int dimension, Player player) {
+        Board copyBoard = this.cloneObject();
+        Meeple TestMeeple = player.getMeeple().cloneObject(); //copy created to not ruin the real one
+        copyBoard.placeWall(wallC, orientation, dimension);
+
+        ArrayList<Coordinates> path = new ArrayList<>();
+
+        boolean thereIsAPath = pathExistance(path, findPosition(TestMeeple.getPosition()), player);
+        if(thereIsAPath)
+            System.out.println(printPathSolution(path));
+
+        return thereIsAPath;
+    }
+
+    private boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Player player) {
+        if(!outOfBoard(position.getRow(), position.getColumn())) return false;
+
+        path.add(position);
+        matrix[position.getRow()][position.getColumn()].setVisitedTile();
+
+        switch(player.getWinningDirection()){
+            case UP -> {
+                if(position.getRow() == 0
+                        || pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player)
+                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player)
+                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                    return true;
+            }
+            case DOWN -> {
+                if(position.getRow() == matrix.length - 1
+                        || pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player)
+                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player)
+                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                    return true;
+            }
+        }
+        matrix[path.get(path.size() - 1).getRow()][path.get(path.size() - 1).getColumn()].resetVisitedTile();
+        path.remove(path.size() - 1);
+
+        return false;
+    }
+
+    private boolean outOfBoard(int row, int column){
+        return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
+    }
+
+    private String printPathSolution(ArrayList<Coordinates> coordinates){
+        String s = "";
+        for(int i = 0; i < coordinates.size(); i++){
+            s += "[ "+ coordinates.get(i).getRow() + ", " + coordinates.get(i).getColumn() + " ] ";
+        }
+        return s;
+    }
+}
