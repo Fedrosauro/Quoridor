@@ -8,6 +8,8 @@ import quoridor.components.Meeple;
 import quoridor.game.Player;
 import quoridor.utils.*;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NonBlockConditionTests {
@@ -49,6 +51,21 @@ class NonBlockConditionTests {
         Board board = new Board(5, 5);
 
         assertFalse(row >= 0 && column >= 0 && row < board.getMatrix().length && column < board.getMatrix().length);
+    }
+
+    @Test
+    void printPathSolutionTest(){
+        Board board = new Board(5, 5);
+        ArrayList<Coordinates> path = new ArrayList<>();
+
+        Coordinates c1 = new Coordinates(2,3);
+        Coordinates c2 = new Coordinates(4,5);
+        path.add(c1);
+        path.add(c2);
+
+        String output = board.printPathSolution(path);
+
+        assertEquals("[ 2, 3 ] [ 4, 5 ] ", output);
     }
 
     @ParameterizedTest

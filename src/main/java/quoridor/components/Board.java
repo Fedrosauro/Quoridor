@@ -448,7 +448,7 @@ public class Board {
         return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
     }
 
-    private String printPathSolution(ArrayList<Coordinates> coordinates){
+    public String printPathSolution(ArrayList<Coordinates> coordinates){
         String s = "";
         for(int i = 0; i < coordinates.size(); i++){
             s += "[ "+ coordinates.get(i).getRow() + ", " + coordinates.get(i).getColumn() + " ] ";
