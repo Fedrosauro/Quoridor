@@ -37,6 +37,57 @@ class NonBlockConditionTests {
         assertNotSame(meeple.getColor(), meepleCopy.getColor());
     }
 
+    @Test
+    void printTileTest() throws PositionException {
+        Board board = new Board(3, 3);
+        Player player = new Player("giec",new Meeple(board.getPosition(1, 1), Color.GREEN), 10, Direction.UP);
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+
+        Orientation or1 = Orientation.VERTICAL;
+        board.placeWall(wallCoordinates1, or1, 1);
+        Orientation or2 = Orientation.HORIZONTAL;
+        board.placeWall(wallCoordinates1, or2, 1);
+
+        ArrayList<String> expectedResult = new ArrayList<>();
+        expectedResult.add("__");
+        expectedResult.add("X|");
+
+        assertEquals(expectedResult,board.printTile(1, 1, player));
+    }
+
+    @Test
+    void printTileRowTest() throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(1, 1), Color.GREEN), 10, Direction.UP);
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+        Coordinates wallCoordinates2 = new Coordinates(1, 3);
+
+
+        Orientation or1 = Orientation.VERTICAL;
+        board.placeWall(wallCoordinates1, or1, 1);
+        Orientation or2 = Orientation.HORIZONTAL;
+        board.placeWall(wallCoordinates1, or2, 1);
+        board.placeWall(wallCoordinates2, or2, 2);
+
+        System.out.println(board.printTileRow(1, player));
+    }
+
+    @Test
+    void printEntireBoardTest() throws PositionException {
+        Board board = new Board(4, 4);
+        Player player = new Player("giec",new Meeple(board.getPosition(2, 2), Color.GREEN), 10, Direction.UP);
+
+        Coordinates wallCoordinates1 = new Coordinates(1, 1);
+        Orientation or1 = Orientation.HORIZONTAL;
+        board.placeWall(wallCoordinates1, or1, 2);
+
+        Coordinates wallCoordinates2 = new Coordinates(1, 3);
+        Orientation or2 = Orientation.VERTICAL;
+        board.placeWall(wallCoordinates2, or2, 2);
+
+        System.out.println(board.printEntireBoard(player));
+    }
+
     @ParameterizedTest
     @CsvSource({"4,3", "2,1", "1,4"})
     void InBoardCoordtinatesTest(int row, int column) {

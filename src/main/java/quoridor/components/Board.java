@@ -402,6 +402,61 @@ public class Board {
         return placeable;
     }
 
+    public String printPathSolution(ArrayList<Coordinates> coordinates){
+        String s = "";
+        for(int i = 0; i < coordinates.size(); i++){
+            s += "[ "+ coordinates.get(i).getRow() + ", " + coordinates.get(i).getColumn() + " ] ";
+        }
+        return s;
+    }
+
+    private boolean outOfBoard(int row, int column){
+        return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
+    }
+
+    public ArrayList<String> printTile(int i, int j, Player player){
+        Coordinates playerCoordinates = findPosition(player.getMeeple().getPosition());
+        String sAbove = "";
+        String sUnder = "";
+        ArrayList<String> result = new ArrayList<>();
+
+        if(i == playerCoordinates.getRow() && j == playerCoordinates.getColumn()){
+            sUnder = "X";
+        }else{
+            sUnder = "O";
+        }
+        if(this.matrix[i][j].getEastWall() != null) sUnder += "|";
+        if(this.matrix[i][j].getNorthWall() != null) sAbove = "__";
+
+        result.add(sAbove); result.add(sUnder);
+
+        return result;
+    }
+
+    public String printTileRow(int row, Player player){
+        Coordinates playerCoordinates = findPosition(player.getMeeple().getPosition());
+        String sAbove = "";
+        String sUnder = "";
+        ArrayList<String> tempResult;
+
+        for(int j = 0; j < matrix.length; j++){
+            tempResult = printTile(row, j, player);
+            sAbove += tempResult.get(0) + "     ";
+            sUnder += tempResult.get(1) + "    ";
+        }
+
+        return "\n" + sAbove + "\n" + sUnder;
+    }
+
+    public String printEntireBoard(Player player){
+        String s = "";
+        for(int i = 0; i < matrix.length; i++){
+            s += printTileRow(i, player);
+        }
+        return s;
+    }
+
+
     private boolean winningPathCheck(Coordinates wallC, Orientation orientation, int dimension, Player player) {
         Board copyBoard = this.cloneObject();
         Meeple TestMeeple = player.getMeeple().cloneObject(); //copy created to not ruin the real one
@@ -412,6 +467,7 @@ public class Board {
         boolean thereIsAPath = pathExistance(path, findPosition(TestMeeple.getPosition()), player);
         if(thereIsAPath)
             System.out.println(printPathSolution(path));
+            //System.out.println(printTableOfGameState(player));
 
         return thereIsAPath;
     }
@@ -442,17 +498,5 @@ public class Board {
         path.remove(path.size() - 1);
 
         return false;
-    }
-
-    private boolean outOfBoard(int row, int column){
-        return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
-    }
-
-    public String printPathSolution(ArrayList<Coordinates> coordinates){
-        String s = "";
-        for(int i = 0; i < coordinates.size(); i++){
-            s += "[ "+ coordinates.get(i).getRow() + ", " + coordinates.get(i).getColumn() + " ] ";
-        }
-        return s;
     }
 }
