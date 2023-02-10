@@ -30,7 +30,9 @@ public class Board {
         this.wallID = 1;
     }
 
-    public Board(Tile[][] matrix, int wallID){
+    public Board(Tile[][] matrix, int wallID, int rows, int columns){
+        this.rows = rows;
+        this.columns = columns;
         this.matrix = new Tile[matrix.length][matrix[0].length];
 
         for (int i = 0; i < this.matrix.length; i++) {
@@ -251,7 +253,7 @@ public class Board {
     }
 
     public Board cloneObject() {
-        return new Board(this.matrix, this.wallID);
+        return new Board(this.matrix, this.wallID, this.rows, this.columns);
     }
 
     public boolean equalMatrix(Board board){
@@ -261,7 +263,7 @@ public class Board {
                 equal = this.matrix[i][j].equalTile(board.getMatrix()[i][j]);
             }
         }
-        return equal;
+        return equal && this.rows == board.getRows() && this.columns == board.getColumns();
     }
 
     public ArrayList<Coordinates[]> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
@@ -375,7 +377,7 @@ public class Board {
     }
 
 
-    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {
+    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
         boolean placeable = wallNotPresent(wallC, orientation, dimension)
                 && !wallOutOfBoundChecker(wallC, orientation, dimension)
                 && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
@@ -410,7 +412,7 @@ public class Board {
         return s;
     }
 
-    private boolean outOfBoard(int row, int column){
+    public boolean insideBoard(int row, int column){
         return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
     }
 
@@ -421,12 +423,14 @@ public class Board {
         ArrayList<String> result = new ArrayList<>();
 
         if(i == playerCoordinates.getRow() && j == playerCoordinates.getColumn()){
-            sUnder = "X";
+            sUnder = " X";
         }else{
-            sUnder = "O";
+            sUnder = " O";
         }
-        if(this.matrix[i][j].getEastWall() != null) sUnder += "|";
-        if(this.matrix[i][j].getNorthWall() != null) sAbove = "__";
+        if(this.matrix[i][j].getEastWall() != null) sUnder += " |";
+        else sUnder += "  ";
+        if(this.matrix[i][j].getNorthWall() != null) sAbove = "__  ";
+        else sAbove = "    ";
 
         result.add(sAbove); result.add(sUnder);
 
@@ -434,17 +438,15 @@ public class Board {
     }
 
     public String printTileRow(int row, Player player){
-        Coordinates playerCoordinates = findPosition(player.getMeeple().getPosition());
         String sAbove = "";
         String sUnder = "";
         ArrayList<String> tempResult;
 
         for(int j = 0; j < matrix.length; j++){
             tempResult = printTile(row, j, player);
-            sAbove += tempResult.get(0) + "     ";
-            sUnder += tempResult.get(1) + "    ";
+            sAbove += tempResult.get(0) + "  ";
+            sUnder += tempResult.get(1) + "  ";
         }
-
         return "\n" + sAbove + "\n" + sUnder;
     }
 
@@ -457,23 +459,26 @@ public class Board {
     }
 
 
-    private boolean winningPathCheck(Coordinates wallC, Orientation orientation, int dimension, Player player) {
-        Board copyBoard = this.cloneObject();
-        Meeple TestMeeple = player.getMeeple().cloneObject(); //copy created to not ruin the real one
+    private boolean winningPathCheck(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
+        Board copyBoard = cloneObject(); //created to not mess with the original board
         copyBoard.placeWall(wallC, orientation, dimension);
-
+        Player copyPlayer = new Player("testPlayer",
+                        new Meeple(copyBoard.getPosition(findPosition(player.getMeeple().getPosition()).getRow(), findPosition(player.getMeeple().getPosition()).getColumn()),
+                        player.getMeeple().getColor()),
+                        player.getWalls(),
+                        player.getWinningDirection()); //without copyPlayer the reference of the tile is another and the print does not work
         ArrayList<Coordinates> path = new ArrayList<>();
 
-        boolean thereIsAPath = pathExistance(path, findPosition(TestMeeple.getPosition()), player);
+        boolean thereIsAPath = copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player);
         if(thereIsAPath)
-            System.out.println(printPathSolution(path));
-            //System.out.println(printTableOfGameState(player));
+            System.out.println(copyBoard.printPathSolution(path));
+            System.out.println(copyBoard.printEntireBoard(copyPlayer));
 
         return thereIsAPath;
     }
 
     private boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Player player) {
-        if(!outOfBoard(position.getRow(), position.getColumn())) return false;
+        if(!insideBoard(position.getRow(), position.getColumn()) || matrix[position.getRow()][position.getColumn()].getVisitedTile()) return false;
 
         path.add(position);
         matrix[position.getRow()][position.getColumn()].setVisitedTile();
@@ -481,16 +486,18 @@ public class Board {
         switch(player.getWinningDirection()){
             case UP -> {
                 if(position.getRow() == 0
-                        || pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player)
-                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player)
-                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player))
+                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
+                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player)))
                     return true;
             }
             case DOWN -> {
                 if(position.getRow() == matrix.length - 1
-                        || pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player)
-                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player)
-                        || pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player))
+                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
+                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player)))
                     return true;
             }
         }

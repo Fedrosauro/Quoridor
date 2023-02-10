@@ -49,4 +49,8 @@ public class Tile {
     public void resetVisitedTile() {
         this.visitedTile = false;
     }
+
+    public boolean getVisitedTile() {
+        return this.visitedTile;
+    }
 }

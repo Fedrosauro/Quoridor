@@ -32,6 +32,10 @@ public class Player {
     public Direction getWinningDirection() {
         return winningDirection;
     }
+
+    public String getName() {
+        return name;
+    }
 }
 
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
+import quoridor.components.Wall;
 import quoridor.game.Player;
 import quoridor.utils.*;
 
@@ -13,29 +14,6 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NonBlockConditionTests {
-
-    @Test
-    void realCloneMeepleTest() throws PositionException {
-        Board board = new Board(5, 5);
-        Meeple meeple = new Meeple(board.getPosition(3, 3), Color.BLUE);
-
-        Meeple meepleCopy = meeple.cloneObject();
-
-        assertSame(meeple.getPosition(), meepleCopy.getPosition());
-        assertSame(meeple.getColor(), meepleCopy.getColor());
-    }
-
-    @Test
-    void fakeCloneMeepleTest() throws PositionException {
-        Board board = new Board(5, 5);
-        Meeple meeple = new Meeple(board.getPosition(3, 3), Color.BLUE);
-
-        Meeple meepleCopy = meeple.cloneObject();
-        meepleCopy.setColor(Color.GREEN);
-
-        assertSame(meeple.getPosition(), meepleCopy.getPosition());
-        assertNotSame(meeple.getColor(), meepleCopy.getColor());
-    }
 
     @Test
     void printTileTest() throws PositionException {
@@ -49,8 +27,8 @@ class NonBlockConditionTests {
         board.placeWall(wallCoordinates1, or2, 1);
 
         ArrayList<String> expectedResult = new ArrayList<>();
-        expectedResult.add("__");
-        expectedResult.add("X|");
+        expectedResult.add("__  ");
+        expectedResult.add(" X |");
 
         assertEquals(expectedResult,board.printTile(1, 1, player));
     }
@@ -61,7 +39,6 @@ class NonBlockConditionTests {
         Player player = new Player("giec",new Meeple(board.getPosition(1, 1), Color.GREEN), 10, Direction.UP);
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
         Coordinates wallCoordinates2 = new Coordinates(1, 3);
-
 
         Orientation or1 = Orientation.VERTICAL;
         board.placeWall(wallCoordinates1, or1, 1);
@@ -83,7 +60,7 @@ class NonBlockConditionTests {
 
         Coordinates wallCoordinates2 = new Coordinates(1, 3);
         Orientation or2 = Orientation.VERTICAL;
-        board.placeWall(wallCoordinates2, or2, 2);
+        board.placeWall(wallCoordinates2, or2, 3);
 
         System.out.println(board.printEntireBoard(player));
     }
@@ -93,7 +70,7 @@ class NonBlockConditionTests {
     void InBoardCoordtinatesTest(int row, int column) {
         Board board = new Board(5, 5);
 
-        assertTrue(row >= 0 && column >= 0 && row < board.getMatrix().length && column < board.getMatrix().length);
+        assertTrue(board.insideBoard(row, column));
     }
 
     @ParameterizedTest
@@ -101,7 +78,7 @@ class NonBlockConditionTests {
     void OutOfBoardCoordtinatesTest(int row, int column) {
         Board board = new Board(5, 5);
 
-        assertFalse(row >= 0 && column >= 0 && row < board.getMatrix().length && column < board.getMatrix().length);
+        assertFalse(board.insideBoard(row, column));
     }
 
     @Test
@@ -120,8 +97,8 @@ class NonBlockConditionTests {
     }
 
     @ParameterizedTest
-    @CsvSource({"4,3", "2,1", "1,4"})
-    void meepleNonBlockedTest(int row, int column) throws PositionException {
+    @CsvSource({"1,2", "2,1", "1,4"})
+    void meepleNonBlockedTest1(int row, int column) throws PositionException {
         Board board = new Board(5, 5);
         Player player = new Player("giec",new Meeple(board.getPosition(row, column), Color.GREEN), 10, Direction.UP);
 
@@ -135,4 +112,7 @@ class NonBlockConditionTests {
 
         assertNotNull(board.getMatrix()[wallCoordinates.getRow()][wallCoordinates.getColumn()].getNorthWall());
     }
+
+
+
 }
