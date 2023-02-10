@@ -9,13 +9,10 @@ public class Player {
     private Meeple meeple;
     private int walls;
 
-    private Direction winningDirection;
-
-    public Player(String name, Meeple meeple,  int walls, Direction winningDirection){
+    public Player(String name, Meeple meeple,  int walls){
         this.name = name;
         this.meeple = meeple;
         this.walls = walls;
-        this.winningDirection = winningDirection;
     }
 
     public void setWalls(int walls) {
@@ -28,11 +25,6 @@ public class Player {
     public int getWalls() {
         return walls;
     }
-
-    public Direction getWinningDirection() {
-        return winningDirection;
-    }
-
     public String getName() {
         return name;
     }

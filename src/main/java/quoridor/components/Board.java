@@ -5,6 +5,7 @@ import quoridor.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Board {
@@ -100,7 +101,7 @@ public class Board {
         switch (direction){
             case RIGHT -> {
 
-                if(actualCoordinates.getColumn() == columns - 1) return true;
+                if(actualCoordinates.getColumn() == columns - 1) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
                 if(tile.getEastWall() == null) return true;
@@ -108,7 +109,7 @@ public class Board {
             }
             case LEFT -> {
 
-                if(actualCoordinates.getColumn() == 0) return true;
+                if(actualCoordinates.getColumn() == 0) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()-1];
                 if(tile.getEastWall() == null) return true;
@@ -116,7 +117,7 @@ public class Board {
             }
             case UP -> {
 
-                if(actualCoordinates.getRow() == rows - 1) return true;
+                if(actualCoordinates.getRow() == rows - 1) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
                 if(tile.getNorthWall() == null) return true;
@@ -124,7 +125,7 @@ public class Board {
             }
             case DOWN -> {
 
-                if(actualCoordinates.getRow() == 0) return true;
+                if(actualCoordinates.getRow() == 0) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()-1][actualCoordinates.getColumn()];
                 if(tile.getNorthWall() == null) return true;
@@ -157,15 +158,12 @@ public class Board {
         Coordinates[] coordinates = new Coordinates[2];
         coordinates[0] = new Coordinates(wallC.getRow(), wallC.getColumn());
 
-        switch (orientation){
-            case HORIZONTAL -> {
-                coordinates[1] = new Coordinates(wallC.getRow() - 1, wallC.getColumn());
-                matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID, coordinates));
-            }
-            case VERTICAL -> {
-                coordinates[1] = new Coordinates(wallC.getRow(), wallC.getColumn() + 1);
-                matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID, coordinates));
-            }
+        if (Objects.requireNonNull(orientation) == Orientation.HORIZONTAL) {
+            coordinates[1] = new Coordinates(wallC.getRow() - 1, wallC.getColumn());
+            matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID, coordinates));
+        } else if (orientation == Orientation.VERTICAL) {
+            coordinates[1] = new Coordinates(wallC.getRow(), wallC.getColumn() + 1);
+            matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID, coordinates));
         }
     }
 
@@ -177,7 +175,7 @@ public class Board {
         while(i < dim){
             switch (orientation) {
                 case HORIZONTAL -> copyWallC.setColumn(copyWallC.getColumn() - 1);
-                case VERTICAL -> copyWallC.setRow(copyWallC.getRow() + 1);
+                case VERTICAL -> copyWallC.setRow(copyWallC.getRow() - 1);
             }
             singletPlacement(copyWallC, orientation);
             i++;
@@ -187,18 +185,16 @@ public class Board {
 
     public boolean wallNotPresent(Coordinates wallC, Orientation orientation, int dimension) {
         boolean result = true;
-        switch (orientation){
-            case HORIZONTAL -> {
-                for(int i = 0; i < dimension && result; i++) {
-                    result = matrix[wallC.getRow()][wallC.getColumn() - i].getNorthWall() == null;
-                }
+        if (Objects.requireNonNull(orientation) == Orientation.HORIZONTAL) {
+            for (int i = 0; i < dimension && result; i++) {
+                result = matrix[wallC.getRow()][wallC.getColumn() - i].getNorthWall() == null;
             }
-            case VERTICAL -> {
-                for(int i = 1; i < dimension && result; i++) {
-                    result = matrix[wallC.getRow() + i][wallC.getColumn()].getEastWall() == null;
-                }
+        } else if (orientation == Orientation.VERTICAL) {
+            for (int i = 0; i < dimension && result; i++) {
+                result = matrix[wallC.getRow() - i][wallC.getColumn()].getEastWall() == null;
             }
-        } return result;
+        }
+        return result;
     }
 
     public boolean checkCross(ArrayList<Coordinates> arrListC){
@@ -230,24 +226,19 @@ public class Board {
     }
 
     public boolean wallOutOfBoundChecker(Coordinates wallC, Orientation orientation, int dimension) {
-        switch (orientation){
-            case VERTICAL -> {
-                return wallC.getRow() + dimension - 1 >= matrix.length;
-            }
-            case HORIZONTAL -> {
-                return (wallC.getColumn() - dimension + 1) < 0;
-            }
-        } return false;
+        if (Objects.requireNonNull(orientation) == Orientation.VERTICAL) {
+            return wallC.getRow() - dimension + 1 < 0;
+        } else if (orientation == Orientation.HORIZONTAL) {
+            return wallC.getColumn() - dimension + 1 < 0;
+        }
+        return false;
     }
 
     public boolean wallOnFirstRowOrLastColumnChecker(Coordinates wallC, Orientation orientation) {
-        switch (orientation){
-            case HORIZONTAL -> {
-                if(wallC.getRow() == 0) return true;
-            }
-            case VERTICAL -> {
-                if(wallC.getColumn() == matrix[0].length - 1) return true;
-            }
+        if (Objects.requireNonNull(orientation) == Orientation.HORIZONTAL) {
+            return wallC.getRow() == matrix.length - 1;
+        } else if (orientation == Orientation.VERTICAL) {
+            return wallC.getColumn() == matrix[0].length - 1;
         }
         return false;
     }
@@ -270,24 +261,21 @@ public class Board {
         Coordinates copyWallC = new Coordinates(wallC.getRow(), wallC.getColumn());
         ArrayList<Coordinates[]> adiacencies = new ArrayList<>();
         for(int i = 0; i < dimension; i++){
-            switch (orientation){
-                case HORIZONTAL -> {
-                    adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getNorthWall().getAdiacencies());
-                    copyWallC.setColumn(copyWallC.getColumn() - 1);
-                }
-                case VERTICAL -> {
-                    adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getEastWall().getAdiacencies());
-                    copyWallC.setRow(copyWallC.getRow() + 1);
-                }
+            if (Objects.requireNonNull(orientation) == Orientation.HORIZONTAL) {
+                adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getNorthWall().getAdiacencies());
+                copyWallC.setColumn(copyWallC.getColumn() - 1);
+            } else if (orientation == Orientation.VERTICAL) {
+                adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getEastWall().getAdiacencies());
+                copyWallC.setRow(copyWallC.getRow() - 1);
             }
         }
         return adiacencies;
     }
 
     public boolean isWallPlaceable(Coordinates wallC, Orientation orientation, int dimension) {
-        boolean placeable = wallNotPresent(wallC, orientation, dimension)
-                && !wallOutOfBoundChecker(wallC, orientation, dimension)
-                && !wallOnFirstRowOrLastColumnChecker(wallC, orientation);
+        boolean placeable = !wallOutOfBoundChecker(wallC, orientation, dimension)
+                && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
+                && wallNotPresent(wallC, orientation, dimension);
 
         if(placeable){
             Board copyBoard = this.cloneObject();
@@ -381,7 +369,7 @@ public class Board {
         boolean placeable = wallNotPresent(wallC, orientation, dimension)
                 && !wallOutOfBoundChecker(wallC, orientation, dimension)
                 && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
-                && winningPathCheck(wallC, orientation, dimension, player);
+                /*&& winningPathCheck(wallC, orientation, dimension, player)*/;
 
         if(placeable){
             Board copyBoard = this.cloneObject();
@@ -452,14 +440,43 @@ public class Board {
 
     public String printEntireBoard(Player player){
         String s = "";
-        for(int i = 0; i < matrix.length; i++){
+        for(int i = matrix.length - 1; i >= 0; i--){
             s += printTileRow(i, player);
         }
         return s;
     }
 
+    public boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Player player) {
+        if(!insideBoard(position.getRow(), position.getColumn()) || matrix[position.getRow()][position.getColumn()].getVisitedTile()) return false;
 
-    private boolean winningPathCheck(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
+        path.add(position);
+        matrix[position.getRow()][position.getColumn()].setVisitedTile();
+
+        switch(player.getMeeple().getFinalMargin()){
+            case TOP -> {
+                if(position.getRow() == 0
+                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player))
+                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
+                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player)))
+                    return true;
+            }
+            case BOTTOM -> {
+                if(position.getRow() == matrix.length - 1
+                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player))
+                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
+                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
+                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player)))
+                    return true;
+            }
+        }
+        matrix[path.get(path.size() - 1).getRow()][path.get(path.size() - 1).getColumn()].resetVisitedTile();
+        path.remove(path.size() - 1);
+
+        return false;
+    }
+/*
+    public boolean winningPathCheck(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
         Board copyBoard = cloneObject(); //created to not mess with the original board
         copyBoard.placeWall(wallC, orientation, dimension);
         Player copyPlayer = new Player("testPlayer",
@@ -475,35 +492,5 @@ public class Board {
             System.out.println(copyBoard.printEntireBoard(copyPlayer));
 
         return thereIsAPath;
-    }
-
-    private boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Player player) {
-        if(!insideBoard(position.getRow(), position.getColumn()) || matrix[position.getRow()][position.getColumn()].getVisitedTile()) return false;
-
-        path.add(position);
-        matrix[position.getRow()][position.getColumn()].setVisitedTile();
-
-        switch(player.getWinningDirection()){
-            case UP -> {
-                if(position.getRow() == 0
-                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player))
-                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
-                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
-                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player)))
-                    return true;
-            }
-            case DOWN -> {
-                if(position.getRow() == matrix.length - 1
-                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player))
-                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
-                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
-                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player)))
-                    return true;
-            }
-        }
-        matrix[path.get(path.size() - 1).getRow()][path.get(path.size() - 1).getColumn()].resetVisitedTile();
-        path.remove(path.size() - 1);
-
-        return false;
-    }
+    }*/
 }

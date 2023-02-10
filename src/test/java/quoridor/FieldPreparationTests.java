@@ -72,8 +72,8 @@ class FieldPreparationTests {
         Board board = new Board(7,7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec",new Meeple(board.getPosition(0, 0), Color.GREEN), 10, Direction.DOWN));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED),10, Direction.UP));
+        players.add(new Player("giec",new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED),10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         gameEngine.setInitialMeepleDependingOnPlayers();
@@ -88,10 +88,10 @@ class FieldPreparationTests {
         Board board = new Board(7,7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec",new Meeple(board.getPosition(0, 0), Color.GREEN), 10, Direction.LEFT));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED),10, Direction.RIGHT));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW),10, Direction.UP));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE),10, Direction.DOWN));
+        players.add(new Player("giec",new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED),10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW),10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE),10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         gameEngine.setInitialMeepleDependingOnPlayers();
@@ -109,7 +109,7 @@ class FieldPreparationTests {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
-            players.add(i, new Player("ludo",new Meeple(board.getPosition(0, 0), Color.GREEN),0, Direction.DOWN));
+            players.add(i, new Player("ludo",new Meeple(board.getPosition(0, 0), Color.GREEN),0));
             players.get(i).setWalls(totalWalls / totalPlayer);
         }
         GameEngine gameEngine = new GameEngine(players, board);
@@ -124,7 +124,7 @@ class FieldPreparationTests {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
-            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN),0, Direction.UP));
+            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN),0));
             players.get(i).setWalls(totalWalls / totalPlayer);
         }
         GameEngine gameEngine = new GameEngine(players, board);
