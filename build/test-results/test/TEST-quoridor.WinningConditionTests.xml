@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="quoridor.WinningConditionTests" tests="13" skipped="0" failures="0" errors="0" timestamp="2023-02-07T11:13:39" hostname="DESKTOP-QVTEACG" time="0.031">
+<testsuite name="quoridor.WinningConditionTests" tests="13" skipped="0" failures="0" errors="0" timestamp="2023-02-10T14:29:25" hostname="DESKTOP-D4JPD3O" time="0.012">
   <properties/>
-  <testcase name="[1] 0, 4, UP" classname="quoridor.WinningConditionTests" time="0.004"/>
+  <testcase name="[1] 0, 4, UP" classname="quoridor.WinningConditionTests" time="0.001"/>
   <testcase name="[2] 8, 4, DOWN" classname="quoridor.WinningConditionTests" time="0.001"/>
   <testcase name="[3] 4, 8, LEFT" classname="quoridor.WinningConditionTests" time="0.0"/>
   <testcase name="[4] 4, 0, RIGHT" classname="quoridor.WinningConditionTests" time="0.0"/>
-  <testcase name="checkFinalPositionOfMeepleInBottomRow()" classname="quoridor.WinningConditionTests" time="0.0"/>
-  <testcase name="checkFinalPositionOfMeepleInRightColumn()" classname="quoridor.WinningConditionTests" time="0.001"/>
-  <testcase name="checkFinalPositionOfMeepleInTopRow()" classname="quoridor.WinningConditionTests" time="0.001"/>
+  <testcase name="checkFinalPositionOfMeepleInBottomRow()" classname="quoridor.WinningConditionTests" time="0.001"/>
+  <testcase name="checkFinalPositionOfMeepleInRightColumn()" classname="quoridor.WinningConditionTests" time="0.0"/>
+  <testcase name="checkFinalPositionOfMeepleInTopRow()" classname="quoridor.WinningConditionTests" time="0.0"/>
   <testcase name="checkGenericMoveIsNotWinningMove()" classname="quoridor.WinningConditionTests" time="0.0"/>
-  <testcase name="checkFinalPositionOfMeepleInLeftColumn()" classname="quoridor.WinningConditionTests" time="0.001"/>
-  <testcase name="[1] 0, 4, UP" classname="quoridor.WinningConditionTests" time="0.0"/>
+  <testcase name="checkFinalPositionOfMeepleInLeftColumn()" classname="quoridor.WinningConditionTests" time="0.0"/>
+  <testcase name="[1] 0, 4, UP" classname="quoridor.WinningConditionTests" time="0.001"/>
   <testcase name="[2] 8, 4, DOWN" classname="quoridor.WinningConditionTests" time="0.001"/>
-  <testcase name="[3] 4, 8, LEFT" classname="quoridor.WinningConditionTests" time="0.004"/>
-  <testcase name="[4] 4, 0, RIGHT" classname="quoridor.WinningConditionTests" time="0.003"/>
+  <testcase name="[3] 4, 8, LEFT" classname="quoridor.WinningConditionTests" time="0.001"/>
+  <testcase name="[4] 4, 0, RIGHT" classname="quoridor.WinningConditionTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
