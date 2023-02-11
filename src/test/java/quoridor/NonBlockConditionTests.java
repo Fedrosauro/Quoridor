@@ -91,51 +91,62 @@ class NonBlockConditionTests {
 
         Coordinates wallCoordinates2 = new Coordinates(1, 2);
         Orientation or2 = Orientation.VERTICAL;
-        board.placeWall(wallCoordinates2, or2, 3);
+        board.placeWall(wallCoordinates2, or2, 2);
 
+        System.out.println(board.printEntireBoard(player));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0,3", "3,4", "4,1", "2,0", "3,4", "1,0", "2,2", "3,1", "1,3"})
+    void pathExistanceTrue(int row, int column) throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(row, column), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
+        ArrayList<Coordinates> path = new ArrayList<>();
+
+        Coordinates wallCoordinates1 = new Coordinates(1, 2);
+        Orientation or1 = Orientation.HORIZONTAL;
+        board.placeWall(wallCoordinates1, or1, 3);
+
+        Coordinates wallCoordinates2 = new Coordinates(1, 1);
+        Orientation or2 = Orientation.VERTICAL;
+        board.placeWall(wallCoordinates2, or2, 1);
+
+        Coordinates wallCoordinates3 = new Coordinates(3,4);
+        board.placeWall(wallCoordinates3, or1, 3);
+
+        Coordinates wallCoordinates4 = new Coordinates(4,1);
+        board.placeWall(wallCoordinates4, or2, 2);
+
+        assertTrue(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
+
+        System.out.println(board.printPathSolution(path));
+        System.out.println(board.printEntireBoard(player));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"3,0", "0,0", "1,3", "2,4", "4,0", "2,1"})
+    void pathExistanceFalse(int row, int column) throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(row, column), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
+        ArrayList<Coordinates> path = new ArrayList<>();
+
+        Coordinates wallCoordinates1 = new Coordinates(4, 2);
+        board.placeWall(wallCoordinates1, Orientation.VERTICAL, 3);
+
+        Coordinates wallCoordinates2 = new Coordinates(1, 4);
+        board.placeWall(wallCoordinates2, Orientation.HORIZONTAL, 5);
+
+        Coordinates wallCoordinates3 = new Coordinates(1, 1);
+        board.placeWall(wallCoordinates3, Orientation.VERTICAL, 2);
+
+        assertFalse(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()),  player.getMeeple()));
+
+        System.out.println(board.printPathSolution(path));
         System.out.println(board.printEntireBoard(player));
     }
 /*
-    @Test
-    void pathExistanceTrue() throws PositionException {
-        Board board = new Board(5, 5);
-        Player player = new Player("giec",new Meeple(board.getPosition(4, 4), Color.GREEN), 10, Direction.UP);
-        ArrayList<Coordinates> path = new ArrayList<>();
-
-        Coordinates wallCoordinates1 = new Coordinates(1, 2);
-        Orientation or1 = Orientation.VERTICAL;
-        board.placeWall(wallCoordinates1, or1, 2);
-
-        Coordinates wallCoordinates2 = new Coordinates(1, 4);
-        Orientation or2 = Orientation.HORIZONTAL;
-        board.placeWall(wallCoordinates2, or2, 3);
-
-        assertTrue(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player));
-
-        System.out.println(board.printPathSolution(path));
-        System.out.println(board.printEntireBoard(player));
-    }
-
-    @Test
-    void pathExistanceFalse() throws PositionException {
-        Board board = new Board(5, 5);
-        Player player = new Player("giec",new Meeple(board.getPosition(4, 4), Color.GREEN), 10, Direction.UP);
-        ArrayList<Coordinates> path = new ArrayList<>();
-
-        Coordinates wallCoordinates1 = new Coordinates(1, 2);
-        Orientation or1 = Orientation.VERTICAL;
-        board.placeWall(wallCoordinates1, or1, 4);
-
-        Coordinates wallCoordinates2 = new Coordinates(1, 4);
-        Orientation or2 = Orientation.HORIZONTAL;
-        board.placeWall(wallCoordinates2, or2, 3);
-
-        assertFalse(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player));
-
-        System.out.println(board.printPathSolution(path));
-        System.out.println(board.printEntireBoard(player));
-    }
-
     @Test
     void pathExistanceFalse2() throws PositionException {
         Board board = new Board(5, 5);
@@ -208,5 +219,4 @@ class NonBlockConditionTests {
         assertNotNull(board.getMatrix()[wallCoordinates.getRow()][wallCoordinates.getColumn()].getNorthWall());
     }
 */
-
 }

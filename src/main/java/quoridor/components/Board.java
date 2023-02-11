@@ -324,12 +324,15 @@ public class Board {
 
         switch (finalMargin) {
             case TOP -> {
-            if (meeplePosition.getRow() == 0) return true;
-            }        case BOTTOM -> {
+                if (meeplePosition.getRow() == 0) return true;
+            }
+            case BOTTOM -> {
                 if (meeplePosition.getRow() == rows - 1) return true;
-            }        case LEFT -> {
+            }
+            case LEFT -> {
                 if (meeplePosition.getColumn() == 0) return true;
-            }        case RIGHT -> {
+            }
+            case RIGHT -> {
                 if (meeplePosition.getColumn() == columns - 1) return true;
             }
         }
@@ -446,30 +449,38 @@ public class Board {
         return s;
     }
 
-    public boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Player player) {
+    public boolean checkFinalMarginCoordinatesReached(Coordinates position, Margin finalMargin) {
+        switch (finalMargin) {
+            case TOP -> {
+                if (position.getRow() == 0) return true;
+            }
+            case BOTTOM -> {
+                if (position.getRow() == rows - 1) return true;
+            }
+            case LEFT -> {
+                if (position.getColumn() == 0) return true;
+            }
+            case RIGHT -> {
+                if (position.getColumn() == columns - 1) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Meeple meeple) {
         if(!insideBoard(position.getRow(), position.getColumn()) || matrix[position.getRow()][position.getColumn()].getVisitedTile()) return false;
 
         path.add(position);
         matrix[position.getRow()][position.getColumn()].setVisitedTile();
 
-        switch(player.getMeeple().getFinalMargin()){
-            case TOP -> {
-                if(position.getRow() == 0
-                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player))
-                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
-                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
-                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player)))
-                    return true;
-            }
-            case BOTTOM -> {
-                if(position.getRow() == matrix.length - 1
-                        || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), player))
-                        || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), player))
-                        || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), player))
-                        || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), player)))
-                    return true;
-            }
-        }
+        if(checkFinalMarginCoordinatesReached(position, meeple.getFinalMargin())
+                || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), meeple))
+                || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), meeple))
+                || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), meeple))
+                || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), meeple)))
+            return true;
+
         matrix[path.get(path.size() - 1).getRow()][path.get(path.size() - 1).getColumn()].resetVisitedTile();
         path.remove(path.size() - 1);
 
@@ -486,11 +497,6 @@ public class Board {
                         player.getWinningDirection()); //without copyPlayer the reference of the tile is another and the print does not work
         ArrayList<Coordinates> path = new ArrayList<>();
 
-        boolean thereIsAPath = copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player);
-        if(thereIsAPath)
-            System.out.println(copyBoard.printPathSolution(path));
-            System.out.println(copyBoard.printEntireBoard(copyPlayer));
-
-        return thereIsAPath;
+        return copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player);
     }*/
 }
