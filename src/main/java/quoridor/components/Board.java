@@ -380,16 +380,24 @@ public class Board {
         return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
     }
 
-    public List<String> printTile(int i, int j, Coordinates playerPos){
+    public List<String> printTile(int i, int j, List<Coordinates> playersPositions){
         String sAbove = "";
         String sUnder = "";
         ArrayList<String> result = new ArrayList<>();
 
-        if(i == playerPos.getRow() && j == playerPos.getColumn()){
-            sUnder = " X";
-        }else{
-            sUnder = " O";
+        for(int k = 0; k < playersPositions.size(); k++){
+            if(i == playersPositions.get(k).getRow() && j == playersPositions.get(k).getColumn()){
+                switch (k){
+                    case 0: { sUnder = " 1"; break; }
+                    case 1: { sUnder = " 2"; break; }
+                    case 2: { sUnder = " 3"; break; }
+                    case 3: { sUnder = " 4"; break; }
+                } break;
+            }else{
+                sUnder = " O";
+            }
         }
+
         if(this.matrix[i][j].getEastWall() != null) sUnder += " |";
         else sUnder += "  ";
         if(this.matrix[i][j].getNorthWall() != null) sAbove = "__  ";
@@ -400,23 +408,23 @@ public class Board {
         return result;
     }
 
-    public String printTileRow(int row, Coordinates playerPos){
+    public String printTileRow(int row, List<Coordinates> playersPositions){
         StringBuilder sAbove = new StringBuilder();
         StringBuilder sUnder = new StringBuilder();
         List<String> tempResult;
 
         for(int j = 0; j < matrix.length; j++){
-            tempResult = printTile(row, j, playerPos);
+            tempResult = printTile(row, j, playersPositions);
             sAbove.append(tempResult.get(0)).append("  ");
             sUnder.append(tempResult.get(1)).append("  ");
         }
         return "\n" + sAbove + "\n" + sUnder;
     }
 
-    public String printEntireBoard(Coordinates playerPos){
+    public String printEntireBoard(List<Coordinates> playersPositions){
         StringBuilder s = new StringBuilder();
         for(int i = matrix.length - 1; i >= 0; i--){
-            s.append(printTileRow(i, playerPos));
+            s.append(printTileRow(i, playersPositions));
         }
         return s.toString();
     }
@@ -467,7 +475,7 @@ public class Board {
         boolean winningPathExists = copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
         if(winningPathExists) {
             System.out.println(copyBoard.printPathSolution(path));
-            System.out.println(copyBoard.printEntireBoard(findPosition(player.getMeeple().getPosition())));
+            //System.out.println(copyBoard.printEntireBoard(findPosition(player.getMeeple().getPosition())));
         }
 
         return winningPathExists;

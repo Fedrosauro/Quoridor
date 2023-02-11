@@ -58,9 +58,12 @@ class NonBlockConditionTests {
 
         ArrayList<String> expectedResult = new ArrayList<>();
         expectedResult.add("__  ");
-        expectedResult.add(" X |");
+        expectedResult.add(" 1 |");
 
-        assertEquals(expectedResult,board.printTile(1, 1, board.findPosition(player.getMeeple().getPosition())));
+        ArrayList<Coordinates> playersPositions = new ArrayList<>();
+        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+
+        assertEquals(expectedResult,board.printTile(1, 1, playersPositions));
     }
 
     @Test
@@ -76,17 +79,21 @@ class NonBlockConditionTests {
         board.placeWall(wallCoordinates1, or2, 1);
         board.placeWall(wallCoordinates2, or2, 2);
 
-        System.out.println(board.printTileRow(1, board.findPosition(player.getMeeple().getPosition())));
+        ArrayList<Coordinates> playersPositions = new ArrayList<>();
+        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+
+        System.out.println(board.printTileRow(1,playersPositions));
 
         assertEquals("\n" +
                 "      __    __    __          \n" +
-                " O     X |   O     O     O    ",board.printTileRow(1, board.findPosition(player.getMeeple().getPosition())));
+                " O     1 |   O     O     O    ",board.printTileRow(1, playersPositions));
     }
 
     @Test
     void printEntireBoardTest() throws PositionException {
         Board board = new Board(4, 4);
         Player player = new Player("giec",new Meeple(board.getPosition(2, 2), Color.GREEN), 10);
+        Player player2 = new Player("ludov",new Meeple(board.getPosition(0, 0), Color.BLUE), 10);
 
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
         Orientation or1 = Orientation.HORIZONTAL;
@@ -96,16 +103,20 @@ class NonBlockConditionTests {
         Orientation or2 = Orientation.VERTICAL;
         board.placeWall(wallCoordinates2, or2, 2);
 
-        System.out.println(board.printEntireBoard(board.findPosition(player.getMeeple().getPosition())));
+        ArrayList<Coordinates> playersPositions = new ArrayList<>();
+        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+        playersPositions.add(board.findPosition(player2.getMeeple().getPosition()));
+
+        System.out.println(board.printEntireBoard(playersPositions));
 
         assertEquals("\n                        \n" +
                 " O     O     O     O    \n" +
                 "                        \n" +
-                " O     O     X     O    \n" +
+                " O     O     1     O    \n" +
                 "__    __                \n" +
                 " O     O     O |   O    \n" +
                 "                        \n" +
-                " O     O     O |   O    ",board.printEntireBoard(board.findPosition(player.getMeeple().getPosition())));
+                " 2     O     O |   O    ",board.printEntireBoard(playersPositions));
     }
 
     @ParameterizedTest
@@ -130,10 +141,13 @@ class NonBlockConditionTests {
         Coordinates wallCoordinates4 = new Coordinates(4,1);
         board.placeWall(wallCoordinates4, or2, 2);
 
+        ArrayList<Coordinates> playersPositions = new ArrayList<>();
+        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+
         assertTrue(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
 
         System.out.println(board.printPathSolution(path));
-        System.out.println(board.printEntireBoard(board.findPosition(player.getMeeple().getPosition())));
+        System.out.println(board.printEntireBoard(playersPositions));
     }
 
     @ParameterizedTest
@@ -153,10 +167,13 @@ class NonBlockConditionTests {
         Coordinates wallCoordinates3 = new Coordinates(1, 1);
         board.placeWall(wallCoordinates3, Orientation.VERTICAL, 2);
 
+        ArrayList<Coordinates> playersPositions = new ArrayList<>();
+        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+
         assertFalse(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()),  player.getMeeple()));
 
         System.out.println(board.printPathSolution(path));
-        System.out.println(board.printEntireBoard(board.findPosition(player.getMeeple().getPosition())));
+        System.out.println(board.printEntireBoard(playersPositions));
     }
 
     @ParameterizedTest
