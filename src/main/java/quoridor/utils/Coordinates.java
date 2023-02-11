@@ -14,12 +14,12 @@ public class Coordinates {
         return column;
     }
 
-    public int getRow() {
-        return row;
-    }
-
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     public void setRow(int row) {
@@ -28,9 +28,6 @@ public class Coordinates {
 
     @Override
     public String toString() {
-        return "Coordinates{" +
-                "column=" + column +
-                ", row=" + row +
-                '}';
+        return "Coordinates{" + "column=" + column + ", row=" + row + '}';
     }
 }

@@ -1,20 +1,22 @@
 package quoridor.game;
 
 import quoridor.components.Board;
-import quoridor.utils.*;
+import quoridor.utils.Margin;
+import quoridor.utils.NumberOfPlayerException;
+import quoridor.utils.PositionException;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 
 public class GameEngine {
 
-    ArrayList<Player> players;
+    List<Player> players;
     Board board;
 
 
-    public GameEngine(ArrayList<Player> players, Board board) {
+    public GameEngine(List<Player> players, Board board) {
         this.players = players;
         this.board = board;
     }
@@ -38,12 +40,12 @@ public class GameEngine {
         }
         if (illegalWall(totalWalls)) {
             int division = totalWalls / totalPlayers;
-            for (int i = 0; i < totalPlayers; i++) {
-                players.get(i).setWalls(division);
+            for (Player player : players) {
+                player.setWalls(division);
             }
             return players;
         }
-        return new ArrayList<Player>();
+        return new ArrayList<>();
 
     }
 

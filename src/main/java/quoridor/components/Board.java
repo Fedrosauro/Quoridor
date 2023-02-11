@@ -1,10 +1,6 @@
 package quoridor.components;
 
-import quoridor.utils.Coordinates;
-import quoridor.utils.Direction;
-import quoridor.utils.Margin;
-import quoridor.utils.PositionException;
-import quoridor.utils.Orientation;
+import quoridor.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +10,7 @@ public class Board {
     private int rows;
     private int columns;
     private int wallID;
-    private Tile[][] matrix;
+    private final Tile[][] matrix;
     private ArrayList<Wall> walls;
     private List<Meeple> meeples;
 
@@ -36,10 +32,6 @@ public class Board {
 
     }
 
-    public void setMeeples(List<Meeple> meeples) {
-        this.meeples = meeples;
-    }
-
     public Board(Tile[][] matrix, int wallID) {
         this.matrix = new Tile[matrix.length][matrix[0].length];
 
@@ -51,6 +43,10 @@ public class Board {
             }
         }
         this.wallID = wallID;
+    }
+
+    public void setMeeples(List<Meeple> meeples) {
+        this.meeples = meeples;
     }
 
     public void findFinalMargin(Meeple meeple) {
@@ -153,7 +149,7 @@ public class Board {
         switch (direction) {
             case RIGHT -> {
 
-                if (actualCoordinates.getColumn() == columns - 1) return true;
+                if (actualCoordinates.getColumn() == columns - 1) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
                 if (tile.getEastWall() == null) return true;
@@ -161,7 +157,7 @@ public class Board {
             }
             case LEFT -> {
 
-                if (actualCoordinates.getColumn() == 0) return true;
+                if (actualCoordinates.getColumn() == 0) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1];
                 if (tile.getEastWall() == null) return true;
@@ -169,7 +165,7 @@ public class Board {
             }
             case UP -> {
 
-                if (actualCoordinates.getRow() == rows - 1) return true;
+                if (actualCoordinates.getRow() == rows - 1) return false; //true
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
                 if (tile.getNorthWall() == null) return true;
@@ -177,7 +173,7 @@ public class Board {
             }
             case DOWN -> {
 
-                if (actualCoordinates.getRow() == 0) return true;
+                if (actualCoordinates.getRow() == 0) return false; //true
 
                 tile = matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()];
                 if (tile.getNorthWall() == null) return true;
@@ -259,15 +255,12 @@ public class Board {
         Coordinates[] coordinates = new Coordinates[2];
         coordinates[0] = new Coordinates(wallC.getRow(), wallC.getColumn());
 
-        switch (orientation) {
-            case HORIZONTAL -> {
-                coordinates[1] = new Coordinates(wallC.getRow() - 1, wallC.getColumn());
-                matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID, coordinates));
-            }
-            case VERTICAL -> {
-                coordinates[1] = new Coordinates(wallC.getRow(), wallC.getColumn() + 1);
-                matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID, coordinates));
-            }
+        if (orientation == Orientation.HORIZONTAL) {
+            coordinates[1] = new Coordinates(wallC.getRow() - 1, wallC.getColumn());
+            matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID, coordinates));
+        } else {
+            coordinates[1] = new Coordinates(wallC.getRow(), wallC.getColumn() + 1);
+            matrix[wallC.getRow()][wallC.getColumn()].setEastWall(new Wall(this.wallID, coordinates));
         }
     }
 
@@ -277,10 +270,11 @@ public class Board {
         singletPlacement(copyWallC, orientation);
         int i = 1;
         while (i < dim) {
-            switch (orientation) {
-                case HORIZONTAL -> copyWallC.setColumn(copyWallC.getColumn() - 1);
-                case VERTICAL -> copyWallC.setRow(copyWallC.getRow() + 1);
-            }
+
+            if (orientation == Orientation.HORIZONTAL) {
+                copyWallC.setColumn(copyWallC.getColumn() - 1);
+            } else copyWallC.setRow(copyWallC.getRow() + 1);
+
             singletPlacement(copyWallC, orientation);
             i++;
         }
@@ -289,68 +283,62 @@ public class Board {
 
     public boolean wallNotPresent(Coordinates wallC, Orientation orientation, int dimension) {
         boolean result = true;
-        switch (orientation) {
-            case HORIZONTAL -> {
-                for (int i = 0; i < dimension && result; i++) {
-                    result = matrix[wallC.getRow()][wallC.getColumn() - i].getNorthWall() == null;
-                }
+
+        if (orientation == Orientation.HORIZONTAL) {
+            for (int i = 0; i < dimension && result; i++) {
+                result = matrix[wallC.getRow()][wallC.getColumn() - i].getNorthWall() == null;
             }
-            case VERTICAL -> {
-                for (int i = 1; i < dimension && result; i++) {
-                    result = matrix[wallC.getRow() + i][wallC.getColumn()].getEastWall() == null;
-                }
+        } else {
+            for (int i = 1; i < dimension && result; i++) {
+                result = matrix[wallC.getRow() + i][wallC.getColumn()].getEastWall() == null;
             }
         }
         return result;
     }
 
-    public boolean checkCross(ArrayList<Coordinates> arrListC) {
+    public boolean checkCross(List<Coordinates> arrListC) {
         return matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall() != null && matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall() != null && matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall() != null && matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall() != null;
     }
 
-    public boolean illegalWallIDsCombinationChecker(ArrayList<Coordinates> arrListC) {
-        ArrayList<Integer> IDsCount = new ArrayList<>();
+    public boolean illegalWallIDsCombinationChecker(List<Coordinates> arrListC) {
+        ArrayList<Integer> idCount = new ArrayList<>();
 
-        //IDsCount at first is empty so we add the first ID of the first wall checked
-        IDsCount.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getID());
+        //idCount at first is empty, so we add the first ID of the first wall checked
+        idCount.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getId());
 
-        if (!IDsCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID())) {
-            IDsCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID());
+        if (!idCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getId())) {
+            idCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getId());
         }
 
-        if (!IDsCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID())) {
-            IDsCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID());
+        if (!idCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getId())) {
+            idCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getId());
         }
 
-        if (!IDsCount.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID())) {
-            IDsCount.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID());
+        if (!idCount.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getId())) {
+            idCount.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getId());
         }
 
-        return IDsCount.size() == 2;
+        return idCount.size() == 2;
     }
 
     public boolean wallOutOfBoundChecker(Coordinates wallC, Orientation orientation, int dimension) {
-        switch (orientation) {
-            case VERTICAL -> {
-                return wallC.getRow() + dimension - 1 >= matrix.length;
-            }
-            case HORIZONTAL -> {
-                return (wallC.getColumn() - dimension + 1) < 0;
-            }
-        }
-        return false;
+
+        if (orientation == Orientation.VERTICAL) {
+            return wallC.getRow() + dimension - 1 >= matrix.length;
+        } else return (wallC.getColumn() - dimension + 1) < 0;
+
     }
 
     public boolean wallOnFirstRowOrLastColumnChecker(Coordinates wallC, Orientation orientation) {
-        switch (orientation) {
-            case HORIZONTAL -> {
-                if (wallC.getRow() == 0) return true;
-            }
-            case VERTICAL -> {
-                if (wallC.getColumn() == matrix[0].length - 1) return true;
-            }
+
+        if (orientation == Orientation.HORIZONTAL) {
+            if (wallC.getRow() == 0) return true;
+        } else {
+            if (wallC.getColumn() == matrix[0].length - 1) return true;
         }
+
         return false;
+
     }
 
     public Board cloneObject() {
@@ -367,19 +355,17 @@ public class Board {
         return equal;
     }
 
-    public ArrayList<Coordinates[]> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
+    public List<Coordinates[]> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
         Coordinates copyWallC = new Coordinates(wallC.getRow(), wallC.getColumn());
         ArrayList<Coordinates[]> adiacencies = new ArrayList<>();
         for (int i = 0; i < dimension; i++) {
-            switch (orientation) {
-                case HORIZONTAL -> {
-                    adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getNorthWall().getAdiacencies());
-                    copyWallC.setColumn(copyWallC.getColumn() - 1);
-                }
-                case VERTICAL -> {
-                    adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getEastWall().getAdiacencies());
-                    copyWallC.setRow(copyWallC.getRow() + 1);
-                }
+
+            if (orientation == Orientation.HORIZONTAL) {
+                adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getNorthWall().getAdiacencies());
+                copyWallC.setColumn(copyWallC.getColumn() - 1);
+            } else {
+                adiacencies.add(matrix[copyWallC.getRow()][copyWallC.getColumn()].getEastWall().getAdiacencies());
+                copyWallC.setRow(copyWallC.getRow() + 1);
             }
         }
         return adiacencies;
@@ -392,7 +378,7 @@ public class Board {
             Board copyBoard = this.cloneObject();
             copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
 
-            ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
+            List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
             for (int i = 0; i < adiacencies.size() - 1 && placeable; i++) {
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
 
@@ -408,24 +394,6 @@ public class Board {
 
         return placeable;
     }
-
-    /*public void findFinalMargin(Meeple meeple) {
-        Coordinates meeplePosition = this.findPosition(meeple.getPosition());
-        int row = meeplePosition.getRow();
-        int column = meeplePosition.getColumn();
-        Margin finalMargin;
-
-        if (row > column) {
-            if (rows - row > column)
-                finalMargin = Margin.RIGHT; //it means the meeple is in the left triangle, so it has to move to the right
-            else finalMargin = Margin.TOP;
-        } else {
-            if (rows - row > column) finalMargin = Margin.BOTTOM;
-            else finalMargin = Margin.LEFT;
-        }
-
-        meeple.setFinalPosition(finalMargin);
-    } */
 
     public boolean checkFinalMarginReached(Meeple meeple) {
 
@@ -458,18 +426,22 @@ public class Board {
 
     public Tile setMeeplePositionGivenMargin(Meeple meeple, Margin margin) throws PositionException {
         switch (margin) {
-            case LEFT:
+            case LEFT -> {
                 meeple.setPosition(getPosition(centreOfLine(getRows()), 0));
                 return meeple.getPosition();
-            case RIGHT:
+            }
+            case RIGHT -> {
                 meeple.setPosition(getPosition(centreOfLine(getRows()), getColumns() - 1));
                 return meeple.getPosition();
-            case TOP:
+            }
+            case TOP -> {
                 meeple.setPosition(getPosition(0, centreOfLine(getColumns())));
                 return meeple.getPosition();
-            case BOTTOM:
+            }
+            case BOTTOM -> {
                 meeple.setPosition(getPosition(getRows() - 1, centreOfLine(getColumns())));
                 return meeple.getPosition();
+            }
         }
         return null;
     }

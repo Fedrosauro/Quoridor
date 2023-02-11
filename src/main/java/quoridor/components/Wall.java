@@ -5,19 +5,19 @@ import quoridor.utils.Coordinates;
 public class Wall {
 
     //add adiacencies field to make the getAdiacenciesOfLastWallPlaced method easier
-    private int ID;
+    private int id;
     private Coordinates[] coordinates;
 
     public Wall() {
     }
 
-    public Wall(int ID, Coordinates[] coordinates) {
-        this.ID = ID;
+    public Wall(int id, Coordinates[] coordinates) {
+        this.id = id;
         this.coordinates = coordinates;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public Coordinates[] getAdiacencies() {
