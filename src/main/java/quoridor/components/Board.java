@@ -421,7 +421,12 @@ public class Board {
         return "\n" + sAbove + "\n" + sUnder;
     }
 
-    public String printEntireBoard(List<Coordinates> playersPositions){
+    public String printEntireBoard(List<Player> playersList){
+        ArrayList<Coordinates> playersPositions = new ArrayList<>();
+        for(int j = 0; j < playersList.size(); j++){
+            playersPositions.add(findPosition(playersList.get(j).getMeeple().getPosition()));
+        }
+
         StringBuilder s = new StringBuilder();
         for(int i = matrix.length - 1; i >= 0; i--){
             s.append(printTileRow(i, playersPositions));
@@ -475,7 +480,6 @@ public class Board {
         boolean winningPathExists = copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
         if(winningPathExists) {
             System.out.println(copyBoard.printPathSolution(path));
-            //System.out.println(copyBoard.printEntireBoard(findPosition(player.getMeeple().getPosition())));
         }
 
         return winningPathExists;

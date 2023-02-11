@@ -103,11 +103,11 @@ class NonBlockConditionTests {
         Orientation or2 = Orientation.VERTICAL;
         board.placeWall(wallCoordinates2, or2, 2);
 
-        ArrayList<Coordinates> playersPositions = new ArrayList<>();
-        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
-        playersPositions.add(board.findPosition(player2.getMeeple().getPosition()));
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
 
-        System.out.println(board.printEntireBoard(playersPositions));
+        System.out.println(board.printEntireBoard(players));
 
         assertEquals("\n                        \n" +
                 " O     O     O     O    \n" +
@@ -116,7 +116,7 @@ class NonBlockConditionTests {
                 "__    __                \n" +
                 " O     O     O |   O    \n" +
                 "                        \n" +
-                " 2     O     O |   O    ",board.printEntireBoard(playersPositions));
+                " 2     O     O |   O    ",board.printEntireBoard(players));
     }
 
     @ParameterizedTest
@@ -141,13 +141,13 @@ class NonBlockConditionTests {
         Coordinates wallCoordinates4 = new Coordinates(4,1);
         board.placeWall(wallCoordinates4, or2, 2);
 
-        ArrayList<Coordinates> playersPositions = new ArrayList<>();
-        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
 
         assertTrue(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
 
         System.out.println(board.printPathSolution(path));
-        System.out.println(board.printEntireBoard(playersPositions));
+        System.out.println(board.printEntireBoard(players));
     }
 
     @ParameterizedTest
@@ -167,13 +167,13 @@ class NonBlockConditionTests {
         Coordinates wallCoordinates3 = new Coordinates(1, 1);
         board.placeWall(wallCoordinates3, Orientation.VERTICAL, 2);
 
-        ArrayList<Coordinates> playersPositions = new ArrayList<>();
-        playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
 
         assertFalse(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()),  player.getMeeple()));
 
         System.out.println(board.printPathSolution(path));
-        System.out.println(board.printEntireBoard(playersPositions));
+        System.out.println(board.printEntireBoard(players));
     }
 
     @ParameterizedTest
@@ -192,6 +192,11 @@ class NonBlockConditionTests {
         //already placed walls
 
         Coordinates wallCoordinates3 = new Coordinates(3, 4);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
 
         assertTrue(board.winningPathCheck(wallCoordinates3, or1, 2, player));
 
@@ -212,6 +217,11 @@ class NonBlockConditionTests {
 
         Coordinates wallCoordinates2 = new Coordinates(1, 4);
 
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
+
         assertFalse(board.winningPathCheck(wallCoordinates2, Orientation.HORIZONTAL, 5, player));
     }
 
@@ -230,6 +240,11 @@ class NonBlockConditionTests {
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
 
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
+
         assertNotNull(board.getMatrix()[wallCoordinates.getRow()][wallCoordinates.getColumn()].getNorthWall());
     }
 
@@ -247,6 +262,11 @@ class NonBlockConditionTests {
         boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
 
         assertNotNull(board.getMatrix()[wallCoordinates.getRow()][wallCoordinates.getColumn()].getEastWall());
     }
