@@ -8,6 +8,7 @@ import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -344,7 +345,7 @@ class WallPlacementTests {
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1
@@ -372,7 +373,7 @@ class WallPlacementTests {
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1

@@ -173,9 +173,10 @@ public class Board {
         singletPlacement(copyWallC, orientation);
         int i = 1;
         while(i < dim){
-            switch (orientation) {
-                case HORIZONTAL -> copyWallC.setColumn(copyWallC.getColumn() - 1);
-                case VERTICAL -> copyWallC.setRow(copyWallC.getRow() - 1);
+            if (Objects.requireNonNull(orientation) == Orientation.HORIZONTAL) {
+                copyWallC.setColumn(copyWallC.getColumn() - 1);
+            } else if (orientation == Orientation.VERTICAL) {
+                copyWallC.setRow(copyWallC.getRow() - 1);
             }
             singletPlacement(copyWallC, orientation);
             i++;
@@ -197,32 +198,32 @@ public class Board {
         return result;
     }
 
-    public boolean checkCross(ArrayList<Coordinates> arrListC){
+    public boolean checkCross(List<Coordinates> arrListC){
         return matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall() != null &&
                 matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall() != null &&
                 matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall() != null &&
                 matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall() != null;
     }
 
-    public boolean illegalWallIDsCombinationChecker(ArrayList<Coordinates> arrListC) {
-        ArrayList<Integer> IDsCount = new ArrayList<>();
+    public boolean illegalWallIDsCombinationChecker(List<Coordinates> arrListC) {
+        ArrayList<Integer> numbersOfID = new ArrayList<>();
 
-        //IDsCount at first is empty so we add the first ID of the first wall checked
-        IDsCount.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getID());
+        //numbersOfID at first is empty so we add the first ID of the first wall checked
+        numbersOfID.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getID());
 
-        if(!IDsCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID())){
-            IDsCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID());
+        if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID())){
+            numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID());
         }
 
-        if(!IDsCount.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID())){
-            IDsCount.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID());
+        if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID())){
+            numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID());
         }
 
-        if(!IDsCount.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID())){
-            IDsCount.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID());
+        if(!numbersOfID.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID())){
+            numbersOfID.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID());
         }
 
-        return IDsCount.size() == 2;
+        return numbersOfID.size() == 2;
     }
 
     public boolean wallOutOfBoundChecker(Coordinates wallC, Orientation orientation, int dimension) {
@@ -257,7 +258,7 @@ public class Board {
         return equal && this.rows == board.getRows() && this.columns == board.getColumns();
     }
 
-    public ArrayList<Coordinates[]> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
+    public List<Coordinates[]> getAdiacenciesOfLastWallPlaced(Coordinates wallC, Orientation orientation, int dimension) {
         Coordinates copyWallC = new Coordinates(wallC.getRow(), wallC.getColumn());
         ArrayList<Coordinates[]> adiacencies = new ArrayList<>();
         for(int i = 0; i < dimension; i++){
@@ -281,7 +282,7 @@ public class Board {
             Board copyBoard = this.cloneObject();
             copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
 
-            ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
+            List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
             for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
 
@@ -367,19 +368,19 @@ public class Board {
         return ((this.getRows() % 2) != 0 && (this.getColumns() % 2) != 0);
     }
 
-    public String printPathSolution(ArrayList<Coordinates> coordinates){
-        String s = "";
+    public String printPathSolution(List<Coordinates> coordinates){
+        StringBuilder s = new StringBuilder();
         for(int i = 0; i < coordinates.size(); i++){
-            s += "[ "+ coordinates.get(i).getRow() + ", " + coordinates.get(i).getColumn() + " ] ";
+            s.append("[ ").append(coordinates.get(i).getRow()).append(", ").append(coordinates.get(i).getColumn()).append(" ] ");
         }
-        return s;
+        return s.toString();
     }
 
     public boolean insideBoard(int row, int column){
         return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
     }
 
-    public ArrayList<String> printTile(int i, int j, Coordinates playerPos){
+    public List<String> printTile(int i, int j, Coordinates playerPos){
         String sAbove = "";
         String sUnder = "";
         ArrayList<String> result = new ArrayList<>();
@@ -400,24 +401,24 @@ public class Board {
     }
 
     public String printTileRow(int row, Coordinates playerPos){
-        String sAbove = "";
-        String sUnder = "";
-        ArrayList<String> tempResult;
+        StringBuilder sAbove = new StringBuilder();
+        StringBuilder sUnder = new StringBuilder();
+        List<String> tempResult;
 
         for(int j = 0; j < matrix.length; j++){
             tempResult = printTile(row, j, playerPos);
-            sAbove += tempResult.get(0) + "  ";
-            sUnder += tempResult.get(1) + "  ";
+            sAbove.append(tempResult.get(0)).append("  ");
+            sUnder.append(tempResult.get(1)).append("  ");
         }
         return "\n" + sAbove + "\n" + sUnder;
     }
 
     public String printEntireBoard(Coordinates playerPos){
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for(int i = matrix.length - 1; i >= 0; i--){
-            s += printTileRow(i, playerPos);
+            s.append(printTileRow(i, playerPos));
         }
-        return s;
+        return s.toString();
     }
 
     public boolean checkFinalMarginCoordinatesReached(Coordinates position, Margin finalMargin) {
@@ -439,7 +440,7 @@ public class Board {
         return false;
     }
 
-    public boolean pathExistance(ArrayList<Coordinates> path, Coordinates position, Meeple meeple) {
+    public boolean pathExistance(List<Coordinates> path, Coordinates position, Meeple meeple) {
         if(!insideBoard(position.getRow(), position.getColumn()) || matrix[position.getRow()][position.getColumn()].getVisitedTile()) return false;
 
         path.add(position);
@@ -472,7 +473,7 @@ public class Board {
         return winningPathExists;
     }
 
-    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
+    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {
         boolean placeable = wallNotPresent(wallC, orientation, dimension)
                 && !wallOutOfBoundChecker(wallC, orientation, dimension)
                 && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
@@ -482,7 +483,7 @@ public class Board {
             Board copyBoard = this.cloneObject();
             copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
 
-            ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
+            List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
             for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
 

@@ -77,6 +77,10 @@ class NonBlockConditionTests {
         board.placeWall(wallCoordinates2, or2, 2);
 
         System.out.println(board.printTileRow(1, board.findPosition(player.getMeeple().getPosition())));
+
+        assertEquals("\n" +
+                "      __    __    __          \n" +
+                " O     X |   O     O     O    ",board.printTileRow(1, board.findPosition(player.getMeeple().getPosition())));
     }
 
     @Test
@@ -93,6 +97,15 @@ class NonBlockConditionTests {
         board.placeWall(wallCoordinates2, or2, 2);
 
         System.out.println(board.printEntireBoard(board.findPosition(player.getMeeple().getPosition())));
+
+        assertEquals("\n                        \n" +
+                " O     O     O     O    \n" +
+                "                        \n" +
+                " O     O     X     O    \n" +
+                "__    __                \n" +
+                " O     O     O |   O    \n" +
+                "                        \n" +
+                " O     O     O |   O    ",board.printEntireBoard(board.findPosition(player.getMeeple().getPosition())));
     }
 
     @ParameterizedTest
