@@ -367,34 +367,6 @@ public class Board {
         return ((this.getRows() % 2) != 0 && (this.getColumns() % 2) != 0);
     }
 
-
-    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
-        boolean placeable = wallNotPresent(wallC, orientation, dimension)
-                && !wallOutOfBoundChecker(wallC, orientation, dimension)
-                && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
-                /*&& winningPathCheck(wallC, orientation, dimension, player)*/;
-
-        if(placeable){
-            Board copyBoard = this.cloneObject();
-            copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
-
-            ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
-            for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
-                ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
-
-                coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
-                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
-                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
-
-                if(copyBoard.checkCross(coordinatesOf2x2Tiles)){
-                    placeable = !copyBoard.illegalWallIDsCombinationChecker(coordinatesOf2x2Tiles);
-                }
-            }
-        }
-
-        return placeable;
-    }
-
     public String printPathSolution(ArrayList<Coordinates> coordinates){
         String s = "";
         for(int i = 0; i < coordinates.size(); i++){
@@ -498,5 +470,32 @@ public class Board {
         }
 
         return winningPathExists;
+    }
+
+    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) throws PositionException {
+        boolean placeable = wallNotPresent(wallC, orientation, dimension)
+                && !wallOutOfBoundChecker(wallC, orientation, dimension)
+                && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
+                && winningPathCheck(wallC, orientation, dimension, player);
+
+        if(placeable){
+            Board copyBoard = this.cloneObject();
+            copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
+
+            ArrayList<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
+            for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
+                ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
+
+                coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
+                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
+                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
+
+                if(copyBoard.checkCross(coordinatesOf2x2Tiles)){
+                    placeable = !copyBoard.illegalWallIDsCombinationChecker(coordinatesOf2x2Tiles);
+                }
+            }
+        }
+
+        return placeable;
     }
 }

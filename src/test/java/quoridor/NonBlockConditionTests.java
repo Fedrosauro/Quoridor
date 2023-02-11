@@ -184,12 +184,13 @@ class NonBlockConditionTests {
 
         assertFalse(board.winningPathCheck(wallCoordinates2, Orientation.HORIZONTAL, 5, player));
     }
-/*
+
     @ParameterizedTest
-    @CsvSource({"1,2", "2,1", "1,4", "3,3", "4,4"})
-    void meepleNonBlockedTest1(int row, int column) throws PositionException {
+    @CsvSource({"1,2", "2,1", "3,3", "0,3", "3,1"})
+    void meepleNonBlockedHorizontalTest(int row, int column) throws PositionException {
         Board board = new Board(5, 5);
-        Player player = new Player("giec",new Meeple(board.getPosition(row, column), Color.GREEN), 10, Direction.UP);
+        Player player = new Player("giec",new Meeple(board.getPosition(row, column), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
 
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation orientation = Orientation.HORIZONTAL;
@@ -201,5 +202,22 @@ class NonBlockConditionTests {
 
         assertNotNull(board.getMatrix()[wallCoordinates.getRow()][wallCoordinates.getColumn()].getNorthWall());
     }
-*/
+
+    @ParameterizedTest
+    @CsvSource({"1,2", "2,1", "3,3", "3,0", "3,1"})
+    void meepleNonBlockedVerticalTest(int row, int column) throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(row, column), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
+
+        Coordinates wallCoordinates = new Coordinates(row, column);
+        Orientation orientation = Orientation.VERTICAL;
+        int dimension = 2;
+
+        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+
+        if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
+
+        assertNotNull(board.getMatrix()[wallCoordinates.getRow()][wallCoordinates.getColumn()].getEastWall());
+    }
 }
