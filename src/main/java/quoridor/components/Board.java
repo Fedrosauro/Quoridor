@@ -310,18 +310,18 @@ public class Board {
         ArrayList<Integer> numbersOfID = new ArrayList<>();
 
         //numbersOfID at first is empty so we add the first ID of the first wall checked
-        numbersOfID.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getID());
+        numbersOfID.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getId());
 
-        if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID())){
-            numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getID());
+        if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getId())){
+            numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getId());
         }
 
-        if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID())){
-            numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getID());
+        if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getId())){
+            numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getId());
         }
 
-        if(!numbersOfID.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID())){
-            numbersOfID.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getID());
+        if(!numbersOfID.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getId())){
+            numbersOfID.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getId());
         }
 
         return numbersOfID.size() == 2;
@@ -400,24 +400,6 @@ public class Board {
         }
 
         return placeable;
-    }
-
-    public void findFinalMargin(Meeple meeple) {
-        Coordinates meeplePosition = this.findPosition(meeple.getPosition());
-        int row = meeplePosition.getRow();
-        int column = meeplePosition.getColumn();
-        Margin finalMargin;
-
-        if (row > column) {
-            if (rows - row > column)
-                finalMargin = Margin.RIGHT; //it means the meeple is in the left triangle, so it has to move to the right
-            else finalMargin = Margin.TOP;
-        } else {
-            if (rows - row > column) finalMargin = Margin.BOTTOM;
-            else finalMargin = Margin.LEFT;
-        }
-
-        meeple.setFinalPosition(finalMargin);
     }
 
     public boolean checkFinalMarginReached(Meeple meeple) {

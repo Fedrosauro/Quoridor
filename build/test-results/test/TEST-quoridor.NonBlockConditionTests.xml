@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="quoridor.NonBlockConditionTests" tests="48" skipped="0" failures="0" errors="0" timestamp="2023-02-12T15:20:07" hostname="FEDERICO-PC" time="0.179">
+<testsuite name="quoridor.NonBlockConditionTests" tests="48" skipped="0" failures="0" errors="0" timestamp="2023-02-12T15:37:39" hostname="FEDERICO-PC" time="0.093">
   <properties/>
-  <testcase name="printTileTest()" classname="quoridor.NonBlockConditionTests" time="0.017"/>
-  <testcase name="printTileRowTest()" classname="quoridor.NonBlockConditionTests" time="0.007"/>
-  <testcase name="[1] 3, 0" classname="quoridor.NonBlockConditionTests" time="0.013"/>
+  <testcase name="printTileTest()" classname="quoridor.NonBlockConditionTests" time="0.003"/>
+  <testcase name="printTileRowTest()" classname="quoridor.NonBlockConditionTests" time="0.005"/>
+  <testcase name="[1] 3, 0" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[2] 0, 0" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[3] 1, 3" classname="quoridor.NonBlockConditionTests" time="0.002"/>
-  <testcase name="[4] 2, 4" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[5] 4, 0" classname="quoridor.NonBlockConditionTests" time="0.002"/>
-  <testcase name="[6] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[3] 1, 3" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[4] 2, 4" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[5] 4, 0" classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[6] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="printEntireBoardTest()" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[1] 1, 2" classname="quoridor.NonBlockConditionTests" time="0.002"/>
-  <testcase name="[2] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[1] 1, 2" classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[2] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[3] 3, 3" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[4] 0, 3" classname="quoridor.NonBlockConditionTests" time="0.002"/>
-  <testcase name="[5] 3, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[1] 0, 6" classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[2] -1, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[4] 0, 3" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[5] 3, 1" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[1] 0, 6" classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[2] -1, 1" classname="quoridor.NonBlockConditionTests" time="0.0"/>
   <testcase name="[3] 5, 6" classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[1] 0, 3" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[1] 0, 3" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[2] 3, 4" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[3] 4, 1" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[3] 4, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[4] 2, 0" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[5] 3, 4" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[5] 3, 4" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[6] 1, 0" classname="quoridor.NonBlockConditionTests" time="0.002"/>
-  <testcase name="[7] 2, 2" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[8] 3, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[7] 2, 2" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[8] 3, 1" classname="quoridor.NonBlockConditionTests" time="0.0"/>
   <testcase name="[9] 1, 3" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[1] 4, 3" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[2] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[3] 1, 4" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="printPathSolutionTest()" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[1] 1, 2" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[2] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[3] 1, 4" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="printPathSolutionTest()" classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[1] 1, 2" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[2] 2, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[3] 3, 3" classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[4] 3, 0" classname="quoridor.NonBlockConditionTests" time="0.002"/>
+  <testcase name="[4] 3, 0" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[5] 3, 1" classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[1] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[2] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[3] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[3] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[4] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
-  <testcase name="[5] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[6] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[1] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[2] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[3] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
-  <testcase name="[4] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
   <testcase name="[5] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <testcase name="[6] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[1] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[2] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[3] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
+  <testcase name="[4] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[5] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
+  <testcase name="[6] " classname="quoridor.NonBlockConditionTests" time="0.0"/>
   <testcase name="[7] " classname="quoridor.NonBlockConditionTests" time="0.001"/>
   <system-out><![CDATA[
       __    __    __          
