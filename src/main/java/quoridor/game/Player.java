@@ -33,9 +33,9 @@ public class Player {
     }
 
     public String printPlayerInfo() {
-        return "\n" + this.name + "\n" +
-                "   " + getMeeple().printMeepleInfo() + "\n" +
-                "   " + "usable walls: " + this.walls;
+        return "\n  " + this.name + "\n" +
+                "     " + getMeeple().printMeepleInfo() + "\n" +
+                "     " + "usable walls: " + this.walls;
     }
 }
 

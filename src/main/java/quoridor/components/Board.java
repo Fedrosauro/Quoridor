@@ -469,19 +469,15 @@ public class Board {
         return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
     }
 
-    public List<String> printTile(int i, int j, List<Coordinates> playersPositions){
+    public List<String> printTile(int i, int j, List<Coordinates> playersPositions, List<Player> players){
         String sAbove = "";
         String sUnder = "";
         ArrayList<String> result = new ArrayList<>();
 
         for(int k = 0; k < playersPositions.size(); k++){
             if(i == playersPositions.get(k).getRow() && j == playersPositions.get(k).getColumn()){
-                switch (k){
-                    case 0: { sUnder = " 1"; break; }
-                    case 1: { sUnder = " 2"; break; }
-                    case 2: { sUnder = " 3"; break; }
-                    case 3: { sUnder = " 4"; break; }
-                } break;
+                sUnder = " " + players.get(k).getMeeple().getColor().toString().charAt(0);
+                break;
             }else{
                 sUnder = " O";
             }
@@ -497,13 +493,13 @@ public class Board {
         return result;
     }
 
-    public String printTileRow(int row, List<Coordinates> playersPositions){
+    public String printTileRow(int row, List<Coordinates> playersPositions, List<Player> players){
         StringBuilder sAbove = new StringBuilder();
         StringBuilder sUnder = new StringBuilder();
         List<String> tempResult;
 
         for(int j = 0; j < matrix.length; j++){
-            tempResult = printTile(row, j, playersPositions);
+            tempResult = printTile(row, j, playersPositions, players);
             sAbove.append(tempResult.get(0)).append("  ");
             sUnder.append(tempResult.get(1)).append("  ");
         }
@@ -511,16 +507,21 @@ public class Board {
     }
 
     public String printEntireBoard(List<Player> playersList){
+        List<Coordinates> playersPositions = getPlayersPositions(playersList);
+
+        StringBuilder s = new StringBuilder();
+        for(int i = matrix.length - 1; i >= 0; i--){
+            s.append(printTileRow(i, playersPositions, playersList));
+        }
+        return s.toString();
+    }
+
+    private List<Coordinates> getPlayersPositions(List<Player> playersList){
         ArrayList<Coordinates> playersPositions = new ArrayList<>();
         for(int j = 0; j < playersList.size(); j++){
             playersPositions.add(findPosition(playersList.get(j).getMeeple().getPosition()));
         }
-
-        StringBuilder s = new StringBuilder();
-        for(int i = matrix.length - 1; i >= 0; i--){
-            s.append(printTileRow(i, playersPositions));
-        }
-        return s.toString();
+        return playersPositions;
     }
 
     public boolean checkFinalMarginCoordinatesReached(Coordinates position, Margin finalMargin) {

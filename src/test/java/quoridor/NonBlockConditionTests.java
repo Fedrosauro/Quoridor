@@ -58,12 +58,15 @@ class NonBlockConditionTests {
 
         ArrayList<String> expectedResult = new ArrayList<>();
         expectedResult.add("__  ");
-        expectedResult.add(" 1 |");
+        expectedResult.add(" G |");
 
         ArrayList<Coordinates> playersPositions = new ArrayList<>();
         playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
 
-        assertEquals(expectedResult,board.printTile(1, 1, playersPositions));
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        assertEquals(expectedResult,board.printTile(1, 1, playersPositions, players));
     }
 
     @Test
@@ -82,11 +85,14 @@ class NonBlockConditionTests {
         ArrayList<Coordinates> playersPositions = new ArrayList<>();
         playersPositions.add(board.findPosition(player.getMeeple().getPosition()));
 
-        System.out.println(board.printTileRow(1,playersPositions));
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printTileRow(1,playersPositions, players));
 
         assertEquals("\n" +
                 "      __    __    __          \n" +
-                " O     1 |   O     O     O    ",board.printTileRow(1, playersPositions));
+                " O     G |   O     O     O    ",board.printTileRow(1, playersPositions, players));
     }
 
     @Test
@@ -112,11 +118,11 @@ class NonBlockConditionTests {
         assertEquals("\n                        \n" +
                 " O     O     O     O    \n" +
                 "                        \n" +
-                " O     O     1     O    \n" +
+                " O     O     G     O    \n" +
                 "__    __                \n" +
                 " O     O     O |   O    \n" +
                 "                        \n" +
-                " 2     O     O |   O    ",board.printEntireBoard(players));
+                " B     O     O |   O    ",board.printEntireBoard(players));
     }
 
     @ParameterizedTest

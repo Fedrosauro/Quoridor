@@ -66,10 +66,18 @@ public class GameEngine {
     }
 
     public String printPlayersInfo() {
-        String s = "\n=====================\nPLAYERS";
+        String s = "\n=====================\nPLAYERS\n";
         for(int i = 0; i < players.size(); i++){
             s += players.get(i).printPlayerInfo();
         }
         return s;
+    }
+
+    public String printBoardInfo() {
+        return "\n=====================\nBOARD" + board.printEntireBoard(players) + "\n=====================";
+    }
+
+    public String printGameState(){
+        return printPlayersInfo() + printBoardInfo() + "\n";
     }
 }
