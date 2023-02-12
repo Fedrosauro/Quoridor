@@ -43,4 +43,8 @@ public class Meeple {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public String printMeepleInfo() {
+        return "meeple: " + this.color;
+    }
 }

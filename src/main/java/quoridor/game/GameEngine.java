@@ -65,5 +65,11 @@ public class GameEngine {
         }
     }
 
-
+    public String printPlayersInfo() {
+        String s = "\n=====================\nPLAYERS";
+        for(int i = 0; i < players.size(); i++){
+            s += players.get(i).printPlayerInfo();
+        }
+        return s;
+    }
 }

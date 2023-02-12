@@ -1,6 +1,4 @@
 
-[
-+src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 U
 %src/test/java/quoridor/GameTests.java,1\b\1b521618a1eb1087da2e111652bd31103774ec21
 [

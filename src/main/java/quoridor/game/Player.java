@@ -31,6 +31,12 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public String printPlayerInfo() {
+        return "\n" + this.name + "\n" +
+                "   " + getMeeple().printMeepleInfo() + "\n" +
+                "   " + "usable walls: " + this.walls;
+    }
 }
 
 

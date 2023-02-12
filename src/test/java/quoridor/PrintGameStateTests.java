@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
+import quoridor.game.GameEngine;
 import quoridor.game.Player;
 import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
@@ -90,5 +91,52 @@ class PrintGameStateTests {
                 " O     O     1 |   O    \n" +
                 "                        \n" +
                 " O     O     O |   2    ",board.printEntireBoard(players));
+    }
+
+    /*all the methods used above have already been developed in the NonBlockCondition branch
+    since the developer had to check and see how the results were achieved*/
+
+    @Test
+    void printMeepleInfoTest() throws PositionException {
+        Board board = new Board(3, 3);
+        Meeple meeple = new Meeple(board.getPosition(1, 1), Color.GREEN);
+
+        String result = meeple.printMeepleInfo();
+
+        assertEquals("meeple: GREEN", result);
+    }
+
+    @Test
+    void printPlayerInfoTest() throws PositionException {
+        Board board = new Board(3, 3);
+        Player player = new Player("giec",new Meeple(board.getPosition(1, 1), Color.GREEN), 10);
+
+        String result = player.printPlayerInfo();
+
+        assertEquals("\ngiec\n" +
+                "   meeple: GREEN\n" +
+                "   usable walls: 10", result);
+    }
+
+    @Test
+    void printPlayersInfoTest() throws PositionException {
+        ArrayList<Player> players = new ArrayList<>();
+        Board board = new Board(3, 3);
+        players.add(new Player("giec",new Meeple(board.getPosition(1, 1), Color.BLUE), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN),7));
+
+        GameEngine gameEngine = new GameEngine(players, board);
+
+        String result = gameEngine.printPlayersInfo();
+
+        assertEquals("\n" +
+                "=====================\n" +
+                "PLAYERS\n" +
+                "giec\n" +
+                "   meeple: BLUE\n" +
+                "   usable walls: 10\n" +
+                "ludo\n" +
+                "   meeple: GREEN\n" +
+                "   usable walls: 7", result);
     }
 }
