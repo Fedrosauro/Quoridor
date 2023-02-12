@@ -35,4 +35,12 @@ public class Meeple {
     public Margin getFinalMargin() {
         return finalMargin;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

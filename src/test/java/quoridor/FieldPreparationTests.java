@@ -8,11 +8,8 @@ import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.components.Tile;
 import quoridor.game.GameEngine;
-import quoridor.utils.Margin;
-import quoridor.utils.NumberOfPlayerException;
+import quoridor.utils.*;
 import quoridor.game.Player;
-import quoridor.utils.Color;
-import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
