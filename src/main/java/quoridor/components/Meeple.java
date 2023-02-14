@@ -16,9 +16,22 @@ public class Meeple {
         this.color = color;
     }
 
+    public void setFinalMarginGivenInitial(Margin margin){
+        switch (margin){
+            case LEFT ->
+                    setFinalPosition(Margin.RIGHT);
+            case RIGHT ->
+                    setFinalPosition(Margin.LEFT);
+            case TOP ->
+                    setFinalPosition(Margin.BOTTOM);
+            case BOTTOM ->
+                    setFinalPosition(Margin.TOP);
+        }
+    }
     public void setInitialMargin(Margin margin) {
         this.margin = margin;
     }
+
 
     public Tile getPosition() {
         return position;

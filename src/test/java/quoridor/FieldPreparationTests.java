@@ -4,12 +4,16 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.components.Tile;
-import quoridor.game.GameEngine;
-import quoridor.utils.*;
+import quoridor.game.*;
+import quoridor.utils.Margin;
+import quoridor.utils.NumberOfPlayerException;
 import quoridor.game.Player;
+import quoridor.utils.Color;
+import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,124 +37,181 @@ class FieldPreparationTests {
     @CsvSource({"23", "2"})
     void checkIfCenter(int column) {
         Board board = new Board(9, column);
-        assertSame(board.centreOfLine(column), (column -1)/2);
+        assertSame(board.centreOfLine(column), (column - 1) / 2);
     }
 
     @Test
-    void checkPositionMeepleInLeftMargin() throws PositionException {
-        Board board = new Board(7,7);
-        Meeple meepleToCheck = new Meeple(new Tile(), Color.RED);
-        Meeple meeple = new Meeple(board.getPosition(3,0),Color.RED);
-        assertSame(meeple.getPosition(), board.setMeeplePositionGivenMargin(meepleToCheck, Margin.LEFT));
-    }
-    @Test
-    void checkPositionMeepleInRightMargin() throws PositionException {
-        Board board = new Board(7,7);
-        Meeple meepleToCheck = new Meeple(new Tile(), Color.RED);
-        Meeple meeple = new Meeple(board.getPosition(3,6),Color.RED);
-        assertSame(meeple.getPosition(), board.setMeeplePositionGivenMargin(meepleToCheck, Margin.RIGHT));
+    void checkPositionMeepleLeftMargin() throws PositionException {
+        Board board = new Board(8, 8);
+        Meeple meeple = new Meeple(new Tile(), Color.RED);
+        board.setMeeplePosition(meeple, Margin.LEFT);
+
+        assertSame(meeple.getPosition(), board.getPosition(3, 0));
     }
 
     @Test
-    void checkPositionMeepleInTopMargin() throws PositionException {
-        Board board = new Board(7,7);
-        Meeple meepleToCheck = new Meeple(new Tile(), Color.RED);
-        Meeple meeple = new Meeple(board.getPosition(0,3),Color.RED);
-        assertSame(meeple.getPosition(), board.setMeeplePositionGivenMargin(meepleToCheck, Margin.TOP));
+    void checkPositionMeepleRightMargin() throws PositionException {
+        Board board = new Board(8, 8);
+        Meeple meeple = new Meeple(new Tile(), Color.RED);
+        board.setMeeplePosition(meeple, Margin.RIGHT);
+
+        assertSame(meeple.getPosition(), board.getPosition(3, 7));
     }
 
     @Test
-    void checkPositionMeepleInBottomMargin() throws PositionException {
-        Board board = new Board(7,7);
-        Meeple meepleToCheck = new Meeple(new Tile(), Color.RED);
-        Meeple meeple = new Meeple(board.getPosition(6,3),Color.RED);
-        assertSame(meeple.getPosition(), board.setMeeplePositionGivenMargin(meepleToCheck, Margin.BOTTOM));
+    void checkPositionMeepleTopMargin() throws PositionException {
+        Board board = new Board(8, 8);
+        Meeple meeple = new Meeple(new Tile(), Color.RED);
+        board.setMeeplePosition(meeple, Margin.TOP);
+
+        assertSame(meeple.getPosition(), board.getPosition(0, 3));
     }
+
+    @Test
+    void checkPositionMeepleBottomMargin() throws PositionException {
+        Board board = new Board(8, 8);
+        Meeple meeple = new Meeple(new Tile(), Color.RED);
+        board.setMeeplePosition(meeple, Margin.BOTTOM);
+
+        assertSame(meeple.getPosition(), board.getPosition(7, 3));
+    }
+
+    @ParameterizedTest
+    @EnumSource(Margin.class)
+    void checkFinalMargin(Margin margin) throws PositionException {
+        Board board = new Board(8, 8);
+        Meeple meeple = new Meeple(new Tile(), Color.RED);
+        board.setFinalMargin(meeple, margin);
+        switch (margin) {
+            case TOP -> assertSame(meeple.getFinalMargin(), Margin.BOTTOM);
+            case BOTTOM -> assertSame(meeple.getFinalMargin(), Margin.TOP);
+            case LEFT -> assertSame(meeple.getFinalMargin(), Margin.RIGHT);
+            case RIGHT -> assertSame(meeple.getFinalMargin(), Margin.LEFT);
+
+        }
+    }
+
 
     @Test
     void check2MeeplesCreation() throws PositionException, NumberOfPlayerException {
-        Board board = new Board(7,7);
+        Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec",new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED),10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         gameEngine.setInitialMeepleDependingOnPlayers();
 
-        assertSame(board.getPosition(3,0), players.get(0).getMeeple().getPosition());
-        assertSame(board.getPosition(3,6), players.get(1).getMeeple().getPosition());
+        assertSame(board.getPosition(3, 0), players.get(0).getMeeple().getPosition());
+        assertSame(board.getPosition(3, 6), players.get(1).getMeeple().getPosition());
 
     }
 
     @Test
     void check4MeeplesCreation() throws PositionException, NumberOfPlayerException {
-        Board board = new Board(7,7);
+        Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec",new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED),10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW),10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE),10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         gameEngine.setInitialMeepleDependingOnPlayers();
 
-        assertSame(board.getPosition(3,0), players.get(0).getMeeple().getPosition());
-        assertSame(board.getPosition(3,6), players.get(1).getMeeple().getPosition());
-        assertSame(board.getPosition(0,3), players.get(2).getMeeple().getPosition());
-        assertSame(board.getPosition(6,3), players.get(3).getMeeple().getPosition());
+        assertSame(board.getPosition(3, 0), players.get(0).getMeeple().getPosition());
+        assertSame(board.getPosition(3, 6), players.get(1).getMeeple().getPosition());
+        assertSame(board.getPosition(0, 3), players.get(2).getMeeple().getPosition());
+        assertSame(board.getPosition(6, 3), players.get(3).getMeeple().getPosition());
 
     }
 
+
     @ParameterizedTest
-    @CsvSource({"13,4"})
-    void checkDivisionWallWith4Players(int totalWalls, int totalPlayer) throws NumberOfPlayerException, PositionException {
+    @CsvSource({"24,4", "12,2"})
+    void checkDivisionWallWithEvenWall(int totalWalls, int totalPlayer) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
-            players.add(i, new Player("ludo",new Meeple(board.getPosition(0, 0), Color.GREEN),0));
+            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 0));
             players.get(i).setWalls(totalWalls / totalPlayer);
         }
-        GameEngine gameEngine = new GameEngine(players, board);
 
-        assertSame(gameEngine.divideWallPerPlayer(totalWalls), gameEngine.getPlayers());
+        assertSame(players.get(0).getWalls(), players.get(1).getWalls());
 
     }
 
     @ParameterizedTest
-    @CsvSource({"22,2"})
-    void checkDivisionWallWith2Players(int totalWalls, int totalPlayer) throws NumberOfPlayerException, PositionException {
+    @CsvSource({"23,2", "13,4"})
+    void checkDivisionWallWithOddWall(int totalWalls, int totalPlayer) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
-            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN),0));
+            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 0));
             players.get(i).setWalls(totalWalls / totalPlayer);
         }
-        GameEngine gameEngine = new GameEngine(players, board);
-
-        assertSame(gameEngine.divideWallPerPlayer(totalWalls), gameEngine.getPlayers());
+        assertSame(players.get(0).getWalls(), players.get(1).getWalls());
 
     }
 
     @ParameterizedTest
-    @CsvSource({"4045" +"45" + "2" })
-    void checkValidWallNumber(int totalWalls)  {
+    @CsvSource({"4045", "2", "3"})
+    void checkValidWallNumberWith2Player(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+
         GameEngine gameEngine = new GameEngine(players, board);
 
-        assertTrue(gameEngine.illegalWall(totalWalls));
+        assertTrue(gameEngine.divideWallPerPlayer(totalWalls));
     }
 
     @ParameterizedTest
-    @CsvSource({"-1" + "0" + "1"})
-    void checkInvalidWallNumber(int totalWalls) {
+    @CsvSource({"23", "4"})
+    void checkValidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+
         GameEngine gameEngine = new GameEngine(players, board);
 
-        assertFalse(gameEngine.illegalWall(totalWalls));
+        assertTrue(gameEngine.divideWallPerPlayer(totalWalls));
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2", "3", "0", "-3"})
+    void checkInvalidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
+        ArrayList<Player> players = new ArrayList<>();
+        Board board = new Board(9, 9);
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+
+        GameEngine gameEngine = new GameEngine(players, board);
+
+        assertFalse(gameEngine.divideWallPerPlayer(totalWalls));
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-1", "0", "1"})
+    void checkInvalidWallWith2Players(int totalWalls) throws NumberOfPlayerException, PositionException {
+        ArrayList<Player> players = new ArrayList<>();
+        Board board = new Board(9, 9);
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+
+        GameEngine gameEngine = new GameEngine(players, board);
+
+        assertFalse(gameEngine.divideWallPerPlayer(totalWalls));
     }
 
 

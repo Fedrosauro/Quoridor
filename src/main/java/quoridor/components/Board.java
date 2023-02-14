@@ -431,27 +431,26 @@ public class Board {
     }
 
 
-    public Tile setMeeplePositionGivenMargin(Meeple meeple, Margin margin) throws PositionException {
+    public void setMeeplePosition(Meeple meeple, Margin margin) throws PositionException {
         switch (margin) {
-            case LEFT -> {
-                meeple.setPosition(getPosition(centreOfLine(getRows()), 0));
-                return meeple.getPosition();
-            }
-            case RIGHT -> {
-                meeple.setPosition(getPosition(centreOfLine(getRows()), getColumns() - 1));
-                return meeple.getPosition();
-            }
-            case TOP -> {
-                meeple.setPosition(getPosition(0, centreOfLine(getColumns())));
-                return meeple.getPosition();
-            }
-            case BOTTOM -> {
-                meeple.setPosition(getPosition(getRows() - 1, centreOfLine(getColumns())));
-                return meeple.getPosition();
-            }
+            case LEFT -> meeple.setPosition(getPosition(centreOfLine(getRows()), 0));
+            case RIGHT -> meeple.setPosition(getPosition(centreOfLine(getRows()), getColumns() - 1));
+            case TOP -> meeple.setPosition(getPosition(0, centreOfLine(columns)));
+            case BOTTOM -> meeple.setPosition(getPosition(getRows() - 1, centreOfLine(getColumns())));
         }
-        return null;
+
+
     }
+    public void setFinalMargin(Meeple meeple, Margin initialMargin) {
+        switch (initialMargin) {
+            case LEFT -> meeple.setFinalMarginGivenInitial(Margin.LEFT);
+            case RIGHT -> meeple.setFinalMarginGivenInitial(Margin.RIGHT);
+            case TOP -> meeple.setFinalMarginGivenInitial(Margin.TOP);
+            case BOTTOM -> meeple.setFinalMarginGivenInitial(Margin.BOTTOM);
+
+        }
+    }
+
 
     public boolean isOdd() {
         return ((this.getRows() % 2) != 0 && (this.getColumns() % 2) != 0);

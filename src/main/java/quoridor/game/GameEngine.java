@@ -1,51 +1,47 @@
 package quoridor.game;
 
 import quoridor.components.Board;
-import quoridor.utils.Margin;
-import quoridor.utils.NumberOfPlayerException;
-import quoridor.utils.PositionException;
+import quoridor.utils.*;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
+import java.util.Scanner;
 
 
 public class GameEngine {
-
-    List<Player> players;
+    ArrayList<Player> players;
     Board board;
 
+    GameType gameType;
 
-    public GameEngine(List<Player> players, Board board) {
+
+    public GameEngine(ArrayList<Player> players, Board board) {
         this.players = players;
         this.board = board;
     }
 
-
-    public boolean illegalWall(int totalWalls) {
-        return totalWalls > 1;
-    }
-
-    public void getPossibleMoves(Player player) {
-
-        //aggiorna le positions nei meeple per ottenere di quanto puoi spostarti in ogni direzione (anche obliqua se vuoi)
-
+    public GameEngine(ArrayList<Player> players, Board board, GameType gameType) {
+        this.players = players;
+        this.board = board;
+        this.gameType = gameType;
     }
 
 
-    public List<Player> divideWallPerPlayer(int totalWalls) throws NumberOfPlayerException {
+    public boolean divideWallPerPlayer(int totalWalls) throws NumberOfPlayerException {
         int totalPlayers = players.size();
         if (totalPlayers < 2 || totalPlayers == 3 || totalPlayers > 4) {
             throw new NumberOfPlayerException(totalPlayers);
         }
-        if (illegalWall(totalWalls)) {
+
+        if ((totalWalls > 1 && players.size() == 2) || (totalWalls > 3 && players.size() == 4)) {
             int division = totalWalls / totalPlayers;
-            for (Player player : players) {
-                player.setWalls(division);
+            for (int i = 0; i < totalPlayers; i++) {
+                players.get(i).setWalls(division);
             }
-            return players;
+            return true;
         }
-        return new ArrayList<>();
+        return false;
 
     }
 
@@ -61,13 +57,97 @@ public class GameEngine {
         List<Margin> marginList = new ArrayList<>(EnumSet.allOf(Margin.class));
 
         for (int i = 0; i < players.size(); i++) {
-            board.setMeeplePositionGivenMargin(players.get(i).getMeeple(), marginList.get(i));
+            board.setMeeplePosition(players.get(i).getMeeple(), marginList.get(i));
         }
     }
 
+    public Direction getDirectionInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the direction: ");
+        String directionInput = scanner.nextLine();
+
+        if (directionInput.equalsIgnoreCase("UP")) {
+            return Direction.UP;
+        } else if (directionInput.equalsIgnoreCase("DOWN")) {
+            return Direction.DOWN;
+        } else if (directionInput.equalsIgnoreCase("LEFT")) {
+            return Direction.LEFT;
+        } else if (directionInput.equalsIgnoreCase("RIGHT")) {
+            return Direction.RIGHT;
+        } else {
+            throw new IllegalArgumentException("Invalid direction: " + directionInput);
+        }
+
+    }
+
+    public Coordinates getCoordinatesInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter x coordinate: ");
+        int xInput = scanner.nextInt();
+        System.out.print("Enter y coordinate:");
+        int yInput = scanner.nextInt();
+
+        if (xInput>0 && yInput>0 && xInput < board.getColumns() && yInput < board.getRows()) {
+            return new Coordinates(xInput, yInput);
+        } else {
+            throw new IllegalArgumentException("Invalid coordinates: " + xInput + ", " + yInput);
+        }
+    }
+    public Orientation getOrientationInput(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter orientation wall: 1 for horizonatal, 2 for vertical -> ");
+        int orientationInput = scanner.nextInt();
+
+        if (orientationInput==1 ) {
+            return Orientation.HORIZONTAL;
+        } else if (orientationInput==2) {
+            return Orientation.VERTICAL;
+        }else {
+            throw new IllegalArgumentException("Invalid input: "+ orientationInput);
+        }
+    }
+    public int getDimensionWallInput(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter wall dimension:  ");
+        int wallDimensionInput = scanner.nextInt();
+
+        if (wallDimensionInput>=1 &&  wallDimensionInput<board.getRows() && wallDimensionInput<board.getColumns()) {
+            return wallDimensionInput;
+        }else {
+            throw new IllegalArgumentException("Invalid wall dimension input: "+ wallDimensionInput);
+        }
+    }
+
+    public void doMove(Player player, Direction direction) {
+        player.getMeeple().setFinalMarginGivenInitial(player.getMeeple().getFinalMargin());
+        if (!board.checkFinalMarginReached(player.getMeeple())) {
+            board.move(player.getMeeple(), direction);
+        }
+
+    }
+    public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
+        if (!board.checkFinalMarginReached(player.getMeeple())) {
+            if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
+                board.placeWall(coordinates, orientation, dimWall);
+            }
+        }
+    }
+    public void playerTurn(Action action, Player player) {
+        if (action == Action.MOVEMEEPLE) {
+            doMove(player, getDirectionInput());
+        } else if (action == Action.PLACEWALL) {
+            doPlaceWall(player, getCoordinatesInput(), getOrientationInput(), getDimensionWallInput());
+        } else {
+            throw new IllegalArgumentException("Invalid action: " + action);
+        }
+
+    }
+
+
+
     public String printPlayersInfo() {
         String s = "\n=====================\nPLAYERS\n";
-        for(int i = 0; i < players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             s += players.get(i).printPlayerInfo();
         }
         return s;
@@ -77,7 +157,9 @@ public class GameEngine {
         return "\n=====================\nBOARD" + board.printEntireBoard(players) + "\n=====================";
     }
 
-    public String printGameState(){
+    public String printGameState() {
         return printPlayersInfo() + printBoardInfo() + "\n";
     }
+
+
 }

@@ -1,6 +1,4 @@
 
-U
-%src/test/java/quoridor/GameTests.java,1\b\1b521618a1eb1087da2e111652bd31103774ec21
 [
 +src/main/java/quoridor/utils/Direction.java,4\3\43bb4f661032b84114a19297a52577faf3aa4210
 ]
@@ -9,23 +7,19 @@ W
 'src/main/java/quoridor/utils/Color.java,4\4\440ea9ffbb2491b13edcb1d8307ec053e7594786
 c
 3src/main/java/quoridor/utils/PositionException.java,8\6\86875f6d317dd6b9b5d6efc426567fcea3e0e051
-_
-/src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 ]
 -src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
 \
 ,src/main/java/quoridor/utils/Coordinate.java,d\c\dc87934a41574df4304e4b5b8e96d695a0bf9858
-W
-'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
-]
--src/main/java/quoridor/components/Meeple.java,2\7\27212261fe57a5d19de1365bcb53d8ad59133edd
-[
-+src/main/java/quoridor/game/GameEngine.java,2\c\2cf98304e5667baa3de95526be3c3d1226ae9e5b
 ^
 .src/test/java/quoridor/WallPlacementTests.java,b\2\b213f7c1156cc25419a12d66e1cb55ce275fd6e6
 b
 2src/test/java/quoridor/NonBlockConditionTests.java,4\7\472357aae54a636d86cf9a6003ca599e0617eea9
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+[
++src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 [
 +src/main/java/quoridor/components/Wall.java,c\b\cb135d5d290728ff80e3f21ac16ac0440f6c4bc7
+W
+'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
