@@ -11,9 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MyFrameTests {
 
     @Test
-    void testingBasicGraphicFrame() throws InterruptedException {
+    void testingBasicGraphicFrame() {
         MyFrame myFrame = new MyFrame();
-
-        assertNotNull(myFrame);
     }
 }

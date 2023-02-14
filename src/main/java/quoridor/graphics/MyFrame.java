@@ -5,21 +5,25 @@ import java.awt.*;
 
 public class MyFrame extends JFrame {
 
-    public MyFrame(){
-        initUI();
-    }
+    public void initUI() {
+        MainPage mainPage = new MainPage(this);
+        setContentPane(mainPage);
 
-    private void initUI() {
         setTitle("Quoridor");
         setResizable(false);
-        int width = 1100;
-        int height = 625;
-        setPreferredSize(new Dimension(width, height));
+        int width = 800;
+        int height = 800;
+        setSize(new Dimension(width, height));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setIconImage(new ImageIcon("/src/main/resources/images/logo.png").getImage());
+        setIconImage(new ImageIcon("src/main/resources/images/logo.png").getImage());
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public static void main(String args[]) {
+        MyFrame myFrame = new MyFrame();
+        myFrame.initUI();
     }
 
 }
