@@ -4,16 +4,13 @@ import quoridor.utils.AudioPlayer;
 import quoridor.utils.BufferedImageLoader;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 public class OptionsPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
@@ -27,13 +24,16 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
     private BufferedImageLoader loader;
     private BufferedImage[] menuB_images;
+    private BufferedImage backgroundTitle;
 
     private Rectangle2D rectGoBackB;
     private int xButtons, yButtons;
     private int widthB, heightB;
     private boolean changeB1;
 
-    private  JList b;
+    private  JList colorList;
+    private String[] colors;
+    private Map<Color, String> colorMap;
 
     public OptionsPanel(JFrame jFrame, Color backgroundColor){
         this.jFrame = jFrame;
@@ -58,6 +58,8 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         menuB_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
         menuB_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
+        backgroundTitle = loader.loadImage("src/main/resources/images/background_chose_title/background_chose_title.png");
+
         yButtons = height/2 + 200;
         xButtons = width/2 - 115;
         heightB = 58;
@@ -70,22 +72,22 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
 
-        String colors[]= {"black", "red"};
+        colors = new String[]{"black", "white", "red", "yellow", "cyan", "gray", "green", "pink"};
 
-        Map<Color, String> colorMap = new HashMap<Color, String>();
+        colorMap = new HashMap<>();
         colorMap.put(Color.BLACK, "black");
+        colorMap.put(Color.WHITE, "white");
         colorMap.put(Color.RED, "red");
+        colorMap.put(Color.YELLOW, "yellow");
+        colorMap.put(Color.CYAN, "cyan");
+        colorMap.put(Color.GRAY, "gray");
+        colorMap.put(Color.GREEN, "green");
+        colorMap.put(Color.PINK, "pink");
 
-        b= new JList(colors);
-        b.setBounds(width/2 - 70,100,135,300);
-        b.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
-        b.setBackground(Color.black);
-        b.setForeground(Color.white);
-        b.setSelectionBackground(Color.white);
-        b.setSelectionForeground(Color.black);
-        b.setFont(new Font("Arial", Font.BOLD, 30));
+        colorList = new JList(colors);
+        setJListParameters(colorMap);
 
-        this.add(b);
+        this.add(colorList);
     }
 
     private void initTimer(){
@@ -117,11 +119,14 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         g2d.setRenderingHints(rh);
 
         try {
-            backgroundColor = (Color) Color.class.getField("" + b.getSelectedValue()).get(null);
+            backgroundColor = (Color) Color.class.getField("" + colorList.getSelectedValue()).get(null);
             setBackground(backgroundColor);
+            colorList.setBackground(backgroundColor);
         } catch (Exception ex){
             ex.printStackTrace();
         }
+
+        g2d.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 20, null);
 
         yButtons = height/2 + 200;
         xButtons = width/2 - 115;
@@ -164,6 +169,16 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
             }
             changeB1 = true;
         } else changeB1 = false;
+    }
+
+    private void setJListParameters(Map<Color, String> colorMap){
+        colorList.setBounds(width/2 - 70,160,135,320);
+        colorList.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
+        colorList.setBackground(backgroundColor);
+        colorList.setForeground(Color.white);
+        colorList.setSelectionBackground(Color.white);
+        colorList.setSelectionForeground(Color.BLACK);
+        colorList.setFont(new Font("Calibri", Font.BOLD, 30));
     }
 
     @Override

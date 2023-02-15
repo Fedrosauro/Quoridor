@@ -16,8 +16,6 @@ W
 [
 +src/main/java/quoridor/components/Wall.java,c\b\cb135d5d290728ff80e3f21ac16ac0440f6c4bc7
 [
-+src/main/java/quoridor/game/GameEngine.java,2\c\2cf98304e5667baa3de95526be3c3d1226ae9e5b
-[
 +src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 _
 /src/test/java/quoridor/PrintGameStateTests.java,1\3\13f2bb680260b01d822c427623b017f8a3831314
