@@ -14,7 +14,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     private Color color;
     private final int width = 700;
     private final int height = 700;
-    private final int delay = 5;
+    private final int delay = 1;
     private Timer timer;
 
     private AudioPlayer[] buttonAudio;
@@ -178,7 +178,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            OptionsPanel optionsPanel = new OptionsPanel(jFrame);
+            OptionsPanel optionsPanel = new OptionsPanel(jFrame, color);
             jFrame.setContentPane(optionsPanel);
             jFrame.revalidate();
         }
