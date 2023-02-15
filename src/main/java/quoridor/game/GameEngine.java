@@ -1,6 +1,7 @@
 package quoridor.game;
 
 import quoridor.components.Board;
+import quoridor.components.Meeple;
 import quoridor.utils.*;
 
 import java.util.List;
@@ -21,10 +22,29 @@ public class GameEngine {
         this.board = board;
     }
 
-    public GameEngine(ArrayList<Player> players, Board board, GameType gameType) {
-        this.players = players;
-        this.board = board;
+    public GameEngine(int totPlayers, int xBoard, int yBoard, int totWall, GameType gameType) throws PositionException, NumberOfPlayerException {
         this.gameType = gameType;
+        if (totPlayers == 2) {
+            players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+            players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+            for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
+                players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
+            }
+
+        } else if (totPlayers == 4) {
+            players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
+            players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+            players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
+            players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+            for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
+                players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
+            }
+        }
+
+        setInitialMeepleDependingOnPlayers();
+
+        Board board1 = new Board(xBoard, yBoard);
+
     }
 
 
@@ -48,7 +68,6 @@ public class GameEngine {
     public List<Player> getPlayers() {
         return players;
     }
-
 
     public void setInitialMeepleDependingOnPlayers() throws NumberOfPlayerException, PositionException {
         if (players.size() < 2 || players.size() == 3 || players.size() > 4) {
@@ -77,7 +96,6 @@ public class GameEngine {
         } else {
             throw new IllegalArgumentException("Invalid direction: " + directionInput);
         }
-
     }
 
     public Coordinates getCoordinatesInput() {
@@ -87,44 +105,45 @@ public class GameEngine {
         System.out.print("Enter y coordinate:");
         int yInput = scanner.nextInt();
 
-        if (xInput>0 && yInput>0 && xInput < board.getColumns() && yInput < board.getRows()) {
+        if (xInput > 0 && yInput > 0 && xInput < board.getColumns() && yInput < board.getRows()) {
             return new Coordinates(xInput, yInput);
         } else {
             throw new IllegalArgumentException("Invalid coordinates: " + xInput + ", " + yInput);
         }
     }
-    public Orientation getOrientationInput(){
+
+    public Orientation getOrientationInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter orientation wall: 1 for horizonatal, 2 for vertical -> ");
         int orientationInput = scanner.nextInt();
 
-        if (orientationInput==1 ) {
+        if (orientationInput == 1) {
             return Orientation.HORIZONTAL;
-        } else if (orientationInput==2) {
+        } else if (orientationInput == 2) {
             return Orientation.VERTICAL;
-        }else {
-            throw new IllegalArgumentException("Invalid input: "+ orientationInput);
+        } else {
+            throw new IllegalArgumentException("Invalid input: " + orientationInput);
         }
     }
-    public int getDimensionWallInput(){
+
+    public int getDimensionWallInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter wall dimension:  ");
         int wallDimensionInput = scanner.nextInt();
 
-        if (wallDimensionInput>=1 &&  wallDimensionInput<board.getRows() && wallDimensionInput<board.getColumns()) {
+        if (wallDimensionInput >= 1 && wallDimensionInput < board.getRows() && wallDimensionInput < board.getColumns()) {
             return wallDimensionInput;
-        }else {
-            throw new IllegalArgumentException("Invalid wall dimension input: "+ wallDimensionInput);
+        } else {
+            throw new IllegalArgumentException("Invalid wall dimension input: " + wallDimensionInput);
         }
     }
 
     public void doMove(Player player, Direction direction) {
-        player.getMeeple().setFinalMarginGivenInitial(player.getMeeple().getFinalMargin());
         if (!board.checkFinalMarginReached(player.getMeeple())) {
             board.move(player.getMeeple(), direction);
         }
-
     }
+
     public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
         if (!board.checkFinalMarginReached(player.getMeeple())) {
             if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
@@ -132,6 +151,7 @@ public class GameEngine {
             }
         }
     }
+
     public void playerTurn(Action action, Player player) {
         if (action == Action.MOVEMEEPLE) {
             doMove(player, getDirectionInput());
@@ -142,7 +162,6 @@ public class GameEngine {
         }
 
     }
-
 
 
     public String printPlayersInfo() {
