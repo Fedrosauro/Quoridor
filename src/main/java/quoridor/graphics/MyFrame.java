@@ -22,7 +22,7 @@ public class MyFrame extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String args[]) { //added just to see how the actual game would look like
+    public static void main(String args[]) { ///added just to see how the actual game would look like
         MyFrame myFrame = new MyFrame();
     }
 
