@@ -4,14 +4,20 @@ import quoridor.utils.AudioPlayer;
 import quoridor.utils.BufferedImageLoader;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 public class OptionsPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
-    private Color color;
+    private Color backgroundColor;
     private final int width = 700;
     private final int height = 700;
     private final int delay = 1;
@@ -27,9 +33,11 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     private int widthB, heightB;
     private boolean changeB1;
 
-    public OptionsPanel(JFrame jFrame, Color color){
+    private  JList b;
+
+    public OptionsPanel(JFrame jFrame, Color backgroundColor){
         this.jFrame = jFrame;
-        this.color = color;
+        this.backgroundColor = backgroundColor;
 
         setup();
         initTimer();
@@ -41,7 +49,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
-        setBackground(color);
+        setBackground(backgroundColor);
 
         loader = new BufferedImageLoader();
 
@@ -61,6 +69,23 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         buttonAudio = new AudioPlayer[2];
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
+
+        String colors[]= {"black", "red"};
+
+        Map<Color, String> colorMap = new HashMap<Color, String>();
+        colorMap.put(Color.BLACK, "black");
+        colorMap.put(Color.RED, "red");
+
+        b= new JList(colors);
+        b.setBounds(width/2 - 70,100,135,300);
+        b.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
+        b.setBackground(Color.black);
+        b.setForeground(Color.white);
+        b.setSelectionBackground(Color.white);
+        b.setSelectionForeground(Color.black);
+        b.setFont(new Font("Arial", Font.BOLD, 30));
+
+        this.add(b);
     }
 
     private void initTimer(){
@@ -91,6 +116,13 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
         g2d.setRenderingHints(rh);
 
+        try {
+            backgroundColor = (Color) Color.class.getField("" + b.getSelectedValue()).get(null);
+            setBackground(backgroundColor);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
         yButtons = height/2 + 200;
         xButtons = width/2 - 115;
 
@@ -110,7 +142,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, color);
+            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
         }
