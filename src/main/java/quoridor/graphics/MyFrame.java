@@ -10,7 +10,7 @@ public class MyFrame extends JFrame {
     }
 
     public void initUI() {
-        setContentPane(new MainPagePanel(this));
+        setContentPane(new MainPagePanel(this, Color.BLACK));
 
         setResizable(false);
         pack();

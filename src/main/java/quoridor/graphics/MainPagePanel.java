@@ -11,9 +11,10 @@ import java.awt.image.BufferedImage;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
+    private Color backgroundColor;
     private final int width = 700;
     private final int height = 700;
-    private final int delay = 5;
+    private final int delay = 1;
     private Timer timer;
 
     private AudioPlayer[] buttonAudio;
@@ -28,8 +29,9 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     private boolean changeB1, changeB2, changeB3, changeB4;
 
 
-    public MainPagePanel(JFrame jFrame){
+    public MainPagePanel(JFrame jFrame, Color backgroundColor){
         this.jFrame = jFrame;
+        this.backgroundColor = backgroundColor;
 
         setup();
         initTimer();
@@ -41,7 +43,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
-        setBackground(Color.BLACK);
+        setBackground(backgroundColor);
 
         loader = new BufferedImageLoader();
 
@@ -152,7 +154,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            RulesPanel rulesPanel = new RulesPanel(jFrame);
+            RulesPanel rulesPanel = new RulesPanel(jFrame, backgroundColor);
             jFrame.setContentPane(rulesPanel);
             jFrame.revalidate();
         }
@@ -164,7 +166,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            PrePlayPanel prePlayPanel = new PrePlayPanel(jFrame);
+            PrePlayPanel prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
             jFrame.setContentPane(prePlayPanel);
             jFrame.revalidate();
         }
@@ -176,7 +178,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            OptionsPanel optionsPanel = new OptionsPanel(jFrame);
+            OptionsPanel optionsPanel = new OptionsPanel(jFrame, backgroundColor);
             jFrame.setContentPane(optionsPanel);
             jFrame.revalidate();
         }
