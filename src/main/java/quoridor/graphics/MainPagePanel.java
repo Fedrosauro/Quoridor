@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
+    private Color color;
     private final int width = 700;
     private final int height = 700;
     private final int delay = 5;
@@ -28,8 +29,9 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     private boolean changeB1, changeB2, changeB3, changeB4;
 
 
-    public MainPagePanel(JFrame jFrame){
+    public MainPagePanel(JFrame jFrame, Color color){
         this.jFrame = jFrame;
+        this.color = color;
 
         setup();
         initTimer();
@@ -41,7 +43,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
-        setBackground(Color.BLACK);
+        setBackground(color);
 
         loader = new BufferedImageLoader();
 
