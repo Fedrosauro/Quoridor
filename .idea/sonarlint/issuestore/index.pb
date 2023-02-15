@@ -7,12 +7,6 @@ U
 -src/main/java/quoridor/utils/ConsoleMain.java,2\c\2c12dd76f3e166f917ea2025078e97fb5d8fe003
 W
 'src/main/java/quoridor/utils/Color.java,4\4\440ea9ffbb2491b13edcb1d8307ec053e7594786
-c
-3src/main/java/quoridor/utils/PositionException.java,8\6\86875f6d317dd6b9b5d6efc426567fcea3e0e051
-_
-/src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
-]
--src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
 \
 ,src/main/java/quoridor/utils/Coordinate.java,d\c\dc87934a41574df4304e4b5b8e96d695a0bf9858
 W
