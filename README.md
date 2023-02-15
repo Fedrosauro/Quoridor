@@ -1,5 +1,6 @@
 <div align="center">
   <h1>Quoridor</h1>
+  <img alt="CircleCI" src="https://img.shields.io/circleci/build/github/Fedrosauro/Quoridor/master?token=509aa96fdc03de36ac62a35ae7b5eabaeb084b1f">
 </div>
 
 This is the final project of the Software Development Methods course.
