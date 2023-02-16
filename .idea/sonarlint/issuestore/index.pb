@@ -25,8 +25,6 @@ a
 1src/test/java/quoridor/FieldPreparationTests.java,9\5\95b017998b8041abdf8a0770ebcbe62e4bdb7ed5
 a
 1src/test/java/quoridor/WinningConditionTests.java,e\3\e37a902cd8d405044e9da5103fb0c07e5718e605
-\
-,src/main/java/quoridor/components/Board.java,1\0\10da544e7fbb118886f26377cac98608f1e8e22d
 ]
 -src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
 b
