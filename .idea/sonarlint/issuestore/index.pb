@@ -11,10 +11,6 @@ W
 ,src/main/java/quoridor/utils/Coordinate.java,d\c\dc87934a41574df4304e4b5b8e96d695a0bf9858
 W
 'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
-[
-+src/main/java/quoridor/components/Wall.java,c\b\cb135d5d290728ff80e3f21ac16ac0440f6c4bc7
-[
-+src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 _
 /src/test/java/quoridor/PrintGameStateTests.java,1\3\13f2bb680260b01d822c427623b017f8a3831314
 a

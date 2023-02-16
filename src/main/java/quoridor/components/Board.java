@@ -268,7 +268,7 @@ public class Board {
         coordinates[0] = new Coordinates(wallC.getRow(), wallC.getColumn());
 
         if (Objects.requireNonNull(orientation) == Orientation.HORIZONTAL) {
-            coordinates[1] = new Coordinates(wallC.getRow() - 1, wallC.getColumn());
+            coordinates[1] = new Coordinates(wallC.getRow() + 1, wallC.getColumn());
             matrix[wallC.getRow()][wallC.getColumn()].setNorthWall(new Wall(this.wallID, coordinates));
         } else if (orientation == Orientation.VERTICAL) {
             coordinates[1] = new Coordinates(wallC.getRow(), wallC.getColumn() + 1);
@@ -308,17 +308,17 @@ public class Board {
     }
 
     public boolean checkCross(List<Coordinates> arrListC){
-        return matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall() != null &&
+        return matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getNorthWall() != null &&
                 matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall() != null &&
                 matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall() != null &&
-                matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall() != null;
+                matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getEastWall() != null;
     }
 
     public boolean illegalWallIDsCombinationChecker(List<Coordinates> arrListC) {
         ArrayList<Integer> numbersOfID = new ArrayList<>();
 
         //numbersOfID at first is empty so we add the first ID of the first wall checked
-        numbersOfID.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getNorthWall().getId());
+        numbersOfID.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getNorthWall().getId());
 
         if(!numbersOfID.contains(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getId())){
             numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getEastWall().getId());
@@ -328,8 +328,8 @@ public class Board {
             numbersOfID.add(matrix[arrListC.get(1).getRow()][arrListC.get(1).getColumn()].getNorthWall().getId());
         }
 
-        if(!numbersOfID.contains(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getId())){
-            numbersOfID.add(matrix[arrListC.get(2).getRow()][arrListC.get(2).getColumn()].getEastWall().getId());
+        if(!numbersOfID.contains(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getEastWall().getId())){
+            numbersOfID.add(matrix[arrListC.get(0).getRow()][arrListC.get(0).getColumn()].getEastWall().getId());
         }
 
         return numbersOfID.size() == 2;
@@ -396,10 +396,15 @@ public class Board {
             List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
             for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
-
-                coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
-                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
-                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
+                if(orientation == Orientation.HORIZONTAL) {
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //top left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //bottom right
+                } else{
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
+                }
 
                 if (copyBoard.checkCross(coordinatesOf2x2Tiles)) {
                     placeable = !copyBoard.illegalWallIDsCombinationChecker(coordinatesOf2x2Tiles);
@@ -601,8 +606,8 @@ public class Board {
 
     public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {
         boolean placeable = insideBoard(wallC.getRow(), wallC.getColumn())
-                && wallNotPresent(wallC, orientation, dimension)
                 && !wallOutOfBoundChecker(wallC, orientation, dimension)
+                && wallNotPresent(wallC, orientation, dimension)
                 && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
                 && winningPathCheck(wallC, orientation, dimension, player);
 
@@ -613,11 +618,15 @@ public class Board {
             List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallC, orientation, dimension);
             for(int i = 0; i < adiacencies.size() - 1 && placeable; i++){
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
-
-                coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
-                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
-                coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
-
+                if(orientation == Orientation.HORIZONTAL) {
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //top left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //bottom right
+                } else{
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
+                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
+                }
                 if(copyBoard.checkCross(coordinatesOf2x2Tiles)){
                     placeable = !copyBoard.illegalWallIDsCombinationChecker(coordinatesOf2x2Tiles);
                 }
