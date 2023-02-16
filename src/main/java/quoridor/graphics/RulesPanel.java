@@ -29,6 +29,7 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     private BufferedImageLoader loader;
     private BufferedImage[] goBack_images;
     private BufferedImage backgroundTitle;
+    private Image image;
 
     private Rectangle2D rectGoBackB;
     private int xButtons, yButtons;
@@ -65,6 +66,7 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         goBack_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
         backgroundTitle = loader.loadImage("src/main/resources/images/howToPlayText/how_to_play_text.png");
+        image = backgroundTitle.getScaledInstance(400, 350, Image.SCALE_DEFAULT);
 
         yButtons = height/2 + 200;
         xButtons = width/2 - 115;
@@ -109,7 +111,7 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         graphics2D.setRenderingHints(rh);
 
 
-        graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 20, null);
+        graphics2D.drawImage(image, width/2 - backgroundTitle.getWidth()/2, 100, null);
 
         yButtons = height/2 + 200;
         xButtons = width/2 - 115;
