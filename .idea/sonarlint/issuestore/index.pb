@@ -11,12 +11,8 @@ W
 ,src/main/java/quoridor/utils/Coordinate.java,d\c\dc87934a41574df4304e4b5b8e96d695a0bf9858
 W
 'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
-]
--src/main/java/quoridor/components/Meeple.java,2\7\27212261fe57a5d19de1365bcb53d8ad59133edd
 [
 +src/main/java/quoridor/components/Wall.java,c\b\cb135d5d290728ff80e3f21ac16ac0440f6c4bc7
-[
-+src/main/java/quoridor/game/GameEngine.java,2\c\2cf98304e5667baa3de95526be3c3d1226ae9e5b
 [
 +src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 _
@@ -27,12 +23,8 @@ a
 1src/test/java/quoridor/FieldPreparationTests.java,9\5\95b017998b8041abdf8a0770ebcbe62e4bdb7ed5
 a
 1src/test/java/quoridor/WinningConditionTests.java,e\3\e37a902cd8d405044e9da5103fb0c07e5718e605
-\
-,src/main/java/quoridor/components/Board.java,1\0\10da544e7fbb118886f26377cac98608f1e8e22d
 ]
 -src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
-b
-2src/test/java/quoridor/NonBlockConditionTests.java,4\7\472357aae54a636d86cf9a6003ca599e0617eea9
 _
 /src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
 c
