@@ -1,6 +1,4 @@
 
-U
-%src/test/java/quoridor/GameTests.java,1\b\1b521618a1eb1087da2e111652bd31103774ec21
 [
 +src/main/java/quoridor/utils/Direction.java,4\3\43bb4f661032b84114a19297a52577faf3aa4210
 ]
@@ -9,8 +7,6 @@ W
 'src/main/java/quoridor/utils/Color.java,4\4\440ea9ffbb2491b13edcb1d8307ec053e7594786
 \
 ,src/main/java/quoridor/utils/Coordinate.java,d\c\dc87934a41574df4304e4b5b8e96d695a0bf9858
-W
-'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
 ]
 -src/main/java/quoridor/components/Meeple.java,2\7\27212261fe57a5d19de1365bcb53d8ad59133edd
 [
@@ -35,3 +31,5 @@ _
 /src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
 c
 3src/main/java/quoridor/utils/PositionException.java,8\6\86875f6d317dd6b9b5d6efc426567fcea3e0e051
+a
+1src/main/java/quoridor/graphics/PrePlayPanel.java,1\0\10f019684bd6e6546090bf8444d3def794f9742b
