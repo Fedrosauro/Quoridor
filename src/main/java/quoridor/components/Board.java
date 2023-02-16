@@ -592,7 +592,7 @@ public class Board {
         ArrayList<Coordinates> path = new ArrayList<>();
 
         boolean winningPathExists = copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
-        /*if(winningPathExists) {
+        /*if(winningPathExists) { used for testing purposes
             System.out.println(copyBoard.printPathSolution(path));
         }*/
 
