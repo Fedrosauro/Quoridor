@@ -29,5 +29,3 @@ _
 /src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
 c
 3src/main/java/quoridor/utils/PositionException.java,8\6\86875f6d317dd6b9b5d6efc426567fcea3e0e051
-a
-1src/main/java/quoridor/graphics/PrePlayPanel.java,1\0\10f019684bd6e6546090bf8444d3def794f9742b

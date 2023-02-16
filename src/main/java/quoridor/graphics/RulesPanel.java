@@ -36,9 +36,6 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     private int widthB, heightB;
     private boolean changeB1;
 
-    private  JList colorList;
-    private String[] colors;
-    private Map<Color, String> colorMap;
 
 
     public RulesPanel(JFrame jFrame, Color backgroundColor){
