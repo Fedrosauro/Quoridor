@@ -200,7 +200,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jRadioButton.setBounds(450, 175, 50, 50);
         jRadioButton.setText("2");
         jRadioButton.setBackground(backgroundColor);
-        jRadioButton.setForeground(Color.WHITE);
+        jRadioButton.setForeground(Color.decode("#FFFFE1"));
         jRadioButton.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jRadioButton);
     }
@@ -209,7 +209,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jRadioButton.setBounds(500, 175, 50, 50);
         jRadioButton.setText("4");
         jRadioButton.setBackground(backgroundColor);
-        jRadioButton.setForeground(Color.WHITE);
+        jRadioButton.setForeground(Color.decode("#FFFFE1"));
         jRadioButton.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jRadioButton);
     }
@@ -217,7 +217,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private void setJLabelParameters1(JLabel jLabel) {
         jLabel.setBounds(80, 100, 350, 200);
         jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.white);
+        jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jLabel);
     }
@@ -225,7 +225,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private void setJLabelParameters2(JLabel jLabel) {
         jLabel.setBounds(80, 160, 500, 200);
         jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.white);
+        jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jLabel);
     }
@@ -233,7 +233,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private void setJLabelParameters3(JLabel jLabel) {
         jLabel.setBounds(80, 220, 500, 200);
         jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.white);
+        jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jLabel);
     }
@@ -241,7 +241,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private void setJLabelParameters4(JLabel jLabel) {
         jLabel.setBounds(80, 280, 500, 200);
         jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.white);
+        jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jLabel);
     }
