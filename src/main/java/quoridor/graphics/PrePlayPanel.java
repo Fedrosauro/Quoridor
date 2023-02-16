@@ -5,6 +5,8 @@ import quoridor.utils.BufferedImageLoader;
 
 import javax.print.attribute.standard.JobKOctets;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
@@ -29,7 +31,20 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private JTextField jTextField;
     //private Image image;
 
-    private JLabel jLabel;
+    private JLabel jLabelPlayers;
+    private JLabel jLabelWalls;
+    private JLabel jLabelDimWalls;
+    private JLabel jLabelDimBoard;
+    private JSpinner jSpinner1;
+    private JSpinner jSpinner2;
+    private JSpinner jSpinner3;
+
+    private JRadioButton jRadioButton1;
+    private JRadioButton jRadioButton2;
+
+    private ButtonGroup buttonGroup;
+
+
 
     private Rectangle2D rectGoBackB;
     private Rectangle2D rectPlayB;
@@ -68,11 +83,52 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         play_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
 
-        jLabel = new JLabel("How many players?");
-        setJLabelParameters(jLabel);
+        jLabelPlayers = new JLabel("Enter number of players: ");
+        setJLabelParameters1(jLabelPlayers);
+
+        jRadioButton1 = new JRadioButton();
+        setJRadioButton1Parameters(jRadioButton1);
+
+        jRadioButton2 = new JRadioButton();
+        setJRadioButton2Parameters(jRadioButton2);
+
+        buttonGroup = new ButtonGroup(); //for setting them exclusive
+        buttonGroup.add(jRadioButton1);
+        buttonGroup.add(jRadioButton2);
 
 
-        jTextField = new JTextField();
+        jLabelWalls = new JLabel("Enter number of total walls:");
+        setJLabelParameters2(jLabelWalls);
+
+        jLabelDimWalls = new JLabel("Enter dimension of wall: ");
+        setJLabelParameters3(jLabelDimWalls);
+
+        jLabelDimBoard = new JLabel("Enter board dimension: ");
+        setJLabelParameters4(jLabelDimBoard);
+
+        jTextField = new JTextField(5);
+        //setJTextFieldParameters(jTextField);
+
+        SpinnerModel value1 = new SpinnerNumberModel(4, 4, 16, 2);
+        jSpinner1 = new JSpinner(value1);
+        jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
+        setJSpinnerParameters1(jSpinner1);
+
+
+        SpinnerModel value2 = new SpinnerNumberModel(1, 1, 5, 1);
+        jSpinner2 = new JSpinner(value2);
+        jSpinner2.setEditor(new JSpinner.DefaultEditor(jSpinner2));
+        setJSpinnerParameters2(jSpinner2);
+
+
+
+        SpinnerModel value4 = new SpinnerNumberModel(4, 4, 10, 1);
+        jSpinner3 = new JSpinner(value4);
+        jSpinner3.setEditor(new JSpinner.DefaultEditor(jSpinner3));
+        setJSpinnerParameters3(jSpinner3);
+
+        //jSpinner.addChangeListener(new ChangeListener() )
+
 
         yButtonGoBack = height / 2 + 200;
         xButtonGoBack = width / 2 - 300;
@@ -140,13 +196,83 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     }
 
+    private void setJRadioButton1Parameters(JRadioButton jRadioButton){
+        jRadioButton.setBounds(450, 175, 50, 50);
+        jRadioButton.setText("2");
+        jRadioButton.setBackground(backgroundColor);
+        jRadioButton.setForeground(Color.WHITE);
+        jRadioButton.setFont(new Font("Calibri", Font.BOLD, 30));
+        add(jRadioButton);
+    }
 
-    private void setJLabelParameters(JLabel jLabel) {
-        jLabel.setBounds(100,80,300,200);
+    private void setJRadioButton2Parameters(JRadioButton jRadioButton){
+        jRadioButton.setBounds(500, 175, 50, 50);
+        jRadioButton.setText("4");
+        jRadioButton.setBackground(backgroundColor);
+        jRadioButton.setForeground(Color.WHITE);
+        jRadioButton.setFont(new Font("Calibri", Font.BOLD, 30));
+        add(jRadioButton);
+    }
+
+    private void setJLabelParameters1(JLabel jLabel) {
+        jLabel.setBounds(80, 100, 350, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.white);
         jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
         add(jLabel);
+    }
+
+    private void setJLabelParameters2(JLabel jLabel) {
+        jLabel.setBounds(80, 160, 500, 200);
+        jLabel.setBackground(backgroundColor);
+        jLabel.setForeground(Color.white);
+        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        add(jLabel);
+    }
+
+    private void setJLabelParameters3(JLabel jLabel) {
+        jLabel.setBounds(80, 220, 500, 200);
+        jLabel.setBackground(backgroundColor);
+        jLabel.setForeground(Color.white);
+        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        add(jLabel);
+    }
+
+    private void setJLabelParameters4(JLabel jLabel) {
+        jLabel.setBounds(80, 280, 500, 200);
+        jLabel.setBackground(backgroundColor);
+        jLabel.setForeground(Color.white);
+        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        add(jLabel);
+    }
+
+    private void setJSpinnerParameters1(JSpinner jSpinner) {
+        jSpinner.setBackground(backgroundColor);
+        jSpinner.setForeground(Color.white);
+        jSpinner.setBounds(460, 250, 50, 20);
+        add(jSpinner);
+    }
+
+    private void setJSpinnerParameters2(JSpinner jSpinner) {
+        jSpinner.setBackground(backgroundColor);
+        jSpinner.setForeground(Color.white);
+        jSpinner.setBounds(460, 310, 50, 20);
+        add(jSpinner);
+    }
+    private void setJSpinnerParameters3(JSpinner jSpinner) {
+        jSpinner.setBackground(backgroundColor);
+        jSpinner.setForeground(Color.white);
+        jSpinner.setBounds(460, 370, 50, 20);
+        add(jSpinner);
+    }
+
+
+    private void setJTextFieldParameters(JTextField jTextField) {
+        jTextField.setBounds(500, 280, 50, 50);
+        jTextField.setBackground(Color.WHITE);
+        jTextField.setForeground(Color.black);
+        add(jTextField);
+
     }
 
 
