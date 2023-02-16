@@ -169,6 +169,7 @@ public class GameEngine {
         }
     }
 
+
     public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
         if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
             board.placeWall(coordinates, orientation, dimWall);

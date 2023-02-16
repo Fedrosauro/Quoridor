@@ -250,6 +250,7 @@ public class Board {
 
     }
 
+
     public int getColumns() {
         return columns;
     }

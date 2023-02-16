@@ -24,6 +24,7 @@ public class ConsoleGame {
         /*names.add("Player 3");
         names.add("Player 4");*/
 
+
         try {
             gameEngine = new GameEngine(NUMBER_OF_PLAYERS, names, ROWS, COLUMNS, WALLS, GameType.CONSOLE_GAME, OpponentType.HUMAN);
         } catch (Exception e) {
