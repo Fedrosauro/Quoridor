@@ -14,6 +14,13 @@ public class Meeple {
     public Meeple(Tile position, Color color) {
         this.position = position;
         this.color = color;
+        this.margin = Margin.TOP;
+    }
+
+    public Meeple(Tile position, Color color, Margin margin) {
+        this.position = position;
+        this.color = color;
+        this.margin = margin;
     }
 
     public void setFinalMarginGivenInitial(Margin margin){
@@ -32,6 +39,9 @@ public class Meeple {
         this.margin = margin;
     }
 
+    public Margin getInitialMargin() {
+        return margin;
+    }
 
     public Tile getPosition() {
         return position;

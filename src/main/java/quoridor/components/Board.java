@@ -146,7 +146,7 @@ public class Board {
         return thereIsNoWall(opponentCoordinates, direction);
     }
 
-    private boolean thereIsNoWall(Coordinates actualCoordinates, Direction direction) {
+    public boolean thereIsNoWall(Coordinates actualCoordinates, Direction direction) {
 
         Tile tile;
 
@@ -430,6 +430,9 @@ public class Board {
         return ((number - 1) / 2);
     }
 
+    public void setMeeplePosition(Meeple meeple) throws PositionException{
+        setMeeplePosition(meeple, meeple.getInitialMargin());
+    }
 
     public void setMeeplePosition(Meeple meeple, Margin margin) throws PositionException {
         switch (margin) {
@@ -439,8 +442,12 @@ public class Board {
             case BOTTOM -> meeple.setPosition(getPosition(getRows() - 1, centreOfLine(getColumns())));
         }
 
-
     }
+
+    public void setFinalMargin(Meeple meeple){
+        setFinalMargin(meeple, meeple.getInitialMargin());
+    }
+
     public void setFinalMargin(Meeple meeple, Margin initialMargin) {
         switch (initialMargin) {
             case LEFT -> meeple.setFinalMarginGivenInitial(Margin.LEFT);

@@ -21,8 +21,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.BOTTOM), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
@@ -39,8 +39,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
@@ -58,8 +58,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
@@ -77,8 +77,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
@@ -95,8 +95,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
@@ -113,8 +113,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
@@ -132,10 +132,10 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 5), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 5), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED, Margin.TOP), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE, Margin.TOP), 10));
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }
@@ -153,10 +153,10 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 6), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 6), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED, Margin.TOP), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE, Margin.TOP), 10));
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }
@@ -172,10 +172,10 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 6), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 6), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED, Margin.TOP), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE, Margin.TOP), 10));
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }
@@ -192,10 +192,10 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 6), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(1, 6), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED, Margin.TOP), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE, Margin.TOP), 10));
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }
@@ -211,8 +211,8 @@ public class GameFlowTest {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(4, 1), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(3, 1), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(4, 1), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(3, 1), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
