@@ -32,20 +32,21 @@ public class ConsoleGame {
 
         welcomePlayers();
 
+        printBoard();
+
         while (true) {
             activePlayer = gameEngine.getActivePlayer();
             printActivePlayer();
-            System.out.println(gameEngine.getBoardStatus());
             Action actionToPerform = askForWhichActionToPerform();
             switch (actionToPerform) {
                 case MOVEMEEPLE -> {
                     Direction direction;
                     do {
                         direction = askForDirection();
-                    }while (!gameEngine.moveIsAllowed(activePlayer, direction));
+                    } while (!gameEngine.moveIsAllowed(activePlayer, direction));
                     gameEngine.doMove(activePlayer, direction);
 
-                    if(gameEngine.didActivePlayerWin()){
+                    if (gameEngine.didActivePlayerWin()) {
                         printWinner();
                         System.exit(0);
                     }
@@ -56,13 +57,18 @@ public class ConsoleGame {
                     do {
                         orientation = askForOrientation();
                         position = askForPosition();
-                    }while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
+                    } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
                     gameEngine.doPlaceWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
-                }
+                } //controlla l'adiacenza di tutti tranne di quello con il colore del giocatore attivo
             }
+            printBoard();
             gameEngine.nextActivePlayer();
         }
 
+    }
+
+    private static void printBoard() {
+        System.out.println(gameEngine.getBoardStatus());
     }
 
     private static void printWinner() {
@@ -135,7 +141,6 @@ public class ConsoleGame {
             System.out.print("What do you want to do? ");
             Scanner scanner = new Scanner(System.in);
             actionId = scanner.nextInt();
-            System.out.println("");
         } while (actionId < 1 || actionId > 2);
 
         if (actionId == 1) return Action.MOVEMEEPLE;
@@ -148,8 +153,12 @@ public class ConsoleGame {
         Player player = gameEngine.getActivePlayer();
         String playerName = player.getName();
         String playerWalls = String.valueOf(player.getWalls());
+        String color = getColorOf(player);
 
-        System.out.println(playerName + "'s turn: " + playerWalls + " walls remaining");
+        System.out.println("--------------------");
+        System.out.println(playerName + "'s turn: " + color);
+        System.out.println(playerWalls + " walls remaining");
+        System.out.println("--------------------");
 
     }
 
@@ -171,6 +180,11 @@ public class ConsoleGame {
         Scanner scanner = new Scanner(System.in);
         System.out.println("");
         return scanner.nextInt();
+    }
+
+    public static String getColorOf(Player player) {
+        Color color = gameEngine.getColorOf(player);
+        return String.valueOf(color.name().charAt(0));
     }
 
 }

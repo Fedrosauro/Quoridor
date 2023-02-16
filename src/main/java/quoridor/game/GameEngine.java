@@ -161,9 +161,12 @@ public class GameEngine {
         ArrayList<Meeple> meeples = new ArrayList<>();
         for (Player currentPlayer : players){
             meeples.add(currentPlayer.getMeeple());
-        }
 
-        board.setMeeples(meeples);
+            Coordinates c= board.findPosition(currentPlayer.getMeeple().getPosition());
+
+            System.out.println("Row:"  + c.getRow() + "Column:"  + c.getColumn());
+            board.setMeeples(meeples);
+        }
     }
 
     public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
@@ -202,6 +205,10 @@ public class GameEngine {
 
     public String getBoardStatus(){
         return board.printEntireBoard(players);
+    }
+
+    public Color getColorOf(Player player){
+        return player.getMeeple().getColor();
     }
 
     public String printGameState() {
