@@ -583,7 +583,8 @@ public class Board {
     }
 
     public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {
-        boolean placeable = wallNotPresent(wallC, orientation, dimension)
+        boolean placeable = insideBoard(wallC.getRow(), wallC.getColumn())
+                && wallNotPresent(wallC, orientation, dimension)
                 && !wallOutOfBoundChecker(wallC, orientation, dimension)
                 && !wallOnFirstRowOrLastColumnChecker(wallC, orientation)
                 && winningPathCheck(wallC, orientation, dimension, player);
