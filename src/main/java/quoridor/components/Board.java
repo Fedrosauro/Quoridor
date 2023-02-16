@@ -201,8 +201,10 @@ public class Board {
 
         for (Meeple opponent : this.meeples) {
 
-            Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
-            if (canMeepleBeJumpedOver(coordinates, opponentCoordinates, direction)) return true;
+            if(meeple.getColor() != opponent.getColor()){ //
+                Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
+                if (canMeepleBeJumpedOver(coordinates, opponentCoordinates, direction)) return true;
+            } //
         }
 
         return false;
@@ -227,16 +229,20 @@ public class Board {
 
         switch (direction) {
             case RIGHT -> {
-                if (coordinates.getColumn() == opponentCoordinates.getColumn() - 1) return true;
+                if (coordinates.getColumn() == opponentCoordinates.getColumn() - 1 &&
+                    coordinates.getRow() == opponentCoordinates.getRow()) return true;
             }
             case LEFT -> {
-                if (coordinates.getColumn() == opponentCoordinates.getColumn() + 1) return true;
+                if (coordinates.getColumn() == opponentCoordinates.getColumn() + 1 &&
+                    coordinates.getRow() == opponentCoordinates.getRow()) return true;
             }
             case UP -> {
-                if (coordinates.getRow() == opponentCoordinates.getRow() - 1) return true;
+                if (coordinates.getRow() == opponentCoordinates.getRow() - 1 &&
+                    coordinates.getColumn() == opponentCoordinates.getColumn()) return true;
             }
             case DOWN -> {
-                if (coordinates.getRow() == opponentCoordinates.getRow() + 1) return true;
+                if (coordinates.getRow() == opponentCoordinates.getRow() + 1 &&
+                    coordinates.getColumn() == opponentCoordinates.getColumn()) return true;
             }
         }
 

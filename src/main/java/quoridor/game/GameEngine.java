@@ -35,19 +35,19 @@ public class GameEngine {
         int wallsPerPlayer = divideWalls(totWalls, totPlayers);
 
         players.add(new Player(nameOfPlayers.get(0),
-                    new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP),
-                    wallsPerPlayer));
+                new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP),
+                wallsPerPlayer));
         players.add(new Player(nameOfPlayers.get(1),
-                    new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM),
-                    wallsPerPlayer));
+                new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM),
+                wallsPerPlayer));
 
         if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
             players.add(new Player(nameOfPlayers.get(2),
-                        new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT),
-                        wallsPerPlayer));
+                    new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT),
+                    wallsPerPlayer));
             players.add(new Player(nameOfPlayers.get(3),
-                        new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT),
-                        wallsPerPlayer));
+                    new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT),
+                    wallsPerPlayer));
         }
 
         for (Player player : players) {
@@ -60,8 +60,8 @@ public class GameEngine {
 
     }
 
-    public int divideWalls(int walls, int players){
-        return  walls / players;
+    public int divideWalls(int walls, int players) {
+        return walls / players;
     }
 
     public boolean divideWallPerPlayer(int totalWalls) throws NumberOfPlayerException {
@@ -159,23 +159,21 @@ public class GameEngine {
 
     private void updateBoard() {
         ArrayList<Meeple> meeples = new ArrayList<>();
-        for (Player currentPlayer : players){
+        for (Player currentPlayer : players) {
             meeples.add(currentPlayer.getMeeple());
 
-            Coordinates c= board.findPosition(currentPlayer.getMeeple().getPosition());
+            Coordinates c = board.findPosition(currentPlayer.getMeeple().getPosition());
 
-            System.out.println("Row:"  + c.getRow() + "Column:"  + c.getColumn());
+            System.out.println("Row:" + c.getRow() + "Column:" + c.getColumn());
             board.setMeeples(meeples);
         }
     }
 
     public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
-        if (!board.checkFinalMarginReached(player.getMeeple())) { //PER LUDO: condizione inutile
-            if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
-                board.placeWall(coordinates, orientation, dimWall);
-                int walls = this.getActivePlayer().getWalls();
-                this.getActivePlayer().setWalls(walls - 1);
-            }
+        if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
+            board.placeWall(coordinates, orientation, dimWall);
+            int walls = this.getActivePlayer().getWalls();
+            this.getActivePlayer().setWalls(walls - 1);
         }
     } //TODO:refactoring delle condizioni
 
@@ -203,11 +201,11 @@ public class GameEngine {
         return "\n=====================\nBOARD" + board.printEntireBoard(players) + "\n=====================";
     }
 
-    public String getBoardStatus(){
+    public String getBoardStatus() {
         return board.printEntireBoard(players);
     }
 
-    public Color getColorOf(Player player){
+    public Color getColorOf(Player player) {
         return player.getMeeple().getColor();
     }
 
@@ -215,11 +213,11 @@ public class GameEngine {
         return printPlayersInfo() + printBoardInfo() + "\n";
     }
 
-    public Player getActivePlayer(){
+    public Player getActivePlayer() {
         return players.get(indexOfActivePlayer);
     }
 
-    public void nextActivePlayer(){
+    public void nextActivePlayer() {
         this.indexOfActivePlayer = (this.indexOfActivePlayer + 1) % players.size();
     }
 
@@ -239,7 +237,7 @@ public class GameEngine {
     }
 
     public boolean placementIsAllowed(Player activePlayer, Coordinates position, Orientation orientation, int dimension) {
-        if (activePlayer.getWalls()<= 0) return false;
+        if (activePlayer.getWalls() <= 0) return false;
         return board.isWallPlaceable(position, orientation, dimension);
     }
 }

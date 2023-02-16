@@ -32,10 +32,11 @@ public class ConsoleGame {
 
         welcomePlayers();
 
-        printBoard();
+        //printBoard();
 
         while (true) {
             activePlayer = gameEngine.getActivePlayer();
+            printBoard();
             printActivePlayer();
             Action actionToPerform = askForWhichActionToPerform();
             switch (actionToPerform) {
@@ -47,6 +48,7 @@ public class ConsoleGame {
                     gameEngine.doMove(activePlayer, direction);
 
                     if (gameEngine.didActivePlayerWin()) {
+                        printBoard();
                         printWinner();
                         System.exit(0);
                     }
@@ -61,7 +63,7 @@ public class ConsoleGame {
                     gameEngine.doPlaceWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
                 } //controlla l'adiacenza di tutti tranne di quello con il colore del giocatore attivo
             }
-            printBoard();
+            //printBoard();
             gameEngine.nextActivePlayer();
         }
 
