@@ -11,7 +11,8 @@ import java.awt.image.BufferedImage;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
-    private Color color;
+
+    private Color backgroundColor;
     private final int width = 700;
     private final int height = 700;
     private final int delay = 5;
@@ -29,21 +30,21 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     private boolean changeB1, changeB2, changeB3, changeB4;
 
 
-    public MainPagePanel(JFrame jFrame, Color color){
+    public MainPagePanel(JFrame jFrame, Color background) {
         this.jFrame = jFrame;
-        this.color = color;
+        this.backgroundColor = background;
 
         setup();
         initTimer();
     }
 
-    private void setup(){ //used to setup the Panel
+    private void setup() { //used to setup the Panel
         addMouseListener(this);
         addMouseMotionListener(this);
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
-        setBackground(color);
+        setBackground(Color.BLACK);
 
         loader = new BufferedImageLoader();
 
@@ -66,8 +67,8 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         exitB_images[0] = loader.loadImage("src/main/resources/images/exitButton/exit_button.png");
         exitB_images[1] = loader.loadImage("src/main/resources/images/exitButton/exit_button_hover.png");
 
-        yButtons = height/2 - 150;
-        xButtons = width/2 - 85;
+        yButtons = height / 2 - 150;
+        xButtons = width / 2 - 85;
         heightB = 100;
         widthB = 170;
         distance = 110;
@@ -92,13 +93,13 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
     }
 
-    public void initTimer(){
+    public void initTimer() {
         timer = new Timer(delay, this);
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         doDrawing(g);
     }
@@ -108,7 +109,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         repaint();
     }
 
-    private void doDrawing(Graphics g){
+    private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
         RenderingHints rh =
@@ -120,25 +121,25 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         g2d.setRenderingHints(rh);
 
-        g2d.drawImage(title, width/2 - title.getWidth()/2, 50, null);
+        g2d.drawImage(title, width / 2 - title.getWidth() / 2, 50, null);
 
-        yButtons = height/2 - 150;
-        xButtons = width/2 - 85;
+        yButtons = height / 2 - 150;
+        xButtons = width / 2 - 85;
         distance = 110;
 
-        if(changeB1) g2d.drawImage(htpB_images[1], xButtons, yButtons, null);
+        if (changeB1) g2d.drawImage(htpB_images[1], xButtons, yButtons, null);
         else g2d.drawImage(htpB_images[0], xButtons, yButtons, null);
 
         yButtons += distance;
-        if(changeB2) g2d.drawImage(playB_images[1], xButtons, yButtons, null);
+        if (changeB2) g2d.drawImage(playB_images[1], xButtons, yButtons, null);
         else g2d.drawImage(playB_images[0], xButtons, yButtons, null);
 
         yButtons += distance;
-        if(changeB3) g2d.drawImage(optionsB_images[1], xButtons, yButtons, null);
+        if (changeB3) g2d.drawImage(optionsB_images[1], xButtons, yButtons, null);
         else g2d.drawImage(optionsB_images[0], xButtons, yButtons, null);
 
         yButtons += distance;
-        if(changeB4) g2d.drawImage(exitB_images[1], xButtons, yButtons, null);
+        if (changeB4) g2d.drawImage(exitB_images[1], xButtons, yButtons, null);
         else g2d.drawImage(exitB_images[0], xButtons, yButtons, null);
     }
 
@@ -154,7 +155,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            RulesPanel rulesPanel = new RulesPanel(jFrame);
+            RulesPanel rulesPanel = new RulesPanel(jFrame, backgroundColor);
             jFrame.setContentPane(rulesPanel);
             jFrame.revalidate();
         }
@@ -171,7 +172,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             jFrame.revalidate();
         }
 
-        if(rectOptionsB.contains(x, y)){
+        if (rectOptionsB.contains(x, y)) {
             try {
                 buttonAudio[1].createAudio();
                 buttonAudio[1].playAudio();
@@ -183,7 +184,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             jFrame.revalidate();
         }
 
-        if(rectExitB.contains(x, y)){
+        if (rectExitB.contains(x, y)) {
             try {
                 buttonAudio[1].createAudio();
                 buttonAudio[1].playAudio();
@@ -200,7 +201,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         int y = e.getY();
 
         if (rectHtpB.contains(x, y)) {
-            if(!changeB1){
+            if (!changeB1) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();
@@ -212,7 +213,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         } else changeB1 = false;
 
         if (rectPlayB.contains(x, y)) {
-            if(!changeB2){
+            if (!changeB2) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();
@@ -224,7 +225,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         } else changeB2 = false;
 
         if (rectOptionsB.contains(x, y)) {
-            if(!changeB3){
+            if (!changeB3) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();
@@ -236,7 +237,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         } else changeB3 = false;
 
         if (rectExitB.contains(x, y)) {
-            if(!changeB4){
+            if (!changeB4) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();
@@ -250,7 +251,6 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
     }
 
     @Override
