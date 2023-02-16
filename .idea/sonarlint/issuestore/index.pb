@@ -25,8 +25,6 @@ a
 1src/test/java/quoridor/WinningConditionTests.java,e\3\e37a902cd8d405044e9da5103fb0c07e5718e605
 ]
 -src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
-b
-2src/test/java/quoridor/NonBlockConditionTests.java,4\7\472357aae54a636d86cf9a6003ca599e0617eea9
 _
 /src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
 c

@@ -472,6 +472,16 @@ public class Board {
         return s.toString();
     }
 
+    public Coordinates getMoveCoordinates(Player player){
+        ArrayList<Coordinates> path = new ArrayList<>();
+
+        boolean winningPathExists = pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
+        if(winningPathExists) {
+            return path.get(0);
+        }
+        return findPosition(player.getMeeple().getPosition());
+    }
+
     public boolean insideBoard(int row, int column){
         return row >= 0 && column >= 0 && row < matrix.length && column < matrix.length;
     }
