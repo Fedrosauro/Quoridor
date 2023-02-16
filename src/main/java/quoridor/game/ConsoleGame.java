@@ -62,7 +62,7 @@ public class ConsoleGame {
                         position = askForPosition();
                     } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
                     gameEngine.doPlaceWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
-                } //controlla l'adiacenza di tutti tranne di quello con il colore del giocatore attivo
+                }
             }
             //printBoard();
             gameEngine.nextActivePlayer();
