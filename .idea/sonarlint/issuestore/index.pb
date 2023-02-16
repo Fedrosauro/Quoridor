@@ -17,8 +17,6 @@ W
 +src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 _
 /src/test/java/quoridor/PrintGameStateTests.java,1\3\13f2bb680260b01d822c427623b017f8a3831314
-^
-.src/test/java/quoridor/WallPlacementTests.java,b\2\b213f7c1156cc25419a12d66e1cb55ce275fd6e6
 a
 1src/test/java/quoridor/FieldPreparationTests.java,9\5\95b017998b8041abdf8a0770ebcbe62e4bdb7ed5
 a
