@@ -9,8 +9,6 @@ W
 'src/main/java/quoridor/utils/Color.java,4\4\440ea9ffbb2491b13edcb1d8307ec053e7594786
 \
 ,src/main/java/quoridor/utils/Coordinate.java,d\c\dc87934a41574df4304e4b5b8e96d695a0bf9858
-W
-'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
 ]
 -src/main/java/quoridor/components/Meeple.java,2\7\27212261fe57a5d19de1365bcb53d8ad59133edd
 [
