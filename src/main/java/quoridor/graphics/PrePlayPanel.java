@@ -33,7 +33,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     private BufferedImage backgroundTitle;
     private JTextField jTextField;
-    //private Image image;
 
     private JLabel jLabelPlayers;
     private JLabel jLabelWalls;
