@@ -2,6 +2,8 @@ package quoridor.graphics;
 
 import quoridor.utils.BufferedImageLoader;
 import quoridor.utils.AudioPlayer;
+import quoridor.utils.NumberOfPlayerException;
+import quoridor.utils.PositionException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -166,8 +168,15 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            PrePlayPanel prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
-            jFrame.setContentPane(prePlayPanel);
+            PlayPanel playPanel = null;
+            try {
+                playPanel = new PlayPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
+            } catch (PositionException ex) {
+                throw new RuntimeException(ex);
+            } catch (NumberOfPlayerException ex) {
+                throw new RuntimeException(ex);
+            }
+            jFrame.setContentPane(playPanel);
             jFrame.revalidate();
         }
 

@@ -541,7 +541,7 @@ public class Board {
         return s.toString();
     }
 
-    private List<Coordinates> getPlayersPositions(List<Player> playersList) {
+    public List<Coordinates> getPlayersPositions(List<Player> playersList) {
         ArrayList<Coordinates> playersPositions = new ArrayList<>();
         for (int j = 0; j < playersList.size(); j++) {
             playersPositions.add(findPosition(playersList.get(j).getMeeple().getPosition()));
