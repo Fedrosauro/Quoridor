@@ -155,7 +155,6 @@ public class GameEngine {
 
             Coordinates c = board.findPosition(currentPlayer.getMeeple().getPosition());
 
-            System.out.println("Row:" + c.getRow() + "Column:" + c.getColumn());
             board.setMeeples(meeples);
         }
     }
