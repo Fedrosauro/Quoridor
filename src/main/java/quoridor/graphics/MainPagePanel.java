@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
@@ -166,7 +167,14 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            PrePlayPanel prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
+            PrePlayPanel prePlayPanel = null;
+            try {
+                prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
             jFrame.setContentPane(prePlayPanel);
             jFrame.revalidate();
         }

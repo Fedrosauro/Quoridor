@@ -11,11 +11,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+
 
 public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
     private Color backgroundColor;
+    Font Insanibc, Insanib;
 
     private final int width = 700;
     private final int height = 700;
@@ -54,7 +58,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private boolean changeB1, changeB2;
 
 
-    public PrePlayPanel(JFrame jFrame, Color backgroundColor) {
+    public PrePlayPanel(JFrame jFrame, Color backgroundColor) throws IOException, FontFormatException {
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
 
@@ -62,9 +66,13 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         initTimer();
     }
 
-    private void setup() {
+    private void setup() throws IOException, FontFormatException {
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
+
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
@@ -74,8 +82,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         backgroundTitle = loader.loadImage("src/main/resources/images/game_settings_title/game_settings_title.png");
 
-
-
         goBack_images = new BufferedImage[2];
 
         goBack_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
@@ -83,8 +89,8 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         play_images = new BufferedImage[2];
 
-        play_images[0] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button_hover.png");
-        play_images[1] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button.png");
+        play_images[0] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button.png");
+        play_images[1] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button_hover.png");
 
 
         jLabelPlayers = new JLabel("Enter number of players: ");
@@ -113,20 +119,20 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jTextField = new JTextField(5);
         //setJTextFieldParameters(jTextField);
 
-        SpinnerModel value1 = new SpinnerNumberModel(4, 4, 16, 2);
+        SpinnerModel value1 = new SpinnerNumberModel(6, 6, 20, 1);
         jSpinner1 = new JSpinner(value1);
         jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
         setJSpinnerParameters1(jSpinner1);
 
 
-        SpinnerModel value2 = new SpinnerNumberModel(1, 1, 5, 1);
+        SpinnerModel value2 = new SpinnerNumberModel(1, 1, 4, 1);
         jSpinner2 = new JSpinner(value2);
         jSpinner2.setEditor(new JSpinner.DefaultEditor(jSpinner2));
         setJSpinnerParameters2(jSpinner2);
 
 
 
-        SpinnerModel value4 = new SpinnerNumberModel(4, 4, 10, 1);
+        SpinnerModel value4 = new SpinnerNumberModel(5, 5, 10, 1);
         jSpinner3 = new JSpinner(value4);
         jSpinner3.setEditor(new JSpinner.DefaultEditor(jSpinner3));
         setJSpinnerParameters3(jSpinner3);
@@ -183,8 +189,10 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         graphics2D.setRenderingHints(rh);
 
+        //g.setFont(g.getFont().deriveFont(Font.PLAIN, 100));
 
-        graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 100, null);
+
+        graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 40, null);
 
         yButtonGoBack = height / 2 + 200;
         xButtonGoBack = width / 2 - 300;
@@ -201,72 +209,76 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     }
 
     private void setJRadioButton1Parameters(JRadioButton jRadioButton){
-        jRadioButton.setBounds(450, 175, 50, 50);
+        jRadioButton.setBounds(510, 193, 50, 50);
         jRadioButton.setText("2");
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setForeground(Color.decode("#FFFFE1"));
-        jRadioButton.setFont(new Font("Calibri", Font.BOLD, 30));
+        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
         add(jRadioButton);
     }
 
     private void setJRadioButton2Parameters(JRadioButton jRadioButton){
-        jRadioButton.setBounds(500, 175, 50, 50);
+        jRadioButton.setBounds(560, 193, 50, 50);
         jRadioButton.setText("4");
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setForeground(Color.decode("#FFFFE1"));
-        jRadioButton.setFont(new Font("Calibri", Font.BOLD, 30));
+        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
         add(jRadioButton);
     }
 
     private void setJLabelParameters1(JLabel jLabel) {
-        jLabel.setBounds(80, 100, 350, 200);
+        jLabel.setBounds(80, 120, 350, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+
+
         add(jLabel);
     }
 
     private void setJLabelParameters2(JLabel jLabel) {
-        jLabel.setBounds(80, 160, 500, 200);
+        jLabel.setBounds(80, 180, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
     private void setJLabelParameters3(JLabel jLabel) {
-        jLabel.setBounds(80, 220, 500, 200);
+        jLabel.setBounds(80, 240, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
     private void setJLabelParameters4(JLabel jLabel) {
-        jLabel.setBounds(80, 280, 500, 200);
+        jLabel.setBounds(80, 300, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
     private void setJSpinnerParameters1(JSpinner jSpinner) {
         jSpinner.setBackground(backgroundColor);
         jSpinner.setForeground(Color.white);
-        jSpinner.setBounds(460, 250, 50, 20);
+        jSpinner.setBounds(525, 265, 40, 30);
         add(jSpinner);
     }
 
     private void setJSpinnerParameters2(JSpinner jSpinner) {
         jSpinner.setBackground(backgroundColor);
         jSpinner.setForeground(Color.white);
-        jSpinner.setBounds(460, 310, 50, 20);
+        jSpinner.setBounds(525, 325, 40, 30);
+        setBackground(backgroundColor);
+
         add(jSpinner);
     }
     private void setJSpinnerParameters3(JSpinner jSpinner) {
         jSpinner.setBackground(backgroundColor);
         jSpinner.setForeground(Color.white);
-        jSpinner.setBounds(460, 370, 50, 20);
+        jSpinner.setBounds(525, 385, 40, 30);
         add(jSpinner);
     }
 
@@ -278,7 +290,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jTextField);
 
     }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
