@@ -4,3 +4,5 @@ public enum Action {
     MOVEMEEPLE,
     PLACEWALL
 }
+
+//TODO: refactoring con underscore

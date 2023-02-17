@@ -86,6 +86,7 @@ class WinningConditionTests {
 
 
     }
+
     @ParameterizedTest
     @CsvSource({"0,4,UP", "8,4,DOWN", "4,8,LEFT", "4,0,RIGHT"})
     void checkFinalPositionReached(int row, int column, Direction direction) {
@@ -110,7 +111,7 @@ class WinningConditionTests {
     }
 
     @Test
-    void checkGenericMoveIsNotWinningMove(){
+    void checkGenericMoveIsNotWinningMove() {
         Board board = new Board(9, 9);
 
         try {

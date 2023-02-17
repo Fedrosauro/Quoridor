@@ -14,24 +14,31 @@ public class Meeple {
     public Meeple(Tile position, Color color) {
         this.position = position;
         this.color = color;
+        this.margin = Margin.TOP;
     }
 
-    public void setFinalMarginGivenInitial(Margin margin){
-        switch (margin){
-            case LEFT ->
-                    setFinalPosition(Margin.RIGHT);
-            case RIGHT ->
-                    setFinalPosition(Margin.LEFT);
-            case TOP ->
-                    setFinalPosition(Margin.BOTTOM);
-            case BOTTOM ->
-                    setFinalPosition(Margin.TOP);
+    public Meeple(Tile position, Color color, Margin margin) {
+        this.position = position;
+        this.color = color;
+        this.margin = margin;
+    }
+
+    public void setFinalMarginGivenInitial(Margin margin) {
+        switch (margin) {
+            case LEFT -> setFinalPosition(Margin.RIGHT);
+            case RIGHT -> setFinalPosition(Margin.LEFT);
+            case TOP -> setFinalPosition(Margin.BOTTOM);
+            case BOTTOM -> setFinalPosition(Margin.TOP);
         }
     }
+
     public void setInitialMargin(Margin margin) {
         this.margin = margin;
     }
 
+    public Margin getInitialMargin() {
+        return margin;
+    }
 
     public Tile getPosition() {
         return position;
