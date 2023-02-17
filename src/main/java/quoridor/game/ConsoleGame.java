@@ -33,8 +33,6 @@ public class ConsoleGame {
 
         welcomePlayers();
 
-        //printBoard();
-
         while (true) {
             activePlayer = gameEngine.getActivePlayer();
             printBoard();
@@ -64,10 +62,17 @@ public class ConsoleGame {
                     gameEngine.doPlaceWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
                 }
             }
-            //printBoard();
             gameEngine.nextActivePlayer();
         }
 
+    }
+
+    private static void automaticTurn(AutoPlayer player){
+        Action action = player.decideActionToPerform();
+        switch (action){
+            case MOVEMEEPLE -> gameEngine.autoMove(player);
+            case PLACEWALL -> gameEngine.autoPlace(player, WALL_DIM);
+        }
     }
 
     private static void printBoard() {

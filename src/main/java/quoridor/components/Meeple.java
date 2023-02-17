@@ -23,18 +23,15 @@ public class Meeple {
         this.margin = margin;
     }
 
-    public void setFinalMarginGivenInitial(Margin margin){
-        switch (margin){
-            case LEFT ->
-                    setFinalPosition(Margin.RIGHT);
-            case RIGHT ->
-                    setFinalPosition(Margin.LEFT);
-            case TOP ->
-                    setFinalPosition(Margin.BOTTOM);
-            case BOTTOM ->
-                    setFinalPosition(Margin.TOP);
+    public void setFinalMarginGivenInitial(Margin margin) {
+        switch (margin) {
+            case LEFT -> setFinalPosition(Margin.RIGHT);
+            case RIGHT -> setFinalPosition(Margin.LEFT);
+            case TOP -> setFinalPosition(Margin.BOTTOM);
+            case BOTTOM -> setFinalPosition(Margin.TOP);
         }
     }
+
     public void setInitialMargin(Margin margin) {
         this.margin = margin;
     }

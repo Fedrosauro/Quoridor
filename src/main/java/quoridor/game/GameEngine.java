@@ -6,7 +6,6 @@ import quoridor.utils.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.Scanner;
 
 
@@ -34,20 +33,12 @@ public class GameEngine {
 
         int wallsPerPlayer = divideWalls(totWalls, totPlayers);
 
-        players.add(new Player(nameOfPlayers.get(0),
-                new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP),
-                wallsPerPlayer));
-        players.add(new Player(nameOfPlayers.get(1),
-                new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM),
-                wallsPerPlayer));
+        players.add(new Player(nameOfPlayers.get(0), new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), wallsPerPlayer));
+        players.add(new Player(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
 
         if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
-            players.add(new Player(nameOfPlayers.get(2),
-                    new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT),
-                    wallsPerPlayer));
-            players.add(new Player(nameOfPlayers.get(3),
-                    new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT),
-                    wallsPerPlayer));
+            players.add(new Player(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
+            players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
         }
 
         for (Player player : players) {
@@ -239,6 +230,39 @@ public class GameEngine {
 
     public boolean placementIsAllowed(Player activePlayer, Coordinates position, Orientation orientation, int dimension) {
         if (activePlayer.getWalls() <= 0) return false;
-        return board.isWallPlaceable(position, orientation, dimension);
+        return board.isWallPlaceableAdvanced(position, orientation, dimension, activePlayer);
+    }
+
+    public void autoMove(AutoPlayer player) {
+
+        Coordinates currentPosition = board.findPosition(player.getMeeple().getPosition());
+        Direction direction = null;
+
+        try {
+
+            do {
+                direction = player.decideDirection(currentPosition, board);
+            } while (this.moveIsAllowed(player, direction));
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+        this.doMove(player, direction);
+
+    }
+
+    public void autoPlace(AutoPlayer player, int wallDimension) {
+
+        Orientation orientation;
+        Coordinates wallPosition;
+
+        do {
+            orientation = player.decideWallOrientation(players);
+            wallPosition = player.decideWallPosition(players, board);
+        } while (!this.placementIsAllowed(player, wallPosition, orientation, wallDimension));
+
+        this.doPlaceWall(player, wallPosition, orientation, wallDimension);
+
+
     }
 }
