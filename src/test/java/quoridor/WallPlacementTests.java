@@ -4,8 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
+import quoridor.components.Meeple;
+import quoridor.game.Player;
+import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
+import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,9 +143,9 @@ class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 2);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates3);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
 
         boolean cross = board.checkCross(coordinatesArrayList);
 
@@ -187,9 +191,9 @@ class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 2);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates3);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
 
         boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
 
@@ -213,9 +217,9 @@ class WallPlacementTests {
         board.placeWall(wallCoordinates3, or2, 1);
 
         ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        coordinatesArrayList.add(wallCoordinates3);
-        coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates1);
+        coordinatesArrayList.add(wallCoordinates2);
+        coordinatesArrayList.add(wallCoordinates3);
 
         boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
 
@@ -350,13 +354,13 @@ class WallPlacementTests {
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1
 
-                && adiacencies.get(0)[1].getRow() == 0
+                && adiacencies.get(0)[1].getRow() == 2
                 && adiacencies.get(0)[1].getColumn() == 1
 
                 && adiacencies.get(1)[0].getRow() == 1
                 && adiacencies.get(1)[0].getColumn() == 0
 
-                && adiacencies.get(1)[1].getRow() == 0
+                && adiacencies.get(1)[1].getRow() == 2
                 && adiacencies.get(1)[1].getColumn() == 0;
 
         assertTrue(correctAdiacencies);
@@ -391,7 +395,7 @@ class WallPlacementTests {
     }
 
     @ParameterizedTest
-    @CsvSource({"2,3", "1,3", "1,4", "2,4", "2,2", "0,0"})
+    @CsvSource({"1,4", "0,4", "2,2", "2,1", "2,4", "2,3"})
     void testWallPlacedWithConflictHorizontal(int row, int column){
         Board board = new Board(5, 5);
 
@@ -433,7 +437,7 @@ class WallPlacementTests {
     }
 
     @ParameterizedTest
-    @CsvSource({"1,1", "1,0", "2,0", "1,3", "2,3"})
+    @CsvSource({"1,0", "2,1", "3,3", "2,3"})
     void testWallPlacedWithNoConflictVertical(int row, int column){
         Board board = new Board(5, 5);
 
@@ -443,8 +447,8 @@ class WallPlacementTests {
         Orientation or1 = Orientation.VERTICAL;
         Orientation or2 = Orientation.HORIZONTAL;
 
-        board.placeWall(wallCoordinates1, or1, 2);
-        board.placeWall(wallCoordinates2, or2, 2);
+        board.placeWall(wallCoordinates1, or1, 3);
+        board.placeWall(wallCoordinates2, or2, 3);
 
         Coordinates wallCoordinates3 = new Coordinates(row, column); //the wall we want to place
 
@@ -473,4 +477,128 @@ class WallPlacementTests {
 
         assertFalse(placeable);
     }
+
+    @Test
+    void testCheckingCrossWalls() throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
+
+        Coordinates wallCoordinates = new Coordinates(3, 1);
+        Orientation orientation = Orientation.HORIZONTAL;
+        int dimension = 2;
+
+        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+
+        if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
+
+        Coordinates wallCoordinates2 = new Coordinates(4, 0);
+        Orientation orientation2 = Orientation.VERTICAL;
+        int dimension2 = 2;
+
+        boolean wallCanBePlaced2 = board.isWallPlaceableAdvanced(wallCoordinates2, orientation2, dimension2, player);
+
+        if(wallCanBePlaced2) board.placeWall(wallCoordinates2, orientation2, dimension2);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
+
+        assertNull(board.getMatrix()[wallCoordinates2.getRow()][wallCoordinates2.getColumn()].getEastWall());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"4,0", "2,2", "2,1", "3,1", "3,2", "2,3", "4,2", "4,4", "0,4"})
+    void testGameIstanceInWhichWallsCantBePlacedDueToConflict(int row, int column) throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
+
+        Coordinates wallCoordinates = new Coordinates(3, 1);
+        Orientation orientation = Orientation.HORIZONTAL;
+        int dimension = 2;
+
+        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+
+        if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
+
+        Coordinates wallCoordinates2 = new Coordinates(3, 1);
+        Orientation orientation2 = Orientation.VERTICAL;
+        int dimension2 = 2;
+
+        boolean wallCanBePlaced2 = board.isWallPlaceableAdvanced(wallCoordinates2, orientation2, dimension2, player);
+
+        if(wallCanBePlaced2) board.placeWall(wallCoordinates2, orientation2, dimension2);
+
+        Coordinates wallCoordinates3 = new Coordinates(1, 3);
+        Orientation orientation3 = Orientation.HORIZONTAL;
+        int dimension3 = 4;
+
+        boolean wallCanBePlaced3 = board.isWallPlaceableAdvanced(wallCoordinates3, orientation3, dimension3, player);
+
+        if(wallCanBePlaced3) board.placeWall(wallCoordinates3, orientation3, dimension3);
+
+        Coordinates wallCoordinates4 = new Coordinates(row, column);
+        Orientation orientation4 = Orientation.VERTICAL;
+        int dimension4 = 4;
+
+        boolean wallCanBePlaced4 = board.isWallPlaceableAdvanced(wallCoordinates4, orientation4, dimension4, player);
+
+        if(wallCanBePlaced4) board.placeWall(wallCoordinates4, orientation4, dimension4);
+
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,2", "1,3", "1,1", "3,3", "4,3", "4,2", "3,0", "3,2"})
+    void testGameIstanceInWhichWallsCanBePlacedDueToConflict(int row, int column) throws PositionException {
+        Board board = new Board(5, 5);
+        Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
+        board.findFinalMargin(player.getMeeple());
+
+        Coordinates wallCoordinates = new Coordinates(3, 1);
+        Orientation orientation = Orientation.HORIZONTAL;
+        int dimension = 2;
+
+        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+
+        if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
+
+        Coordinates wallCoordinates2 = new Coordinates(3, 1);
+        Orientation orientation2 = Orientation.VERTICAL;
+        int dimension2 = 2;
+
+        boolean wallCanBePlaced2 = board.isWallPlaceableAdvanced(wallCoordinates2, orientation2, dimension2, player);
+
+        if(wallCanBePlaced2) board.placeWall(wallCoordinates2, orientation2, dimension2);
+
+        Coordinates wallCoordinates3 = new Coordinates(1, 3);
+        Orientation orientation3 = Orientation.HORIZONTAL;
+        int dimension3 = 4;
+
+        boolean wallCanBePlaced3 = board.isWallPlaceableAdvanced(wallCoordinates3, orientation3, dimension3, player);
+
+        if(wallCanBePlaced3) board.placeWall(wallCoordinates3, orientation3, dimension3);
+
+        Coordinates wallCoordinates4 = new Coordinates(row, column);
+        Orientation orientation4 = Orientation.VERTICAL;
+        int dimension4 = 2;
+
+        boolean wallCanBePlaced4 = board.isWallPlaceableAdvanced(wallCoordinates4, orientation4, dimension4, player);
+
+        if(wallCanBePlaced4) board.placeWall(wallCoordinates4, orientation4, dimension4);
+
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+
+        System.out.println(board.printEntireBoard(players));
+    }
+
+
 }

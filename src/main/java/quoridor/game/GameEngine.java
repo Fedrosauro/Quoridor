@@ -6,15 +6,15 @@ import quoridor.utils.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.Scanner;
 
 
 public class GameEngine {
     ArrayList<Player> players;
     Board board;
-
     GameType gameType;
+    private OpponentType opponentType;
+    private int indexOfActivePlayer;
 
 
     public GameEngine(ArrayList<Player> players, Board board) {
@@ -22,31 +22,38 @@ public class GameEngine {
         this.board = board;
     }
 
-    public GameEngine(int totPlayers, int xBoard, int yBoard, int totWall, GameType gameType) throws PositionException, NumberOfPlayerException {
+    public GameEngine(int totPlayers, List<String> nameOfPlayers, int rows, int columns, int totWalls, GameType gameType, OpponentType opponentType) throws PositionException, NumberOfPlayerException {
         this.gameType = gameType;
-        if (totPlayers == 2) {
-            players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-            players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
-            for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
-                players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
-            }
+        this.opponentType = opponentType;
 
-        } else if (totPlayers == 4) {
-            players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-            players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
-            players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-            players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
-            for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
-                players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
-            }
+        this.players = new ArrayList<>();
+        this.board = new Board(rows, columns);
+
+        if (totPlayers != 2 && totPlayers != 4) throw new NumberOfPlayerException(totPlayers);
+
+        int wallsPerPlayer = divideWalls(totWalls, totPlayers);
+
+        players.add(new Player(nameOfPlayers.get(0), new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), wallsPerPlayer));
+        players.add(new Player(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
+
+        if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
+            players.add(new Player(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
+            players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
         }
 
-        setInitialMeepleDependingOnPlayers();
+        for (Player player : players) {
+            player.getMeeple().setFinalMarginGivenInitial(player.getMeeple().getInitialMargin()); //TODO: edit method so that it has 0 params and uses the margin of the meeple
+        }
 
-        Board board1 = new Board(xBoard, yBoard);
+        this.setInitialMeepleDependingOnPlayers(); //TODO: refactoring del nome in setInitialPosition
+
+        this.indexOfActivePlayer = 0;
 
     }
 
+    public int divideWalls(int walls, int players) {
+        return walls / players;
+    }
 
     public boolean divideWallPerPlayer(int totalWalls) throws NumberOfPlayerException {
         int totalPlayers = players.size();
@@ -69,14 +76,10 @@ public class GameEngine {
         return players;
     }
 
-    public void setInitialMeepleDependingOnPlayers() throws NumberOfPlayerException, PositionException {
-        if (players.size() < 2 || players.size() == 3 || players.size() > 4) {
-            throw new NumberOfPlayerException(players.size());
-        }
-        List<Margin> marginList = new ArrayList<>(EnumSet.allOf(Margin.class));
+    public void setInitialMeepleDependingOnPlayers() throws PositionException {
 
-        for (int i = 0; i < players.size(); i++) {
-            board.setMeeplePosition(players.get(i).getMeeple(), marginList.get(i));
+        for (Player player : players) {
+            board.setMeeplePosition(player.getMeeple(), player.getMeeple().getInitialMargin()); //TODO: elimina parametro
         }
     }
 
@@ -141,16 +144,30 @@ public class GameEngine {
     public void doMove(Player player, Direction direction) {
         if (!board.checkFinalMarginReached(player.getMeeple())) {
             board.move(player.getMeeple(), direction);
+            updateBoard();
         }
     }
 
-    public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
-        if (!board.checkFinalMarginReached(player.getMeeple())) {
-            if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
-                board.placeWall(coordinates, orientation, dimWall);
-            }
+    private void updateBoard() {
+        ArrayList<Meeple> meeples = new ArrayList<>();
+        for (Player currentPlayer : players) {
+            meeples.add(currentPlayer.getMeeple());
+
+            Coordinates c = board.findPosition(currentPlayer.getMeeple().getPosition());
+
+            System.out.println("Row:" + c.getRow() + "Column:" + c.getColumn());
+            board.setMeeples(meeples);
         }
     }
+
+
+    public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
+        if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
+            board.placeWall(coordinates, orientation, dimWall);
+            int walls = this.getActivePlayer().getWalls();
+            this.getActivePlayer().setWalls(walls - 1);
+        }
+    } //TODO:refactoring delle condizioni
 
     public void playerTurn(Action action, Player player) {
         if (action == Action.MOVEMEEPLE) {
@@ -176,9 +193,76 @@ public class GameEngine {
         return "\n=====================\nBOARD" + board.printEntireBoard(players) + "\n=====================";
     }
 
+    public String getBoardStatus() {
+        return board.printEntireBoard(players);
+    }
+
+    public Color getColorOf(Player player) {
+        return player.getMeeple().getColor();
+    }
+
     public String printGameState() {
         return printPlayersInfo() + printBoardInfo() + "\n";
     }
 
+    public Player getActivePlayer() {
+        return players.get(indexOfActivePlayer);
+    }
 
+    public void nextActivePlayer() {
+        this.indexOfActivePlayer = (this.indexOfActivePlayer + 1) % players.size();
+    }
+
+
+    public boolean didActivePlayerWin() {
+
+        return board.checkFinalMarginReached(this.getActivePlayer().getMeeple());
+
+    }
+
+    public boolean moveIsAllowed(Player player, Direction direction) {
+
+        Coordinates coordinates = board.findPosition(player.getMeeple().getPosition());
+
+        return board.thereIsNoWall(coordinates, direction);
+
+    }
+
+    public boolean placementIsAllowed(Player activePlayer, Coordinates position, Orientation orientation, int dimension) {
+        if (activePlayer.getWalls() <= 0) return false;
+        return board.isWallPlaceableAdvanced(position, orientation, dimension, activePlayer);
+    }
+
+    public void autoMove(AutoPlayer player) {
+
+        Coordinates currentPosition = board.findPosition(player.getMeeple().getPosition());
+        Direction direction = null;
+
+        try {
+
+            do {
+                direction = player.decideDirection(currentPosition, board);
+            } while (this.moveIsAllowed(player, direction));
+        } catch (PositionException e) {
+            e.printStackTrace();
+        }
+
+        this.doMove(player, direction);
+
+    }
+
+    public void autoPlace(AutoPlayer player, int wallDimension) {
+
+        Orientation orientation;
+        Coordinates wallPosition;
+
+        do {
+            orientation = player.decideWallOrientation(players);
+            wallPosition = player.decideWallPosition(players, board);
+        } while (!this.placementIsAllowed(player, wallPosition, orientation, wallDimension));
+
+        this.doPlaceWall(player, wallPosition, orientation, wallDimension);
+
+
+    }
 }
