@@ -27,7 +27,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private BufferedImage[] goBack_images;
     private BufferedImage[] play_images;
 
-    //private BufferedImage backgroundTitle;
+    private BufferedImage backgroundTitle;
     private JTextField jTextField;
     //private Image image;
 
@@ -72,6 +72,10 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         loader = new BufferedImageLoader();
 
+        backgroundTitle = loader.loadImage("src/main/resources/images/game_settings_title/game_settings_title.png");
+
+
+
         goBack_images = new BufferedImage[2];
 
         goBack_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
@@ -79,8 +83,8 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         play_images = new BufferedImage[2];
 
-        play_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        play_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        play_images[0] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button_hover.png");
+        play_images[1] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button.png");
 
 
         jLabelPlayers = new JLabel("Enter number of players: ");
@@ -180,7 +184,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         graphics2D.setRenderingHints(rh);
 
 
-        //graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 100, null);
+        graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 100, null);
 
         yButtonGoBack = height / 2 + 200;
         xButtonGoBack = width / 2 - 300;
@@ -363,5 +367,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     public void mouseDragged(MouseEvent mouseEvent) {
 
     }
+
 
 }
