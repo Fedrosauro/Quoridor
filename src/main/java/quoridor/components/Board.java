@@ -349,7 +349,7 @@ public class Board {
 
     }
 
-    public Board clone() {
+    public Board cloneBoard() {
         return new Board(this.matrix, this.wallId, this.rows, this.columns);
     }
 
@@ -382,7 +382,7 @@ public class Board {
         boolean placeable = !checkWallOutOfBounds(wallPosition, orientation, dimension) && !checkWallOnFirstRowOrLastColumn(wallPosition, orientation) && isWallNotPresent(wallPosition, orientation, dimension);
 
         if (placeable) {
-            Board copyBoard = this.clone();
+            Board copyBoard = this.cloneBoard();
             copyBoard.placeWall(wallPosition, orientation, dimension); //because the wall is placeable
 
             List<Coordinates[]> adjacencyList = copyBoard.getAdjacenciesOfLastWallPlaced(wallPosition, orientation, dimension);
@@ -448,20 +448,6 @@ public class Board {
         }
 
     }
-
-    /*public void setFinalMargin(Meeple meeple) {
-        setFinalMargin(meeple, meeple.getInitialMargin());
-    }*/
-
-    /*public void setFinalMargin(Meeple meeple) {
-        switch (meeple.getInitialMargin()) {
-            case LEFT -> meeple.setFinalMarginGivenInitial();
-            case RIGHT -> meeple.setFinalMarginGivenInitial();
-            case TOP -> meeple.setFinalMarginGivenInitial();
-            case BOTTOM -> meeple.setFinalMarginGivenInitial();
-
-        }
-    }*/
 
 
     public boolean isOdd() {
@@ -582,18 +568,18 @@ public class Board {
     }
 
     public boolean checkWinningPath(Coordinates wallC, Orientation orientation, int dimension, Player player) {
-        Board copyBoard = this.clone(); //created not to mess with the original board
+        Board copyBoard = this.cloneBoard(); //created not to mess with the original board
         copyBoard.placeWall(wallC, orientation, dimension);
         ArrayList<Coordinates> path = new ArrayList<>();
 
         return copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
     }
 
-    public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {
+    public boolean isWallEventuallyPlaceable(Coordinates wallC, Orientation orientation, int dimension, Player player) {
         boolean placeable = isInsideBoard(wallC.getRow(), wallC.getColumn()) && !checkWallOutOfBounds(wallC, orientation, dimension) && isWallNotPresent(wallC, orientation, dimension) && !checkWallOnFirstRowOrLastColumn(wallC, orientation) && checkWinningPath(wallC, orientation, dimension, player);
 
         if (placeable) {
-            Board copyBoard = this.clone();
+            Board copyBoard = this.cloneBoard();
             copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
 
             List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallC, orientation, dimension);
@@ -615,5 +601,5 @@ public class Board {
         }
 
         return placeable;
-    } //TODO: trova un nome migliore con fede
+    }
 }

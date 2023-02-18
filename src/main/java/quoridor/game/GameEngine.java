@@ -161,7 +161,7 @@ public class GameEngine {
 
 
     public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
-        if (board.isWallPlaceableAdvanced(coordinates, orientation, dimWall, player)) {
+        if (board.isWallEventuallyPlaceable(coordinates, orientation, dimWall, player)) {
             board.placeWall(coordinates, orientation, dimWall);
             int walls = this.getActivePlayer().getWalls();
             this.getActivePlayer().setWalls(walls - 1);
@@ -229,7 +229,7 @@ public class GameEngine {
 
     public boolean placementIsAllowed(Player activePlayer, Coordinates position, Orientation orientation, int dimension) {
         if (activePlayer.getWalls() <= 0) return false;
-        return board.isWallPlaceableAdvanced(position, orientation, dimension, activePlayer);
+        return board.isWallEventuallyPlaceable(position, orientation, dimension, activePlayer);
     }
 
     public void autoMove(AutoPlayer player) {

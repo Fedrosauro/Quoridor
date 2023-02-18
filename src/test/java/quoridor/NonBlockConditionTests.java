@@ -242,7 +242,7 @@ class NonBlockConditionTests {
         Orientation orientation = Orientation.HORIZONTAL;
         int dimension = 2;
 
-        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+        boolean wallCanBePlaced = board.isWallEventuallyPlaceable(wallCoordinates, orientation, dimension, player);
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
 
@@ -265,7 +265,7 @@ class NonBlockConditionTests {
         Orientation orientation = Orientation.VERTICAL;
         int dimension = 2;
 
-        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+        boolean wallCanBePlaced = board.isWallEventuallyPlaceable(wallCoordinates, orientation, dimension, player);
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
 
