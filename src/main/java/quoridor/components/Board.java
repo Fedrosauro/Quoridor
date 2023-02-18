@@ -14,7 +14,6 @@ public class Board {
     private int columns;
     private int wallID;
     private final Tile[][] matrix;
-    private ArrayList<Wall> walls;
     private List<Meeple> meeples;
 
     public Board(int rows, int columns) {
@@ -589,12 +588,7 @@ public class Board {
         copyBoard.placeWall(wallC, orientation, dimension);
         ArrayList<Coordinates> path = new ArrayList<>();
 
-        boolean winningPathExists = copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
-        /*if(winningPathExists) { used for testing purposes
-            System.out.println(copyBoard.printPathSolution(path));
-        }*/
-
-        return winningPathExists;
+        return copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
     }
 
     public boolean isWallPlaceableAdvanced(Coordinates wallC, Orientation orientation, int dimension, Player player) {

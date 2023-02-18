@@ -17,33 +17,40 @@ import java.util.Enumeration;
 
 public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 
-    private JFrame jFrame;
-    private Color backgroundColor;
-    private int size1, size2, numberPlayers, wallDimension, numberWalls;
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
 
-    private BufferedImageLoader loader;
-    private BufferedImage tile, wallV, wallH,
-            pawn1, pawn2, pawn3, pawn4,
-            pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
+    private final int wallDimension;
 
-    private BufferedImage[] placeWallButton, placeWallImage, smallGoBackButton;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
 
-    private Rectangle2D rectPlaceWall, rectSmallButton;
-    private int xButtons, yButtons, xSmallButton, ySmallButton;
-    private int widthB, heightB, smallHeight, smallWidth;
-    private boolean changeBPlaceWall, changeSmallButton;
+    private BufferedImage tile;
+    private BufferedImage wallV;
+    private BufferedImage wallH;
+    private BufferedImage pawn1;
+    private BufferedImage pawn2;
+    private BufferedImage pawn3;
+    private BufferedImage pawn4;
+    private BufferedImage pawn1Turn;
+    private BufferedImage pawn2Turn;
+    private BufferedImage pawn3Turn;
+    private BufferedImage pawn4Turn;
+
+    private BufferedImage[] placeWallButton;
+    private BufferedImage[] smallGoBackButton;
+
+    private Rectangle2D rectPlaceWall;
+    private Rectangle2D rectSmallButton;
+    private boolean changeBPlaceWall;
+    private boolean changeSmallButton;
 
     private AudioPlayer[] buttonAudio;
 
-    private Font Insanibc, Insanib;
+    private Font insanIb;
 
-    private JLabel jLabelXCoord, jLabelYCoord, jLabelOrientation;
-    private JSpinner jSpinner1,  jSpinner2;
-    private JRadioButton jRadioButton1, jRadioButton2;
+    private JSpinner jSpinner1;
+    private JSpinner jSpinner2;
     private ButtonGroup buttonGroup;
 
     private GameEngine gameEngine;
@@ -62,20 +69,18 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
         try {
-            Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
         tile = loader.loadImage("src/main/resources/images/tile/tile.png");
         wallH = loader.loadImage("src/main/resources/images/wallsImages/wallH.png");
@@ -97,18 +102,18 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         smallGoBackButton[0] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button.png");
         smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
-        yButtons = 580;
-        xButtons = 40;
-        heightB = 85;
-        widthB = 168;
+        int yButtons = 580;
+        int xButtons = 40;
+        int heightB = 85;
+        int widthB = 168;
 
         rectPlaceWall = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
 
-        xSmallButton = 650;
-        ySmallButton = 10;
-        smallHeight = 34;
-        smallWidth = 32;
+        int xSmallButton = 650;
+        int ySmallButton = 10;
+        int smallHeight = 34;
+        int smallWidth = 32;
 
         rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
         changeSmallButton = false;
@@ -117,7 +122,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int yStart = 530;
         int xCoord = 240;
 
-        jLabelXCoord = new JLabel("Select X coordinate:");
+        JLabel jLabelXCoord = new JLabel("Select X coordinate:");
         jLabelXCoord.setBounds(xCoord, yStart, 270, 50);
         setJLabelParameters(jLabelXCoord);
 
@@ -127,7 +132,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         jSpinner1.setBounds(xCoord + jLabelXCoord.getWidth(), yStart + 10, 40, 30);
         setJSpinnerParameters(jSpinner1);
 
-        jLabelYCoord = new JLabel("Select Y coordinate:");
+        JLabel jLabelYCoord = new JLabel("Select Y coordinate:");
         yStart += 45;
         jLabelYCoord.setBounds(xCoord, yStart, 270, 50);
         setJLabelParameters(jLabelYCoord);
@@ -139,18 +144,18 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         setJSpinnerParameters(jSpinner2);
 
         yStart += 45;
-        jLabelOrientation = new JLabel("Select Orientation: ");
+        JLabel jLabelOrientation = new JLabel("Select Orientation: ");
         jLabelOrientation.setBounds(xCoord, yStart, 250, 50);
         setJLabelParameters(jLabelOrientation);
 
-        jRadioButton1 = new JRadioButton();
+        JRadioButton jRadioButton1 = new JRadioButton();
         setJRadioButtonParameters(jRadioButton1);
         jRadioButton1.setBounds(xCoord + jLabelOrientation.getWidth(), yStart, 50, 50);
         jRadioButton1.setText("V");
         jRadioButton1.setForeground(Color.RED);
         jRadioButton1.setSelected(true);
 
-        jRadioButton2 = new JRadioButton();
+        JRadioButton jRadioButton2 = new JRadioButton();
         setJRadioButtonParameters(jRadioButton2);
         jRadioButton2.setBounds(xCoord + jLabelOrientation.getWidth() + 60, yStart, 50, 50);
         jRadioButton2.setText("H");
@@ -169,11 +174,12 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         gameEngine.getBoard().placeWall(new Coordinates(3,1), Orientation.HORIZONTAL, 2);
         gameEngine.getBoard().placeWall(new Coordinates(1,1), Orientation.VERTICAL, 2);
 
-        setFont(Insanib.deriveFont(Font.PLAIN, 15));
+        setFont(insanIb.deriveFont(Font.PLAIN, 15));
     }
 
     private void initTimer(){
-        timer = new Timer(delay, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -219,7 +225,6 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int xImages = 35;
         int yImages = 577;
 
-        //g2d.draw(rectPlaceWall);
         if(changeBPlaceWall) g2d.drawImage(placeWallButton[1], xImages, yImages, null);
         else g2d.drawImage(placeWallButton[0], xImages, yImages, null);
 
@@ -230,7 +235,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
     private void setJLabelParameters(JLabel jLabel) {
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 22));
+        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 22));
         add(jLabel);
     }
 
@@ -242,18 +247,16 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
     private void setJRadioButtonParameters(JRadioButton jRadioButton){
         jRadioButton.setBackground(backgroundColor);
-        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 22));
+        jRadioButton.setFont(insanIb.deriveFont(Font.PLAIN, 22));
         add(jRadioButton);
     }
 
     private Orientation radioButtonSelection(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
             AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                if (button.getText() == "H") {
+            if (button.isSelected() && button.getText().equals("H")) {
                     return Orientation.HORIZONTAL;
                 }
-            }
         }return Orientation.VERTICAL;
     }
 
@@ -263,7 +266,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int sizeBoard = board.getMatrix().length;
 
         g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(width/2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.fillRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
@@ -271,7 +274,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
         g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(width/2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.drawRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
@@ -282,7 +285,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = width/2 - (board.getRows() * (tile.getWidth() + 4))/2;
+            int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
                 g2d.setColor(new Color(44, 4, 4));
@@ -338,13 +341,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
                 gameEngine.nextActivePlayer();
 
                 ChooseActionPanel chooseActionPanel;
-                try {
-                    chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
-                } catch (PositionException ex) {
-                    throw new RuntimeException(ex);
-                } catch (NumberOfPlayerException ex) {
-                    throw new RuntimeException(ex);
-                }
+                chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
                 jFrame.setContentPane(chooseActionPanel);
                 jFrame.revalidate();
             }
@@ -395,26 +392,26 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 }
