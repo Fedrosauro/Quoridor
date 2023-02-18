@@ -28,13 +28,13 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
     private BufferedImage tile, wallV, wallH,
             pawn1, pawn2, pawn3, pawn4,
             pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
-    private BufferedImage[] moveButtonImage, placeWallImage;
+    private BufferedImage[] moveButtonImage, placeWallImage, smallGoBackButton;
 
-    private Rectangle2D rectMoveB, rectPlaceWallB;
-    private int xButtons, yButtons;
-    private int widthB, heightB;
+    private Rectangle2D rectMoveB, rectPlaceWallB, rectSmallButton;
+    private int xButtons, yButtons, xSmallButton, ySmallButton;
+    private int widthB, heightB, smallHeight, smallWidth;
     private int distance;
-    private boolean changeBMove, changeBPlaceWall;
+    private boolean changeBMove, changeBPlaceWall, changeSmallButton;
 
     private AudioPlayer[] buttonAudio;
 
@@ -109,11 +109,14 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         ///////////////////////////////////////////////////////////
         moveButtonImage = new BufferedImage[2];
         placeWallImage = new BufferedImage[2];
+        smallGoBackButton = new BufferedImage[2];
 
         moveButtonImage[0] = loader.loadImage("src/main/resources/images/moveButtonImages/move_button.png");
         moveButtonImage[1] = loader.loadImage("src/main/resources/images/moveButtonImages/move_button_hover.png");
         placeWallImage[0] = loader.loadImage("src/main/resources/images/placeWallButtonImages/place_wall_button.png");
         placeWallImage[1] = loader.loadImage("src/main/resources/images/placeWallButtonImages/place_wall_button_hover.png");
+        smallGoBackButton[0] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button.png");
+        smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
         yButtons = 588;
         xButtons = width/2 - moveButtonImage[0].getWidth() - 48;
@@ -127,6 +130,14 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         xButtons = width/2 + distance/2;
         rectPlaceWallB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
+
+        xSmallButton = 650;
+        ySmallButton = 10;
+        smallHeight = 34;
+        smallWidth = 32;
+
+        rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
+        changeSmallButton = false;
         ///////////////////////////////////////////////////////////
 
         buttonAudio = new AudioPlayer[2];
@@ -251,6 +262,10 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         xImages += moveButtonImage[0].getWidth() + 50 + 50;
         if(changeBPlaceWall) g2d.drawImage(placeWallImage[1], xImages, yImages, null);
         else g2d.drawImage(placeWallImage[0], xImages, yImages, null);
+
+        //g2d.draw(rectSmallButton);
+        if(changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
+        else g2d.drawImage(smallGoBackButton[0], 650, 10, null);
     }
 
     @Override
@@ -291,6 +306,18 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             jFrame.setContentPane(placeWallPanel);
             jFrame.revalidate();
         }
+
+        if(rectSmallButton.contains(x, y)){
+            try {
+                buttonAudio[1].createAudio();
+                buttonAudio[1].playAudio();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
+            jFrame.setContentPane(mainPagePanel);
+            jFrame.revalidate();
+        }
     }
 
     @Override
@@ -321,6 +348,18 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             }
             changeBPlaceWall = true;
         } else changeBPlaceWall = false;
+
+        if (rectSmallButton.contains(x, y)) {
+            if(!changeSmallButton){
+                try {
+                    buttonAudio[0].createAudio();
+                    buttonAudio[0].playAudio();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            changeSmallButton = true;
+        } else changeSmallButton = false;
     }
 
     @Override

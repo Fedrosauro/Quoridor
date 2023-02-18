@@ -30,12 +30,12 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             pawn1, pawn2, pawn3, pawn4,
             pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
 
-    private BufferedImage[] placeWallButton;
+    private BufferedImage[] placeWallButton, placeWallImage, smallGoBackButton;
 
-    private Rectangle2D rectPlaceWall;
-    private int xButtons, yButtons;
-    private int widthB, heightB;
-    private boolean changeBPlaceWall;
+    private Rectangle2D rectPlaceWall, rectSmallButton;
+    private int xButtons, yButtons, xSmallButton, ySmallButton;
+    private int widthB, heightB, smallHeight, smallWidth;
+    private boolean changeBPlaceWall, changeSmallButton;
 
     private AudioPlayer[] buttonAudio;
 
@@ -90,9 +90,12 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         pawn4Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn4turn.png");
         ///////////////////////////////////////////////////////////
         placeWallButton = new BufferedImage[2];
+        smallGoBackButton = new BufferedImage[2];
 
         placeWallButton[0] = loader.loadImage("src/main/resources/images/placeActualWallButton/placeActualWall_button.png");
         placeWallButton[1] = loader.loadImage("src/main/resources/images/placeActualWallButton/placeActualWall_button_hover.png");
+        smallGoBackButton[0] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button.png");
+        smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
         yButtons = 580;
         xButtons = 40;
@@ -101,6 +104,14 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
         rectPlaceWall = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
+
+        xSmallButton = 650;
+        ySmallButton = 10;
+        smallHeight = 34;
+        smallWidth = 32;
+
+        rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
+        changeSmallButton = false;
         ///////////////////////////////////////////////////////////
 
         int yStart = 530;
@@ -211,6 +222,9 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         //g2d.draw(rectPlaceWall);
         if(changeBPlaceWall) g2d.drawImage(placeWallButton[1], xImages, yImages, null);
         else g2d.drawImage(placeWallButton[0], xImages, yImages, null);
+
+        if(changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
+        else g2d.drawImage(smallGoBackButton[0], 650, 10, null);
     }
 
     private void setJLabelParameters(JLabel jLabel) {
@@ -335,6 +349,18 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
                 jFrame.revalidate();
             }
         }
+
+        if(rectSmallButton.contains(x, y)){
+            try {
+                buttonAudio[1].createAudio();
+                buttonAudio[1].playAudio();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
+            jFrame.setContentPane(mainPagePanel);
+            jFrame.revalidate();
+        }
     }
 
     @Override
@@ -353,6 +379,18 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             }
             changeBPlaceWall = true;
         } else changeBPlaceWall = false;
+
+        if (rectSmallButton.contains(x, y)) {
+            if(!changeSmallButton){
+                try {
+                    buttonAudio[0].createAudio();
+                    buttonAudio[0].playAudio();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            changeSmallButton = true;
+        } else changeSmallButton = false;
     }
 
     @Override
