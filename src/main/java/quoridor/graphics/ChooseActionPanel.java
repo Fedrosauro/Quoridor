@@ -16,41 +16,45 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ChooseActionPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
-    private Color backgroundColor;
-    private int size1, size2, numberPlayers, wallDimension, numberWalls;
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
 
-    private BufferedImageLoader loader;
-    private BufferedImage tile, wallV, wallH,
-            pawn1, pawn2, pawn3, pawn4,
-            pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
-    private BufferedImage[] moveButtonImage, placeWallImage, smallGoBackButton;
+    private final int wallDimension;
 
-    private Rectangle2D rectMoveB, rectPlaceWallB, rectSmallButton;
-    private int xButtons, yButtons, xSmallButton, ySmallButton;
-    private int widthB, heightB, smallHeight, smallWidth;
-    private int distance;
-    private boolean changeBMove, changeBPlaceWall, changeSmallButton;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
+
+    private BufferedImage tile;
+    private BufferedImage wallV;
+    private BufferedImage wallH;
+    private BufferedImage pawn1;
+    private BufferedImage pawn2;
+    private BufferedImage pawn3;
+    private BufferedImage pawn4;
+    private BufferedImage pawn1Turn;
+    private BufferedImage pawn2Turn;
+    private BufferedImage pawn3Turn;
+    private BufferedImage pawn4Turn;
+    private BufferedImage[] moveButtonImage;
+    private BufferedImage[] placeWallImage;
+    private BufferedImage[] smallGoBackButton;
+
+    private Rectangle2D rectMoveB;
+    private Rectangle2D rectPlaceWallB;
+    private Rectangle2D rectSmallButton;
+    private boolean changeBMove;
+    private boolean changeBPlaceWall;
+    private boolean changeSmallButton;
 
     private AudioPlayer[] buttonAudio;
 
-    private GameEngine gameEngine;
+    private final GameEngine gameEngine;
     private Player activePlayer;
-
-    private Font Insanibc, Insanib;
 
     public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException {
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
-        this.size1 = size1;
-        this.size2 = size2;
-        this.numberPlayers = numberPlayers;
         this.wallDimension = wallDimension;
-        this.numberWalls = numberWalls;
 
         ArrayList<String> names = new ArrayList<>(); //names just added due to the GameEngine Constructor
         names.add("Player 1");
@@ -64,7 +68,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         initTimer();
     }
 
-    public ChooseActionPanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) throws PositionException, NumberOfPlayerException {
+    public ChooseActionPanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
         this.jFrame = jFrame;
         this.gameEngine = gameEngine;
         this.backgroundColor = backgroundColor;
@@ -74,26 +78,25 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         initTimer();
     }
 
-    private void setup() throws PositionException, NumberOfPlayerException {
+    private void setup() {
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        Font insanib;
         try {
-            Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            insanib = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        setFont(Insanib.deriveFont(Font.PLAIN, 15));
+        setFont(insanib.deriveFont(Font.PLAIN, 15));
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
         tile = loader.loadImage("src/main/resources/images/tile/tile.png");
         wallH = loader.loadImage("src/main/resources/images/wallsImages/wallH.png");
@@ -118,23 +121,23 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         smallGoBackButton[0] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button.png");
         smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
-        yButtons = 588;
-        xButtons = width/2 - moveButtonImage[0].getWidth() - 48;
-        heightB = 63;
-        widthB = 202;
-        distance = 100;
+        int yButtons = 588;
+        int xButtons = WIDTHWINDOW / 2 - moveButtonImage[0].getWidth() - 48;
+        int heightB = 63;
+        int widthB = 202;
+        int distance = 100;
 
         rectMoveB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBMove = false;
 
-        xButtons = width/2 + distance/2;
+        xButtons = WIDTHWINDOW /2 + distance /2;
         rectPlaceWallB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
 
-        xSmallButton = 650;
-        ySmallButton = 10;
-        smallHeight = 34;
-        smallWidth = 32;
+        int xSmallButton = 650;
+        int ySmallButton = 10;
+        int smallHeight = 34;
+        int smallWidth = 32;
 
         rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
         changeSmallButton = false;
@@ -149,7 +152,8 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
     }
 
     private void initTimer(){
-        timer = new Timer(delay, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -191,7 +195,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         int sizeBoard = board.getMatrix().length;
 
         g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(width/2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.fillRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
@@ -199,7 +203,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
         g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(width/2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.drawRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
@@ -209,7 +213,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = width/2 - (board.getRows() * (tile.getWidth() + 4))/2;
+            int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
                 g2d.setColor(new Color(44, 4, 4));
@@ -251,19 +255,16 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             case YELLOW -> g2d.drawImage(pawn4Turn, 0, 510, null);
         }
 
-        int xImages = width/2 - moveButtonImage[0].getWidth() - 50;
+        int xImages = WIDTHWINDOW /2 - moveButtonImage[0].getWidth() - 50;
         int yImages = 585;
 
-        //g2d.draw(rectMoveB);
         if(changeBMove) g2d.drawImage(moveButtonImage[1], xImages, yImages, null);
         else g2d.drawImage(moveButtonImage[0], xImages, yImages, null);
 
-        //g2d.draw(rectPlaceWallB);
         xImages += moveButtonImage[0].getWidth() + 50 + 50;
         if(changeBPlaceWall) g2d.drawImage(placeWallImage[1], xImages, yImages, null);
         else g2d.drawImage(placeWallImage[0], xImages, yImages, null);
 
-        //g2d.draw(rectSmallButton);
         if(changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
         else g2d.drawImage(smallGoBackButton[0], 650, 10, null);
     }
@@ -284,9 +285,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             MoveMeeplePanel moveMeeplePanel;
             try {
                 moveMeeplePanel = new MoveMeeplePanel(jFrame, gameEngine, backgroundColor, wallDimension);
-            } catch (PositionException ex) {
-                throw new RuntimeException(ex);
-            } catch (NumberOfPlayerException ex) {
+            } catch (PositionException | NumberOfPlayerException ex) {
                 throw new RuntimeException(ex);
             }
             jFrame.setContentPane(moveMeeplePanel);
@@ -364,26 +363,26 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 }
