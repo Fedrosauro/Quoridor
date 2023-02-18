@@ -19,7 +19,7 @@ public class MyFrame extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public static void main(String args[]) { ///added just to see how the actual game would look like
+    public static void main(String[] args) { ///added just to see how the actual game would look like
         EventQueue.invokeLater(() -> {
 
             MyFrame myFrame = new MyFrame();
