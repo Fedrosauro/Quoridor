@@ -117,12 +117,12 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         setJLabelParameters4(jLabelDimBoard);
 
         jTextField = new JTextField(5);
-        setJTextFieldParameters(jTextField);
+        //setJTextFieldParameters(jTextField);
 
         SpinnerModel value1 = new SpinnerNumberModel(6, 6, 20, 1);
         jSpinner1 = new JSpinner(value1);
         jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
-        //setJSpinnerParameters1(jSpinner1);
+        setJSpinnerParameters1(jSpinner1);
 
 
         SpinnerModel value2 = new SpinnerNumberModel(1, 1, 4, 1);
@@ -287,8 +287,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jTextField.setBackground(backgroundColor);
         jTextField.setForeground(Color.decode("#FFFFE1"));
         jTextField.setFont(Insanib.deriveFont(Font.PLAIN, 28));
-        jTextField.setInputVerifier();
-
         add(jTextField);
 
     }

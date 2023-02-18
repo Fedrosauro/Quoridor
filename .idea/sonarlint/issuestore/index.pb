@@ -31,3 +31,5 @@ c
 3src/main/java/quoridor/utils/PositionException.java,8\6\86875f6d317dd6b9b5d6efc426567fcea3e0e051
 \
 ,src/main/java/quoridor/components/Board.java,1\0\10da544e7fbb118886f26377cac98608f1e8e22d
+[
++src/main/java/quoridor/game/GameEngine.java,2\c\2cf98304e5667baa3de95526be3c3d1226ae9e5b
