@@ -13,28 +13,42 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
-    private Color backgroundColor;
-    private int size1, size2, numberPlayers, wallDimension, numberWalls;
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
+    private final int wallDimension;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
 
-    private BufferedImageLoader loader;
-    private BufferedImage tile, wallV, wallH,
-            pawn1, pawn2, pawn3, pawn4,
-            pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
+    private BufferedImage tile;
+    private BufferedImage wallV;
+    private BufferedImage wallH;
+    private BufferedImage pawn1;
+    private BufferedImage pawn2;
+    private BufferedImage pawn3;
+    private BufferedImage pawn4;
+    private BufferedImage pawn1Turn;
+    private BufferedImage pawn2Turn;
+    private BufferedImage pawn3Turn;
+    private BufferedImage pawn4Turn;
 
-    private BufferedImage[] upArrowImage, downArrowImage, leftArrowImage, rightArrowImage, smallGoBackButton;
+    private BufferedImage[] upArrowImage;
+    private BufferedImage[] downArrowImage;
+    private BufferedImage[] leftArrowImage;
+    private BufferedImage[] rightArrowImage;
+    private BufferedImage[] smallGoBackButton;
 
-    private Rectangle2D rectUpArrow, rectDownArrow, rectLeftArrow, rectRightArrow, rectSmallButton;
-    private int xButtons, yButtons, xSmallButton, ySmallButton;
-    private int widthB, heightB, smallHeight, smallWidth;
-    private boolean changeBUpArrow, changeBDownArrow, changeBLeftArrow, changeBRightArrow, changeSmallButton;
+    private Rectangle2D rectUpArrow;
+    private Rectangle2D rectDownArrow;
+    private Rectangle2D rectLeftArrow;
+    private Rectangle2D rectRightArrow;
+    private Rectangle2D rectSmallButton;
+    private boolean changeBUpArrow;
+    private boolean changeBDownArrow;
+    private boolean changeBLeftArrow;
+    private boolean changeBRightArrow;
+    private boolean changeSmallButton;
 
 
     private AudioPlayer[] buttonAudio;
@@ -43,11 +57,8 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
     private GameEngine gameEngine;
     private Player activePlayer;
 
-    private Font Insanibc, Insanib;
 
-
-
-    public MoveMeeplePanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) throws PositionException, NumberOfPlayerException {
+    public MoveMeeplePanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
         this.jFrame = jFrame;
         this.gameEngine = gameEngine;
         this.backgroundColor = backgroundColor;
@@ -61,20 +72,20 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        Font insanIb;
         try {
-            Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            assert is != null;
+            insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
         tile = loader.loadImage("src/main/resources/images/tile/tile.png");
         wallH = loader.loadImage("src/main/resources/images/wallsImages/wallH.png");
@@ -105,10 +116,10 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         smallGoBackButton[0] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button.png");
         smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
-        yButtons = 580;
-        xButtons = width/2 - upArrowImage[0].getWidth() * 2 - 23 - 50;
-        heightB = 68;
-        widthB = 68;
+        int yButtons = 580;
+        int xButtons = WIDTHWINDOW / 2 - upArrowImage[0].getWidth() * 2 - 23 - 50;
+        int heightB = 68;
+        int widthB = 68;
 
         rectUpArrow = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBUpArrow = false;
@@ -125,10 +136,10 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         rectRightArrow = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBRightArrow = false;
 
-        xSmallButton = 650;
-        ySmallButton = 10;
-        smallHeight = 34;
-        smallWidth = 32;
+        int xSmallButton = 650;
+        int ySmallButton = 10;
+        int smallHeight = 34;
+        int smallWidth = 32;
 
         rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
         changeSmallButton = false;
@@ -141,11 +152,12 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         gameEngine.getBoard().placeWall(new Coordinates(3,1), Orientation.HORIZONTAL, 2);
         gameEngine.getBoard().placeWall(new Coordinates(1,1), Orientation.VERTICAL, 2);
 
-        setFont(Insanib.deriveFont(Font.PLAIN, 15));
+        setFont(insanIb.deriveFont(Font.PLAIN, 15));
     }
 
     private void initTimer(){
-        timer = new Timer(delay, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -188,7 +200,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         int sizeBoard = board.getMatrix().length;
 
         g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(width/2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.fillRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
@@ -196,7 +208,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
         g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(width/2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.drawRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
@@ -207,7 +219,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = width/2 - (board.getRows() * (tile.getWidth() + 4))/2;
+            int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
                 g2d.setColor(new Color(44, 4, 4));
@@ -249,24 +261,20 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             case YELLOW -> g2d.drawImage(pawn4Turn, 0, 510, null);
         }
 
-        int xImages = width/2 - upArrowImage[0].getWidth() * 2 - 25 - 50;
+        int xImages = WIDTHWINDOW /2 - upArrowImage[0].getWidth() * 2 - 25 - 50;
         int yImages = 577;
 
-        //g2d.draw(rectUpArrow);
         if(changeBUpArrow) g2d.drawImage(upArrowImage[1], xImages, yImages, null);
         else g2d.drawImage(upArrowImage[0], xImages, yImages, null);
 
-        //g2d.draw(rectDownArrow);
         xImages += upArrowImage[0].getWidth() + 50;
         if(changeBDownArrow) g2d.drawImage(downArrowImage[1], xImages, yImages, null);
         else g2d.drawImage(downArrowImage[0], xImages, yImages, null);
 
-        //g2d.draw(rectLeftArrow);
         xImages += downArrowImage[0].getWidth() + 50;
         if(changeBLeftArrow) g2d.drawImage(leftArrowImage[1], xImages, yImages, null);
         else g2d.drawImage(leftArrowImage[0], xImages, yImages, null);
 
-        //g2d.draw(rectRightArrow);
         xImages += leftArrowImage[0].getWidth() + 50;
         if(changeBRightArrow) g2d.drawImage(rightArrowImage[1], xImages, yImages, null);
         else g2d.drawImage(rightArrowImage[0], xImages, yImages, null);
@@ -298,13 +306,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
                     gameEngine.nextActivePlayer();
 
                     ChooseActionPanel chooseActionPanel;
-                    try {
-                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
-                    } catch (PositionException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (NumberOfPlayerException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
                     jFrame.setContentPane(chooseActionPanel);
                     jFrame.revalidate();
                 }
@@ -329,13 +331,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
                     gameEngine.nextActivePlayer();
 
                     ChooseActionPanel chooseActionPanel;
-                    try {
-                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
-                    } catch (PositionException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (NumberOfPlayerException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
                     jFrame.setContentPane(chooseActionPanel);
                     jFrame.revalidate();
                 }
@@ -360,13 +356,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
                     gameEngine.nextActivePlayer();
 
                     ChooseActionPanel chooseActionPanel;
-                    try {
-                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
-                    } catch (PositionException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (NumberOfPlayerException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
                     jFrame.setContentPane(chooseActionPanel);
                     jFrame.revalidate();
                 }
@@ -391,13 +381,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
                     gameEngine.nextActivePlayer();
 
                     ChooseActionPanel chooseActionPanel;
-                    try {
-                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
-                    } catch (PositionException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (NumberOfPlayerException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
                     jFrame.setContentPane(chooseActionPanel);
                     jFrame.revalidate();
                 }
@@ -485,26 +469,26 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 }
