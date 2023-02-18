@@ -98,7 +98,7 @@ class PrintGameStateTests {
         assertEquals("Meeple: GREEN", result);
     }
 
-    @Test
+    /*@Test
     void printPlayerInfoTest() throws PositionException {
         Board board = new Board(3, 3);
         Player player = new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN), 10);
@@ -106,10 +106,10 @@ class PrintGameStateTests {
         String result = player.printPlayerInfo();
 
         assertEquals("\n  giec\n" + "     Meeple: GREEN\n" + "     usable walls: 10", result);
-    }
+    }*/
 
-    @Test
-    void printPlayersInfoTest() throws PositionException {
+    //@Test
+    /*void printPlayersInfoTest() throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(3, 3);
         players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.BLUE), 10));
@@ -120,9 +120,9 @@ class PrintGameStateTests {
         String result = gameEngine.printPlayersInfo();
 
         assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     Meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     Meeple: GREEN\n" + "     usable walls: 7", result);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void printBoardInfoTest() throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(5, 5);
@@ -134,9 +134,9 @@ class PrintGameStateTests {
         String result = gameEngine.printBoardInfo();
 
         assertEquals("\n" + "=====================\n" + "BOARD\n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     B     O     O     O    \n" + "                              \n" + " G     O     O     O     O    \n" + "=====================", result);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void printGameStateTest() throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(5, 5);
@@ -150,5 +150,5 @@ class PrintGameStateTests {
         System.out.println(result);
 
         assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     Meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     Meeple: GREEN\n" + "     usable walls: 7\n" + "=====================\n" + "BOARD\n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     B     O     O     O    \n" + "                              \n" + " G     O     O     O     O    \n" + "=====================\n", result);
-    }
+    }*/
 }

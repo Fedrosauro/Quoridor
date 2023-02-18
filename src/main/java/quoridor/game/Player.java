@@ -29,12 +29,6 @@ public class Player {
     public String getName() {
         return name;
     }
-
-    public String printPlayerInfo() {
-        return "\n  " + this.name + "\n" +
-                "     " + getMeeple().toString() + "\n" +
-                "     " + "usable walls: " + this.walls;
-    }
 }
 
 

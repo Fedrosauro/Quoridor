@@ -1,6 +1,5 @@
 package quoridor;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,9 +15,6 @@ import quoridor.utils.Color;
 import quoridor.utils.PositionException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -101,7 +97,7 @@ class FieldPreparationTests {
         players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.RIGHT), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
-        gameEngine.setInitialMeepleDependingOnPlayers();
+        gameEngine.setInitialPositionOfPlayers();
 
         assertSame(board.getPosition(3, 0), players.get(0).getMeeple().getPosition());
         assertSame(board.getPosition(3, 6), players.get(1).getMeeple().getPosition());
@@ -119,7 +115,7 @@ class FieldPreparationTests {
         players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
-        gameEngine.setInitialMeepleDependingOnPlayers();
+        gameEngine.setInitialPositionOfPlayers();
 
         assertSame(board.getPosition(3, 0), players.get(0).getMeeple().getPosition());
         assertSame(board.getPosition(3, 6), players.get(1).getMeeple().getPosition());
@@ -161,12 +157,14 @@ class FieldPreparationTests {
     void checkValidWallNumberWith2Player(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
+        int wallsPerPlayer = gameEngine.divideWalls(totalWalls, 2);
 
-        assertTrue(gameEngine.divideWallPerPlayer(totalWalls));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), wallsPerPlayer));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), wallsPerPlayer));
+
+        assertEquals((int) totalWalls / 2, players.get(1).getWalls());
     }
 
     @ParameterizedTest
@@ -174,46 +172,18 @@ class FieldPreparationTests {
     void checkValidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.LEFT), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.RIGHT), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
+        int wallsPerPlayer = gameEngine.divideWalls(totalWalls, 4);
 
-        assertTrue(gameEngine.divideWallPerPlayer(totalWalls));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.LEFT), wallsPerPlayer));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.RIGHT), wallsPerPlayer));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), wallsPerPlayer));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), wallsPerPlayer));
 
-    }
-
-    @ParameterizedTest
-    @CsvSource({"2", "3", "0", "-3"})
-    void checkInvalidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
-        ArrayList<Player> players = new ArrayList<>();
-        Board board = new Board(9, 9);
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.LEFT), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.RIGHT), 10));
-
-        GameEngine gameEngine = new GameEngine(players, board);
-
-        assertFalse(gameEngine.divideWallPerPlayer(totalWalls));
+        assertEquals((int) totalWalls / 4, players.get(1).getWalls());
 
     }
-
-    @ParameterizedTest
-    @CsvSource({"-1", "0", "1"})
-    void checkInvalidWallWith2Players(int totalWalls) throws NumberOfPlayerException, PositionException {
-        ArrayList<Player> players = new ArrayList<>();
-        Board board = new Board(9, 9);
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), 10));
-
-        GameEngine gameEngine = new GameEngine(players, board);
-
-        assertFalse(gameEngine.divideWallPerPlayer(totalWalls));
-    }
-
 
 }
 

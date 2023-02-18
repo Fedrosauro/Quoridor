@@ -4,22 +4,21 @@ import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.utils.*;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Scanner;
-
+import java.util.List;
 
 public class GameEngine {
-    ArrayList<Player> players;
+    List<Player> players;
     Board board;
     GameType gameType;
-    private OpponentType opponentType;
+    private final OpponentType opponentType;
     private int indexOfActivePlayer;
 
 
-    public GameEngine(ArrayList<Player> players, Board board) {
+    public GameEngine(List<Player> players, Board board) {
         this.players = players;
         this.board = board;
+        this.opponentType = OpponentType.HUMAN;
     }
 
     public GameEngine(int totPlayers, List<String> nameOfPlayers, int rows, int columns, int totWalls, GameType gameType, OpponentType opponentType) throws PositionException, NumberOfPlayerException {
@@ -41,13 +40,9 @@ public class GameEngine {
             players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
         }
 
-        /*for (Player player : players) {
-            player.getMeeple().setFinalMarginGivenInitial(player.getMeeple().getInitialMargin()); //TODO: edit method so that it has 0 params and uses the margin of the meeple
-        }*/
+        this.setInitialPositionOfPlayers();
 
-        this.setInitialMeepleDependingOnPlayers(); //TODO: refactoring del nome in setInitialPosition
-
-        this.indexOfActivePlayer = 0;
+        this.indexOfActivePlayer = players.size() - 1;
 
     }
 
@@ -55,93 +50,13 @@ public class GameEngine {
         return walls / players;
     }
 
-    public boolean divideWallPerPlayer(int totalWalls) throws NumberOfPlayerException {
-        int totalPlayers = players.size();
-        if (totalPlayers < 2 || totalPlayers == 3 || totalPlayers > 4) {
-            throw new NumberOfPlayerException(totalPlayers);
-        }
-
-        if ((totalWalls > 1 && players.size() == 2) || (totalWalls > 3 && players.size() == 4)) {
-            int division = totalWalls / totalPlayers;
-            for (int i = 0; i < totalPlayers; i++) {
-                players.get(i).setWalls(division);
-            }
-            return true;
-        }
-        return false;
-
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public void setInitialMeepleDependingOnPlayers() throws PositionException {
-
+    public void setInitialPositionOfPlayers() throws PositionException {
         for (Player player : players) {
-            board.setMeeplePosition(player.getMeeple(), player.getMeeple().getInitialMargin()); //TODO: elimina parametro
+            board.setMeeplePosition(player.getMeeple());
         }
     }
 
-    public Direction getDirectionInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the direction: ");
-        String directionInput = scanner.nextLine();
-
-        if (directionInput.equalsIgnoreCase("UP")) {
-            return Direction.UP;
-        } else if (directionInput.equalsIgnoreCase("DOWN")) {
-            return Direction.DOWN;
-        } else if (directionInput.equalsIgnoreCase("LEFT")) {
-            return Direction.LEFT;
-        } else if (directionInput.equalsIgnoreCase("RIGHT")) {
-            return Direction.RIGHT;
-        } else {
-            throw new IllegalArgumentException("Invalid direction: " + directionInput);
-        }
-    }
-
-    public Coordinates getCoordinatesInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter x coordinate: ");
-        int xInput = scanner.nextInt();
-        System.out.print("Enter y coordinate:");
-        int yInput = scanner.nextInt();
-
-        if (xInput > 0 && yInput > 0 && xInput < board.getColumns() && yInput < board.getRows()) {
-            return new Coordinates(xInput, yInput);
-        } else {
-            throw new IllegalArgumentException("Invalid coordinates: " + xInput + ", " + yInput);
-        }
-    }
-
-    public Orientation getOrientationInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter orientation wall: 1 for horizonatal, 2 for vertical -> ");
-        int orientationInput = scanner.nextInt();
-
-        if (orientationInput == 1) {
-            return Orientation.HORIZONTAL;
-        } else if (orientationInput == 2) {
-            return Orientation.VERTICAL;
-        } else {
-            throw new IllegalArgumentException("Invalid input: " + orientationInput);
-        }
-    }
-
-    public int getDimensionWallInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter wall dimension:  ");
-        int wallDimensionInput = scanner.nextInt();
-
-        if (wallDimensionInput >= 1 && wallDimensionInput < board.getRows() && wallDimensionInput < board.getColumns()) {
-            return wallDimensionInput;
-        } else {
-            throw new IllegalArgumentException("Invalid wall dimension input: " + wallDimensionInput);
-        }
-    }
-
-    public void doMove(Player player, Direction direction) {
+    public void move(Player player, Direction direction) {
         if (!board.checkFinalMarginReached(player.getMeeple())) {
             board.move(player.getMeeple(), direction);
             updateBoard();
@@ -153,43 +68,18 @@ public class GameEngine {
         for (Player currentPlayer : players) {
             meeples.add(currentPlayer.getMeeple());
 
-            Coordinates c = board.findPosition(currentPlayer.getMeeple().getPosition());
-
             board.setMeeples(meeples);
         }
     }
 
+    public void placeWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
 
-    public void doPlaceWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
-        if (board.isWallEventuallyPlaceable(coordinates, orientation, dimWall, player)) {
-            board.placeWall(coordinates, orientation, dimWall);
-            int walls = this.getActivePlayer().getWalls();
-            this.getActivePlayer().setWalls(walls - 1);
-        }
-    } //TODO:refactoring delle condizioni
+        if (!board.isWallEventuallyPlaceable(coordinates, orientation, dimWall, player)) return;
 
-    public void playerTurn(Action action, Player player) {
-        if (action == Action.MOVEMEEPLE) {
-            doMove(player, getDirectionInput());
-        } else if (action == Action.PLACEWALL) {
-            doPlaceWall(player, getCoordinatesInput(), getOrientationInput(), getDimensionWallInput());
-        } else {
-            throw new IllegalArgumentException("Invalid action: " + action);
-        }
+        board.placeWall(coordinates, orientation, dimWall);
+        int walls = this.getActivePlayer().getWalls();
+        this.getActivePlayer().setWalls(walls - 1);
 
-    }
-
-
-    public String printPlayersInfo() {
-        String s = "\n=====================\nPLAYERS\n";
-        for (int i = 0; i < players.size(); i++) {
-            s += players.get(i).printPlayerInfo();
-        }
-        return s;
-    }
-
-    public String printBoardInfo() {
-        return "\n=====================\nBOARD" + board.printEntireBoard(players) + "\n=====================";
     }
 
     public String getBoardStatus() {
@@ -198,10 +88,6 @@ public class GameEngine {
 
     public Color getColorOf(Player player) {
         return player.getMeeple().getColor();
-    }
-
-    public String printGameState() {
-        return printPlayersInfo() + printBoardInfo() + "\n";
     }
 
     public Player getActivePlayer() {
@@ -246,7 +132,7 @@ public class GameEngine {
             e.printStackTrace();
         }
 
-        this.doMove(player, direction);
+        this.move(player, direction);
 
     }
 
@@ -256,11 +142,11 @@ public class GameEngine {
         Coordinates wallPosition;
 
         do {
-            orientation = player.decideWallOrientation(players);
+            orientation = player.decideWallOrientation();
             wallPosition = player.decideWallPosition(players, board);
         } while (!this.placementIsAllowed(player, wallPosition, orientation, wallDimension));
 
-        this.doPlaceWall(player, wallPosition, orientation, wallDimension);
+        this.placeWall(player, wallPosition, orientation, wallDimension);
 
 
     }

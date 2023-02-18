@@ -435,12 +435,12 @@ public class Board {
         return ((number - 1) / 2);
     }
 
-    public void setMeeplePosition(Meeple meeple) throws PositionException {
-        setMeeplePosition(meeple, meeple.getInitialMargin());
-    }
+    /*public void setMeeplePosition(Meeple meeple) throws PositionException {
+        setMeeplePosition(meeple);
+    }*/
 
-    public void setMeeplePosition(Meeple meeple, Margin margin) throws PositionException {
-        switch (margin) {
+    public void setMeeplePosition(Meeple meeple) throws PositionException {
+        switch (meeple.getInitialMargin()) {
             case LEFT -> meeple.setPosition(getPosition(centreOfLine(getRows()), 0));
             case RIGHT -> meeple.setPosition(getPosition(centreOfLine(getRows()), getColumns() - 1));
             case TOP -> meeple.setPosition(getPosition(0, centreOfLine(columns)));

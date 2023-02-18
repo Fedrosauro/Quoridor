@@ -24,7 +24,7 @@ public class GameFlowTest {
         players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.RIGHT), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
-        gameEngine.doMove(players.get(0), Direction.UP);
+        gameEngine.move(players.get(0), Direction.UP);
 
         assertSame(board.getPosition(1, 0), players.get(0).getMeeple().getPosition());
 
@@ -43,7 +43,7 @@ public class GameFlowTest {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }*/
 
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(2, 2), Orientation.HORIZONTAL, 2);
+        gameEngine.placeWall(players.get(0), new Coordinates(2, 2), Orientation.HORIZONTAL, 2);
 
         assertFalse(board.isWallNotPresent(new Coordinates(2, 2), Orientation.HORIZONTAL, 2));
     }
@@ -61,8 +61,8 @@ public class GameFlowTest {
         /*for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }*/
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(1,1), Orientation.HORIZONTAL,1);
-        gameEngine.doMove(players.get(0), Direction.UP);
+        gameEngine.placeWall(players.get(0), new Coordinates(1,1), Orientation.HORIZONTAL,1);
+        gameEngine.move(players.get(0), Direction.UP);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
 
@@ -80,8 +80,8 @@ public class GameFlowTest {
         /*for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }*/
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(1,0), Orientation.VERTICAL,1);
-        gameEngine.doMove(players.get(0), Direction.LEFT);
+        gameEngine.placeWall(players.get(0), new Coordinates(1,0), Orientation.VERTICAL,1);
+        gameEngine.move(players.get(0), Direction.LEFT);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
     }
@@ -98,8 +98,8 @@ public class GameFlowTest {
         /*for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }*/
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(1,1), Orientation.VERTICAL,1);
-        gameEngine.doMove(players.get(0), Direction.RIGHT);
+        gameEngine.placeWall(players.get(0), new Coordinates(1,1), Orientation.VERTICAL,1);
+        gameEngine.move(players.get(0), Direction.RIGHT);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
     }
@@ -116,8 +116,8 @@ public class GameFlowTest {
         /*for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }*/
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(0,1), Orientation.HORIZONTAL,1);
-        gameEngine.doMove(players.get(0), Direction.DOWN);
+        gameEngine.placeWall(players.get(0), new Coordinates(0,1), Orientation.HORIZONTAL,1);
+        gameEngine.move(players.get(0), Direction.DOWN);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
     }
@@ -137,8 +137,8 @@ public class GameFlowTest {
         }*/
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.doMove(players.get(0), Direction.RIGHT);
-        gameEngine.doMove(players.get(0), Direction.RIGHT);
+        gameEngine.move(players.get(0), Direction.RIGHT);
+        gameEngine.move(players.get(0), Direction.RIGHT);
 
         assertSame(board.getPosition(1, 6), players.get(0).getMeeple().getPosition());
     }
@@ -158,7 +158,7 @@ public class GameFlowTest {
         }*/
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.doMove(players.get(1), Direction.UP);
+        gameEngine.move(players.get(1), Direction.UP);
 
         assertSame(board.getPosition(6, 1), players.get(1).getMeeple().getPosition());
 
@@ -177,7 +177,7 @@ public class GameFlowTest {
         }*/
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.doMove(players.get(2), Direction.DOWN);
+        gameEngine.move(players.get(2), Direction.DOWN);
 
         assertSame(board.getPosition(0, 0), players.get(2).getMeeple().getPosition());
 
@@ -197,7 +197,7 @@ public class GameFlowTest {
         }*/
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.doMove(players.get(3), Direction.UP);
+        gameEngine.move(players.get(3), Direction.UP);
 
         assertSame(board.getPosition(6, 0), players.get(3).getMeeple().getPosition());
 
@@ -214,8 +214,8 @@ public class GameFlowTest {
         /*for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
             players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
         }*/
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(1,1),  Orientation.HORIZONTAL, 1);
-        gameEngine.doPlaceWall(players.get(0), new Coordinates(1,2),  Orientation.HORIZONTAL, 2);
+        gameEngine.placeWall(players.get(0), new Coordinates(1,1),  Orientation.HORIZONTAL, 1);
+        gameEngine.placeWall(players.get(0), new Coordinates(1,2),  Orientation.HORIZONTAL, 2);
 
     }
 
