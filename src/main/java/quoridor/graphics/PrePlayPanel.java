@@ -102,7 +102,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jRadioButton2 = new JRadioButton();
         setJRadioButton2Parameters(jRadioButton2);
 
-        buttonGroup = new ButtonGroup(); //for setting them exclusive
+        buttonGroup = new ButtonGroup(); //for setting button exclusive
         buttonGroup.add(jRadioButton1);
         buttonGroup.add(jRadioButton2);
 
