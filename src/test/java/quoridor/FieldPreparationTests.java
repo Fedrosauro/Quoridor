@@ -43,8 +43,8 @@ class FieldPreparationTests {
     @Test
     void checkPositionMeepleLeftMargin() throws PositionException {
         Board board = new Board(8, 8);
-        Meeple meeple = new Meeple(new Tile(), Color.RED);
-        board.setMeeplePosition(meeple, Margin.LEFT);
+        Meeple meeple = new Meeple(new Tile(), Color.RED, Margin.LEFT);
+        board.setMeeplePosition(meeple);
 
         assertSame(meeple.getPosition(), board.getPosition(3, 0));
     }
@@ -52,8 +52,8 @@ class FieldPreparationTests {
     @Test
     void checkPositionMeepleRightMargin() throws PositionException {
         Board board = new Board(8, 8);
-        Meeple meeple = new Meeple(new Tile(), Color.RED);
-        board.setMeeplePosition(meeple, Margin.RIGHT);
+        Meeple meeple = new Meeple(new Tile(), Color.RED, Margin.RIGHT);
+        board.setMeeplePosition(meeple);
 
         assertSame(meeple.getPosition(), board.getPosition(3, 7));
     }
@@ -61,8 +61,8 @@ class FieldPreparationTests {
     @Test
     void checkPositionMeepleTopMargin() throws PositionException {
         Board board = new Board(8, 8);
-        Meeple meeple = new Meeple(new Tile(), Color.RED);
-        board.setMeeplePosition(meeple, Margin.TOP);
+        Meeple meeple = new Meeple(new Tile(), Color.RED, Margin.TOP);
+        board.setMeeplePosition(meeple);
 
         assertSame(meeple.getPosition(), board.getPosition(0, 3));
     }
@@ -70,8 +70,8 @@ class FieldPreparationTests {
     @Test
     void checkPositionMeepleBottomMargin() throws PositionException {
         Board board = new Board(8, 8);
-        Meeple meeple = new Meeple(new Tile(), Color.RED);
-        board.setMeeplePosition(meeple, Margin.BOTTOM);
+        Meeple meeple = new Meeple(new Tile(), Color.RED, Margin.BOTTOM);
+        board.setMeeplePosition(meeple);
 
         assertSame(meeple.getPosition(), board.getPosition(7, 3));
     }
@@ -80,8 +80,8 @@ class FieldPreparationTests {
     @EnumSource(Margin.class)
     void checkFinalMargin(Margin margin) throws PositionException {
         Board board = new Board(8, 8);
-        Meeple meeple = new Meeple(new Tile(), Color.RED);
-        board.setFinalMargin(meeple, margin);
+        Meeple meeple = new Meeple(new Tile(), Color.RED, margin);
+        board.setFinalMargin(meeple);
         switch (margin) {
             case TOP -> assertSame(meeple.getFinalMargin(), Margin.BOTTOM);
             case BOTTOM -> assertSame(meeple.getFinalMargin(), Margin.TOP);
@@ -97,8 +97,8 @@ class FieldPreparationTests {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.LEFT), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.RIGHT), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         gameEngine.setInitialMeepleDependingOnPlayers();
@@ -113,10 +113,10 @@ class FieldPreparationTests {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.LEFT), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.RIGHT), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
         gameEngine.setInitialMeepleDependingOnPlayers();
@@ -135,7 +135,7 @@ class FieldPreparationTests {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
-            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 0));
+            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 0));
             players.get(i).setWalls(totalWalls / totalPlayer);
         }
 
@@ -149,7 +149,7 @@ class FieldPreparationTests {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
-            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 0));
+            players.add(i, new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 0));
             players.get(i).setWalls(totalWalls / totalPlayer);
         }
         assertSame(players.get(0).getWalls(), players.get(1).getWalls());
@@ -161,8 +161,8 @@ class FieldPreparationTests {
     void checkValidWallNumberWith2Player(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
 
@@ -174,10 +174,10 @@ class FieldPreparationTests {
     void checkValidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.LEFT), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.RIGHT), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
 
@@ -190,10 +190,10 @@ class FieldPreparationTests {
     void checkInvalidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
-        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN), 10));
-        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+        players.add(new Player("giec", new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), 10));
+        players.add(new Player("fede", new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.LEFT), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.RIGHT), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
 
@@ -206,8 +206,8 @@ class FieldPreparationTests {
     void checkInvalidWallWith2Players(int totalWalls) throws NumberOfPlayerException, PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW), 10));
-        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE), 10));
+        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
+        players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
 
