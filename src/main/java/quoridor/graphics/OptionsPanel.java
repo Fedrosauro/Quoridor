@@ -148,7 +148,6 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
                 ex.printStackTrace();
             }
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
-            //PlayPanel  playPanel = new PlayPanel(this, backgroundColor, l1, l2, ngiocatori, dimwall, nwall)
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
         }
