@@ -1,5 +1,8 @@
 package quoridor.graphics;
 
+import quoridor.components.Meeple;
+import quoridor.components.Tile;
+import quoridor.game.Player;
 import quoridor.utils.BufferedImageLoader;
 import quoridor.utils.AudioPlayer;
 import quoridor.utils.NumberOfPlayerException;
@@ -168,16 +171,22 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            ChooseActionPanel playPanel = null;
+
+            WinningPanel winningPanel = new WinningPanel(jFrame, new Player("dsdfs", new Meeple(new Tile(), quoridor.utils.Color.GREEN), 10), backgroundColor);
+            jFrame.setContentPane(winningPanel);
+            jFrame.revalidate();
+
+            /*
+            ChooseActionPanel chooseActionPanel = null;
             try {
-                playPanel = new ChooseActionPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
+                chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
             } catch (PositionException ex) {
                 throw new RuntimeException(ex);
             } catch (NumberOfPlayerException ex) {
                 throw new RuntimeException(ex);
             }
-            jFrame.setContentPane(playPanel);
-            jFrame.revalidate();
+            jFrame.setContentPane(chooseActionPanel);
+            jFrame.revalidate();*/
         }
 
         if(rectOptionsB.contains(x, y)){

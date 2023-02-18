@@ -27,30 +27,19 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             pawn1, pawn2, pawn3, pawn4,
             pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
 
-    private BufferedImage[] moveButtonImage, placeWallImage,
-            upArrowImage, downArrowImage, leftArrowImage, rightArrowImage;
+    private BufferedImage[] upArrowImage, downArrowImage, leftArrowImage, rightArrowImage;
 
-    private Rectangle2D rectMoveB, rectPlaceWallB,
-            rectUpArrow, rectDownArrow, rectLeftArrow, rectRightArrow;
+    private Rectangle2D rectUpArrow, rectDownArrow, rectLeftArrow, rectRightArrow;
     private int xButtons, yButtons;
     private int widthB, heightB;
-    private int distance;
-    private boolean changeBMove, changeBPlaceWall,
-            changeBUpArrow, changeBDownArrow, changeBLeftArrow, changeBRightArrow;
-
+    private boolean changeBUpArrow, changeBDownArrow, changeBLeftArrow, changeBRightArrow;
 
 
     private AudioPlayer[] buttonAudio;
 
 
-
     private GameEngine gameEngine;
     private Player activePlayer;
-
-    private boolean phaseSelectWhatToDo,
-            phaseMoveMeeple, phasePlaceWall;
-
-    private boolean thereIsAWinner;
 
 
     public MoveMeeplePanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor) throws PositionException, NumberOfPlayerException {
@@ -62,7 +51,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         initTimer();
     }
 
-    private void setup() throws PositionException, NumberOfPlayerException {
+    private void setup() {
         addMouseListener(this);
         addMouseMotionListener(this);
 
@@ -74,7 +63,6 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         names.add("Player 1");
         names.add("Player 2");
 
-        thereIsAWinner = false;
 
         loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
@@ -108,7 +96,6 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         xButtons = width/2 - upArrowImage[0].getWidth() * 2 - 23 - 50;
         heightB = 68;
         widthB = 68;
-        distance = 50;
 
         rectUpArrow = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBUpArrow = false;
@@ -211,7 +198,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             case GREEN -> g2d.drawImage(pawn3Turn, 0, 510, null);
             case YELLOW -> g2d.drawImage(pawn4Turn, 0, 510, null);
         }
-        ///////////////////////////////////////////////////////////
+
         int xImages = width/2 - upArrowImage[0].getWidth() * 2 - 25 - 50;
         int yImages = 577;
 
@@ -239,7 +226,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        ///////////CLICKS FOR MOVE MEEPLE PHASE////////////////
+
         if (rectUpArrow.contains(x, y)) {
             try {
                 buttonAudio[1].createAudio();
@@ -250,10 +237,23 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.UP)) {
                 gameEngine.doMove(activePlayer, Direction.UP);
-                if (gameEngine.didActivePlayerWin()) {
-                    thereIsAWinner = true;
+                if(gameEngine.didActivePlayerWin()){
+                    WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
+                    jFrame.setContentPane(winningPanel);
+                    jFrame.revalidate();
                 } else {
-                    //gameEngine.nextActivePlayer();
+                    gameEngine.nextActivePlayer();
+
+                    ChooseActionPanel chooseActionPanel;
+                    try {
+                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor);
+                    } catch (PositionException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (NumberOfPlayerException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    jFrame.setContentPane(chooseActionPanel);
+                    jFrame.revalidate();
                 }
             }
         }
@@ -267,10 +267,23 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.DOWN)) {
                 gameEngine.doMove(activePlayer, Direction.DOWN);
-                if (gameEngine.didActivePlayerWin()) {
-                    thereIsAWinner = true;
+                if(gameEngine.didActivePlayerWin()){
+                    WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
+                    jFrame.setContentPane(winningPanel);
+                    jFrame.revalidate();
                 } else {
-                    //gameEngine.nextActivePlayer();
+                    gameEngine.nextActivePlayer();
+
+                    ChooseActionPanel chooseActionPanel;
+                    try {
+                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor);
+                    } catch (PositionException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (NumberOfPlayerException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    jFrame.setContentPane(chooseActionPanel);
+                    jFrame.revalidate();
                 }
             }
         }
@@ -284,10 +297,23 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.LEFT)) {
                 gameEngine.doMove(activePlayer, Direction.LEFT);
-                if (gameEngine.didActivePlayerWin()) {
-                    thereIsAWinner = true;
+                if(gameEngine.didActivePlayerWin()){
+                    WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
+                    jFrame.setContentPane(winningPanel);
+                    jFrame.revalidate();
                 } else {
-                    //gameEngine.nextActivePlayer();
+                    gameEngine.nextActivePlayer();
+
+                    ChooseActionPanel chooseActionPanel;
+                    try {
+                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor);
+                    } catch (PositionException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (NumberOfPlayerException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    jFrame.setContentPane(chooseActionPanel);
+                    jFrame.revalidate();
                 }
             }
         }
@@ -301,21 +327,33 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.RIGHT)) {
                 gameEngine.doMove(activePlayer, Direction.RIGHT);
-                if (gameEngine.didActivePlayerWin()) {
-                    thereIsAWinner = true;
+                if(gameEngine.didActivePlayerWin()){
+                    WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
+                    jFrame.setContentPane(winningPanel);
+                    jFrame.revalidate();
                 } else {
-                    //gameEngine.nextActivePlayer();
+                    gameEngine.nextActivePlayer();
+
+                    ChooseActionPanel chooseActionPanel;
+                    try {
+                        chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor);
+                    } catch (PositionException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (NumberOfPlayerException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    jFrame.setContentPane(chooseActionPanel);
+                    jFrame.revalidate();
                 }
             }
         }
-        ///////////////////////////////////////////////////////////
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        ///////////////////////////////////////////////////////////
+
         if (rectUpArrow.contains(x, y)) {
             if (!changeBUpArrow) {
                 try {
@@ -363,7 +401,6 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             }
             changeBRightArrow = true;
         } else changeBRightArrow = false;
-        ///////////////////////////////////////////////////////////
     }
 
     @Override
