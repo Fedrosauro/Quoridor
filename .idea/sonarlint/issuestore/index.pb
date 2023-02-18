@@ -5,8 +5,6 @@
 -src/main/java/quoridor/utils/ConsoleMain.java,2\c\2c12dd76f3e166f917ea2025078e97fb5d8fe003
 W
 'src/main/java/quoridor/utils/Color.java,4\4\440ea9ffbb2491b13edcb1d8307ec053e7594786
-W
-'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
 _
 /src/test/java/quoridor/PrintGameStateTests.java,1\3\13f2bb680260b01d822c427623b017f8a3831314
 a

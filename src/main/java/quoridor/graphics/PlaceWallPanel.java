@@ -11,9 +11,12 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 
-public class ChooseActionPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+
     private JFrame jFrame;
     private Color backgroundColor;
     private int size1, size2, numberPlayers, wallDimension, numberWalls;
@@ -26,41 +29,26 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
     private BufferedImage tile, wallV, wallH,
             pawn1, pawn2, pawn3, pawn4,
             pawn1Turn, pawn2Turn, pawn3Turn, pawn4Turn;
-    private BufferedImage[] moveButtonImage, placeWallImage;
 
-    private Rectangle2D rectMoveB, rectPlaceWallB;
+    private BufferedImage[] placeWallButton;
+
+    private Rectangle2D rectPlaceWall;
     private int xButtons, yButtons;
     private int widthB, heightB;
-    private int distance;
-    private boolean changeBMove, changeBPlaceWall;
+    private boolean changeBPlaceWall;
 
     private AudioPlayer[] buttonAudio;
 
+    private Font Insanibc, Insanib;
+
+    private JLabel jLabelXCoord, jLabelYCoord, jLabelOrientation;
+    private JSpinner jSpinner1,  jSpinner2;
+    private JRadioButton jRadioButton1, jRadioButton2;
+    private ButtonGroup buttonGroup;
+
     private GameEngine gameEngine;
     private Player activePlayer;
-
-    public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException {
-        this.jFrame = jFrame;
-        this.backgroundColor = backgroundColor;
-        this.size1 = size1;
-        this.size2 = size2;
-        this.numberPlayers = numberPlayers;
-        this.wallDimension = wallDimension;
-        this.numberWalls = numberWalls;
-
-        ArrayList<String> names = new ArrayList<>(); //names just added due to the GameEngine Constructor
-        names.add("Player 1");
-        names.add("Player 2");
-        names.add("Player 3");
-        names.add("Player 4");
-
-        gameEngine = new GameEngine(numberPlayers, names, size1, size2, numberWalls, GameType.GRAPHIC_GAME, OpponentType.HUMAN);
-
-        setup();
-        initTimer();
-    }
-
-    public ChooseActionPanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) throws PositionException, NumberOfPlayerException {
+    public PlaceWallPanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
         this.jFrame = jFrame;
         this.gameEngine = gameEngine;
         this.backgroundColor = backgroundColor;
@@ -70,13 +58,22 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         initTimer();
     }
 
-    private void setup() throws PositionException, NumberOfPlayerException {
+    private void setup() {
         addMouseListener(this);
         addMouseMotionListener(this);
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
         setBackground(backgroundColor);
+
+        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        try {
+            Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
@@ -92,27 +89,67 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         pawn3Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn3turn.png");
         pawn4Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn4turn.png");
         ///////////////////////////////////////////////////////////
-        moveButtonImage = new BufferedImage[2];
-        placeWallImage = new BufferedImage[2];
+        placeWallButton = new BufferedImage[2];
 
-        moveButtonImage[0] = loader.loadImage("src/main/resources/images/moveButtonImages/move_button.png");
-        moveButtonImage[1] = loader.loadImage("src/main/resources/images/moveButtonImages/move_button_hover.png");
-        placeWallImage[0] = loader.loadImage("src/main/resources/images/placeWallButtonImages/place_wall_button.png");
-        placeWallImage[1] = loader.loadImage("src/main/resources/images/placeWallButtonImages/place_wall_button_hover.png");
+        placeWallButton[0] = loader.loadImage("src/main/resources/images/placeActualWallButton/placeActualWall_button.png");
+        placeWallButton[1] = loader.loadImage("src/main/resources/images/placeActualWallButton/placeActualWall_button_hover.png");
 
-        yButtons = 588;
-        xButtons = width/2 - moveButtonImage[0].getWidth() - 48;
-        heightB = 63;
-        widthB = 202;
-        distance = 100;
+        yButtons = 580;
+        xButtons = 40;
+        heightB = 85;
+        widthB = 168;
 
-        rectMoveB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
-        changeBMove = false;
-
-        xButtons = width/2 + distance/2;
-        rectPlaceWallB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
+        rectPlaceWall = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
         ///////////////////////////////////////////////////////////
+
+        int yStart = 530;
+        int xCoord = 240;
+
+        jLabelXCoord = new JLabel("Select X coordinate:");
+        jLabelXCoord.setBounds(xCoord, yStart, 270, 50);
+        setJLabelParameters(jLabelXCoord);
+
+        SpinnerModel value1 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns()-1, 1);
+        jSpinner1 = new JSpinner(value1);
+        jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
+        jSpinner1.setBounds(xCoord + jLabelXCoord.getWidth(), yStart + 10, 40, 30);
+        setJSpinnerParameters(jSpinner1);
+
+        jLabelYCoord = new JLabel("Select Y coordinate:");
+        yStart += 45;
+        jLabelYCoord.setBounds(xCoord, yStart, 270, 50);
+        setJLabelParameters(jLabelYCoord);
+
+        SpinnerModel value2 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns()-1, 1);
+        jSpinner2 = new JSpinner(value2);
+        jSpinner2.setEditor(new JSpinner.DefaultEditor(jSpinner2));
+        jSpinner2.setBounds(xCoord + jLabelYCoord.getWidth(), yStart + 10, 40, 30);
+        setJSpinnerParameters(jSpinner2);
+
+        yStart += 45;
+        jLabelOrientation = new JLabel("Select Orientation: ");
+        jLabelOrientation.setBounds(xCoord, yStart, 250, 50);
+        setJLabelParameters(jLabelOrientation);
+
+        jRadioButton1 = new JRadioButton();
+        setJRadioButtonParameters(jRadioButton1);
+        jRadioButton1.setBounds(xCoord + jLabelOrientation.getWidth(), yStart, 50, 50);
+        jRadioButton1.setText("V");
+        jRadioButton1.setForeground(Color.RED);
+        jRadioButton1.setSelected(true);
+
+        jRadioButton2 = new JRadioButton();
+        setJRadioButtonParameters(jRadioButton2);
+        jRadioButton2.setBounds(xCoord + jLabelOrientation.getWidth() + 60, yStart, 50, 50);
+        jRadioButton2.setText("H");
+        jRadioButton2.setForeground(Color.GREEN);
+
+
+        buttonGroup = new ButtonGroup(); //for setting button exclusive
+        buttonGroup.add(jRadioButton1);
+        buttonGroup.add(jRadioButton2);
+        buttonGroup.getElements().nextElement().setEnabled(true);
 
         buttonAudio = new AudioPlayer[2];
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
@@ -151,12 +188,57 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
         g2d.setRenderingHints(rh);
 
-        g2d.setColor(Color.WHITE);
-
         if(activePlayer != null) {
             printBoard(g2d);
+
             printPlayerUI(g2d);
         }
+    }
+
+    private void printPlayerUI(Graphics2D g2d){
+        switch(activePlayer.getMeeple().getColor()){
+            case RED -> g2d.drawImage(pawn1Turn, 0, 510, null);
+            case BLUE -> g2d.drawImage(pawn2Turn, 0, 510, null);
+            case GREEN -> g2d.drawImage(pawn3Turn, 0, 510, null);
+            case YELLOW -> g2d.drawImage(pawn4Turn, 0, 510, null);
+        }
+
+        int xImages = 35;
+        int yImages = 577;
+
+        //g2d.draw(rectPlaceWall);
+        if(changeBPlaceWall) g2d.drawImage(placeWallButton[1], xImages, yImages, null);
+        else g2d.drawImage(placeWallButton[0], xImages, yImages, null);
+    }
+
+    private void setJLabelParameters(JLabel jLabel) {
+        jLabel.setBackground(backgroundColor);
+        jLabel.setForeground(Color.decode("#FFFFE1"));
+        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 22));
+        add(jLabel);
+    }
+
+    private void setJSpinnerParameters(JSpinner jSpinner) {
+        jSpinner.setBackground(backgroundColor);
+        jSpinner.setForeground(Color.white);
+        add(jSpinner);
+    }
+
+    private void setJRadioButtonParameters(JRadioButton jRadioButton){
+        jRadioButton.setBackground(backgroundColor);
+        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 22));
+        add(jRadioButton);
+    }
+
+    private Orientation radioButtonSelection(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                if (button.getText() == "H") {
+                    return Orientation.HORIZONTAL;
+                }
+            }
+        }return Orientation.VERTICAL;
     }
 
     private void printBoard(Graphics2D g2d){
@@ -180,7 +262,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         g2d.setStroke(strokeForBoardBorder);
         g2d.setStroke(defaultStroke);
 
-
+        g2d.setColor(Color.white);
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
@@ -209,33 +291,12 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         }
     }
 
-    private void printPlayerUI(Graphics2D g2d){
-        switch(activePlayer.getMeeple().getColor()){
-            case RED -> g2d.drawImage(pawn1Turn, 0, 510, null);
-            case BLUE -> g2d.drawImage(pawn2Turn, 0, 510, null);
-            case GREEN -> g2d.drawImage(pawn3Turn, 0, 510, null);
-            case YELLOW -> g2d.drawImage(pawn4Turn, 0, 510, null);
-        }
-
-        int xImages = width/2 - moveButtonImage[0].getWidth() - 50;
-        int yImages = 585;
-
-        //g2d.draw(rectMoveB);
-        if(changeBMove) g2d.drawImage(moveButtonImage[1], xImages, yImages, null);
-        else g2d.drawImage(moveButtonImage[0], xImages, yImages, null);
-
-        //g2d.draw(rectPlaceWallB);
-        xImages += moveButtonImage[0].getWidth() + 50 + 50;
-        if(changeBPlaceWall) g2d.drawImage(placeWallImage[1], xImages, yImages, null);
-        else g2d.drawImage(placeWallImage[0], xImages, yImages, null);
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
 
-        if (rectMoveB.contains(x, y)) {
+        if (rectPlaceWall.contains(x, y)) {
             try {
                 buttonAudio[1].createAudio();
                 buttonAudio[1].playAudio();
@@ -243,30 +304,26 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
                 ex.printStackTrace();
             }
 
-            MoveMeeplePanel moveMeeplePanel;
-            try {
-                moveMeeplePanel = new MoveMeeplePanel(jFrame, gameEngine, backgroundColor, wallDimension);
-            } catch (PositionException ex) {
-                throw new RuntimeException(ex);
-            } catch (NumberOfPlayerException ex) {
-                throw new RuntimeException(ex);
-            }
-            jFrame.setContentPane(moveMeeplePanel);
-            jFrame.revalidate();
-        }
+            Coordinates position = new Coordinates((int)jSpinner1.getValue(), (int)jSpinner2.getValue());
+            Orientation orientation = radioButtonSelection(buttonGroup);
 
-        if (rectPlaceWallB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            if (gameEngine.placementIsAllowed(activePlayer, position, orientation, wallDimension)) {
+                gameEngine.getBoard().placeWall(position, orientation, wallDimension);
 
-            PlaceWallPanel placeWallPanel;
-            placeWallPanel = new PlaceWallPanel(jFrame, gameEngine, backgroundColor, wallDimension);
-            jFrame.setContentPane(placeWallPanel);
-            jFrame.revalidate();
+                System.out.println(wallDimension);
+                gameEngine.nextActivePlayer();
+
+                ChooseActionPanel chooseActionPanel;
+                try {
+                    chooseActionPanel = new ChooseActionPanel(jFrame, gameEngine, backgroundColor, wallDimension);
+                } catch (PositionException ex) {
+                    throw new RuntimeException(ex);
+                } catch (NumberOfPlayerException ex) {
+                    throw new RuntimeException(ex);
+                }
+                jFrame.setContentPane(chooseActionPanel);
+                jFrame.revalidate();
+            }
         }
     }
 
@@ -275,19 +332,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         int x = e.getX();
         int y = e.getY();
 
-        if (rectMoveB.contains(x, y)) {
-            if (!changeBMove) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            changeBMove = true;
-        } else changeBMove = false;
-
-        if (rectPlaceWallB.contains(x, y)) {
+        if (rectPlaceWall.contains(x, y)) {
             if (!changeBPlaceWall) {
                 try {
                     buttonAudio[0].createAudio();

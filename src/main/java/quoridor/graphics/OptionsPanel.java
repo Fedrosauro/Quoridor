@@ -48,7 +48,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseMotionListener(this);
 
         setPreferredSize(new Dimension(width, height));
-        setLayout(null);
+        setLayout(new CardLayout());
         setBackground(backgroundColor);
 
         loader = new BufferedImageLoader();

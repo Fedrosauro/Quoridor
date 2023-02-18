@@ -172,11 +172,6 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
                 ex.printStackTrace();
             }
 
-            WinningPanel winningPanel = new WinningPanel(jFrame, new Player("dsdfs", new Meeple(new Tile(), quoridor.utils.Color.GREEN), 10), backgroundColor);
-            jFrame.setContentPane(winningPanel);
-            jFrame.revalidate();
-
-            /*
             ChooseActionPanel chooseActionPanel = null;
             try {
                 chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
@@ -186,7 +181,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
                 throw new RuntimeException(ex);
             }
             jFrame.setContentPane(chooseActionPanel);
-            jFrame.revalidate();*/
+            jFrame.revalidate();
         }
 
         if(rectOptionsB.contains(x, y)){
@@ -197,8 +192,12 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
                 ex.printStackTrace();
             }
             OptionsPanel optionsPanel = new OptionsPanel(jFrame, backgroundColor);
-            jFrame.setContentPane(optionsPanel);
-            jFrame.revalidate();
+
+            CardLayout cl= (CardLayout)(optionsPanel.getLayout());
+            cl.show(optionsPanel, "0");
+
+            //jFrame.setContentPane(optionsPanel);
+            //jFrame.revalidate();
         }
 
         if(rectExitB.contains(x, y)){
