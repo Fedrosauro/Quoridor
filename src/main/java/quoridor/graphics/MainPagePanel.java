@@ -174,7 +174,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
             ChooseActionPanel chooseActionPanel = null;
             try {
-                chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
+                chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, 5, 5, 2, 2, 10);
             } catch (PositionException ex) {
                 throw new RuntimeException(ex);
             } catch (NumberOfPlayerException ex) {

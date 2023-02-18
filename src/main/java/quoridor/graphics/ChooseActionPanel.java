@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ChooseActionPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
@@ -38,6 +40,8 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
     private GameEngine gameEngine;
     private Player activePlayer;
+
+    private Font Insanibc, Insanib;
 
     public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException {
         this.jFrame = jFrame;
@@ -77,6 +81,17 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
         setBackground(backgroundColor);
+
+        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        try {
+            Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        setFont(Insanib.deriveFont(Font.PLAIN, 15));
 
         loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
@@ -180,14 +195,22 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         g2d.setStroke(strokeForBoardBorder);
         g2d.setStroke(defaultStroke);
 
-
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
             int startX = width/2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
-                //g2d.drawString(i + "," + j, startX + 10, y + 10);
+                g2d.setColor(new Color(44, 4, 4));
+                if(i == 0 && j == 0){
+                    g2d.drawString(i + "," + j, startX + 10, y + 25);
+                }
+                if(i == 0 && j == 1){
+                    g2d.drawString(i + "," + j, startX + 10, y + 25);
+                }
+                if(i == 1 && j == 0){
+                    g2d.drawString(i + "," + j, startX + 10, y + 25);
+                }
                 if(board.getMatrix()[i][j].getNorthWall() != null)
                     g2d.drawImage(wallH, startX - 2, y - 4, null);
                 if(board.getMatrix()[i][j].getEastWall() != null)

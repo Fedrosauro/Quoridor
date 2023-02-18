@@ -157,6 +157,8 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
         gameEngine.getBoard().placeWall(new Coordinates(3,1), Orientation.HORIZONTAL, 2);
         gameEngine.getBoard().placeWall(new Coordinates(1,1), Orientation.VERTICAL, 2);
+
+        setFont(Insanib.deriveFont(Font.PLAIN, 15));
     }
 
     private void initTimer(){
@@ -269,7 +271,16 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             int startX = width/2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
-                //g2d.drawString(i + "," + j, startX + 10, y + 10);
+                g2d.setColor(new Color(44, 4, 4));
+                if(i == 0 && j == 0){
+                    g2d.drawString(i + "," + j, startX + 10, y + 25);
+                }
+                if(i == 0 && j == 1){
+                    g2d.drawString(i + "," + j, startX + 10, y + 25);
+                }
+                if(i == 1 && j == 0){
+                    g2d.drawString(i + "," + j, startX + 10, y + 25);
+                }
                 if(board.getMatrix()[i][j].getNorthWall() != null)
                     g2d.drawImage(wallH, startX - 2, y - 4, null);
                 if(board.getMatrix()[i][j].getEastWall() != null)
@@ -310,7 +321,6 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             if (gameEngine.placementIsAllowed(activePlayer, position, orientation, wallDimension)) {
                 gameEngine.getBoard().placeWall(position, orientation, wallDimension);
 
-                System.out.println(wallDimension);
                 gameEngine.nextActivePlayer();
 
                 ChooseActionPanel chooseActionPanel;
