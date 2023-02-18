@@ -9,10 +9,10 @@ import quoridor.components.Meeple;
 import quoridor.components.Tile;
 import quoridor.game.*;
 import quoridor.utils.Margin;
-import quoridor.utils.NumberOfPlayerException;
+import quoridor.exceptions.NumberOfPlayerException;
 import quoridor.game.Player;
 import quoridor.utils.Color;
-import quoridor.utils.PositionException;
+import quoridor.exceptions.PositionException;
 
 import java.util.ArrayList;
 
@@ -74,15 +74,14 @@ class FieldPreparationTests {
 
     @ParameterizedTest
     @EnumSource(Margin.class)
-    void checkFinalMargin(Margin margin) throws PositionException {
+    void checkFinalMargin(Margin margin) {
         Board board = new Board(8, 8);
         Meeple meeple = new Meeple(new Tile(), Color.RED, margin);
-        //board.setFinalMargin(meeple);
         switch (margin) {
-            case TOP -> assertSame(meeple.getFinalMargin(), Margin.BOTTOM);
-            case BOTTOM -> assertSame(meeple.getFinalMargin(), Margin.TOP);
-            case LEFT -> assertSame(meeple.getFinalMargin(), Margin.RIGHT);
-            case RIGHT -> assertSame(meeple.getFinalMargin(), Margin.LEFT);
+            case TOP -> assertSame(Margin.BOTTOM, meeple.getFinalMargin());
+            case BOTTOM -> assertSame(Margin.TOP, meeple.getFinalMargin());
+            case LEFT -> assertSame(Margin.RIGHT, meeple.getFinalMargin());
+            case RIGHT -> assertSame(Margin.LEFT, meeple.getFinalMargin());
 
         }
     }

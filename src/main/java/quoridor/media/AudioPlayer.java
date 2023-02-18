@@ -1,4 +1,4 @@
-package quoridor.utils;
+package quoridor.media;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -9,17 +9,17 @@ import java.io.IOException;
 
 public class AudioPlayer {
 
+    public Clip clip;
     private String filepath;
     private AudioInputStream audioInput;
-    public Clip clip;
 
-    public AudioPlayer(String filepath){
+    public AudioPlayer(String filepath) {
         this.filepath = filepath;
     }
 
-    public void createAudio() throws Exception{
+    public void createAudio() throws Exception {
         File musicPath = new File(filepath);
-        if(musicPath.exists()) audioInput = AudioSystem.getAudioInputStream(musicPath);
+        if (musicPath.exists()) audioInput = AudioSystem.getAudioInputStream(musicPath);
         else System.out.println("File audio not found");
     }
 

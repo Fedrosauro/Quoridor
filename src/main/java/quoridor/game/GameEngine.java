@@ -2,6 +2,8 @@ package quoridor.game;
 
 import quoridor.components.Board;
 import quoridor.components.Meeple;
+import quoridor.exceptions.NumberOfPlayerException;
+import quoridor.exceptions.PositionException;
 import quoridor.utils.*;
 
 import java.util.ArrayList;

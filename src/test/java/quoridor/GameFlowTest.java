@@ -3,6 +3,7 @@ package quoridor;
 import org.junit.jupiter.api.Test;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
+import quoridor.exceptions.PositionException;
 import quoridor.game.GameEngine;
 import quoridor.game.Player;
 import quoridor.utils.*;

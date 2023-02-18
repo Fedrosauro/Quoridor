@@ -1,5 +1,6 @@
 package quoridor.components;
 
+import quoridor.exceptions.PositionException;
 import quoridor.game.Player;
 import quoridor.utils.*;
 

@@ -9,7 +9,7 @@ import quoridor.game.Player;
 import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
-import quoridor.utils.PositionException;
+import quoridor.exceptions.PositionException;
 
 import java.util.ArrayList;
 import java.util.List;

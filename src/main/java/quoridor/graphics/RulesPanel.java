@@ -1,7 +1,7 @@
 package quoridor.graphics;
 
-import quoridor.utils.AudioPlayer;
-import quoridor.utils.BufferedImageLoader;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,8 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RulesPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener{

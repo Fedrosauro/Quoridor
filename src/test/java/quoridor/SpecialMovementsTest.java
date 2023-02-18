@@ -6,9 +6,8 @@ import quoridor.components.Meeple;
 import quoridor.components.Wall;
 import quoridor.utils.Color;
 import quoridor.utils.Direction;
-import quoridor.utils.PositionException;
+import quoridor.exceptions.PositionException;
 
-import javax.swing.plaf.synth.SynthLookAndFeel;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;

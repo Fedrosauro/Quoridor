@@ -8,10 +8,10 @@ import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.components.Tile;
 import quoridor.components.Wall;
+import quoridor.exceptions.PositionException;
 import quoridor.utils.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;

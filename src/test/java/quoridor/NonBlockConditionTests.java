@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
+import quoridor.exceptions.PositionException;
 import quoridor.game.Player;
 import quoridor.utils.*;
 
