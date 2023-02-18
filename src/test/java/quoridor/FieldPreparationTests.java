@@ -81,7 +81,7 @@ class FieldPreparationTests {
     void checkFinalMargin(Margin margin) throws PositionException {
         Board board = new Board(8, 8);
         Meeple meeple = new Meeple(new Tile(), Color.RED, margin);
-        board.setFinalMargin(meeple);
+        //board.setFinalMargin(meeple);
         switch (margin) {
             case TOP -> assertSame(meeple.getFinalMargin(), Margin.BOTTOM);
             case BOTTOM -> assertSame(meeple.getFinalMargin(), Margin.TOP);

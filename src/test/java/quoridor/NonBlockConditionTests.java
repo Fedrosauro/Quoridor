@@ -34,7 +34,7 @@ class NonBlockConditionTests {
     void InBoardCoordtinatesTest(int row, int column) {
         Board board = new Board(5, 5);
 
-        assertTrue(board.insideBoard(row, column));
+        assertTrue(board.isInsideBoard(row, column));
     }
 
     @ParameterizedTest
@@ -42,7 +42,7 @@ class NonBlockConditionTests {
     void OutOfBoardCoordtinatesTest(int row, int column) {
         Board board = new Board(5, 5);
 
-        assertFalse(board.insideBoard(row, column));
+        assertFalse(board.isInsideBoard(row, column));
     }
 
     @Test
@@ -204,7 +204,7 @@ class NonBlockConditionTests {
 
         System.out.println(board.printEntireBoard(players));
 
-        assertTrue(board.winningPathCheck(wallCoordinates3, or1, 2, player));
+        assertTrue(board.checkWinningPath(wallCoordinates3, or1, 2, player));
 
     }
 
@@ -228,7 +228,7 @@ class NonBlockConditionTests {
 
         System.out.println(board.printEntireBoard(players));
 
-        assertFalse(board.winningPathCheck(wallCoordinates2, Orientation.HORIZONTAL, 5, player));
+        assertFalse(board.checkWinningPath(wallCoordinates2, Orientation.HORIZONTAL, 5, player));
     }
 
     @ParameterizedTest

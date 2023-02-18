@@ -41,9 +41,9 @@ public class GameEngine {
             players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
         }
 
-        for (Player player : players) {
+        /*for (Player player : players) {
             player.getMeeple().setFinalMarginGivenInitial(player.getMeeple().getInitialMargin()); //TODO: edit method so that it has 0 params and uses the margin of the meeple
-        }
+        }*/
 
         this.setInitialMeepleDependingOnPlayers(); //TODO: refactoring del nome in setInitialPosition
 

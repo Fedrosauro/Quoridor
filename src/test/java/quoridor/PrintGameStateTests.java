@@ -1,11 +1,8 @@
 package quoridor;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
-import quoridor.game.AutoPlayer;
 import quoridor.game.GameEngine;
 import quoridor.game.Player;
 import quoridor.utils.*;
@@ -96,9 +93,9 @@ class PrintGameStateTests {
         Board board = new Board(3, 3);
         Meeple meeple = new Meeple(board.getPosition(1, 1), Color.GREEN);
 
-        String result = meeple.printMeepleInfo();
+        String result = meeple.toString();
 
-        assertEquals("meeple: GREEN", result);
+        assertEquals("Meeple: GREEN", result);
     }
 
     @Test
@@ -108,7 +105,7 @@ class PrintGameStateTests {
 
         String result = player.printPlayerInfo();
 
-        assertEquals("\n  giec\n" + "     meeple: GREEN\n" + "     usable walls: 10", result);
+        assertEquals("\n  giec\n" + "     Meeple: GREEN\n" + "     usable walls: 10", result);
     }
 
     @Test
@@ -122,7 +119,7 @@ class PrintGameStateTests {
 
         String result = gameEngine.printPlayersInfo();
 
-        assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     meeple: GREEN\n" + "     usable walls: 7", result);
+        assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     Meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     Meeple: GREEN\n" + "     usable walls: 7", result);
     }
 
     @Test
@@ -152,6 +149,6 @@ class PrintGameStateTests {
 
         System.out.println(result);
 
-        assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     meeple: GREEN\n" + "     usable walls: 7\n" + "=====================\n" + "BOARD\n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     B     O     O     O    \n" + "                              \n" + " G     O     O     O     O    \n" + "=====================\n", result);
+        assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     Meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     Meeple: GREEN\n" + "     usable walls: 7\n" + "=====================\n" + "BOARD\n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     B     O     O     O    \n" + "                              \n" + " G     O     O     O     O    \n" + "=====================\n", result);
     }
 }

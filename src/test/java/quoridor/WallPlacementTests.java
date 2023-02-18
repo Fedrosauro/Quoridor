@@ -26,7 +26,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation orientation = Orientation.HORIZONTAL;
 
-        board.singletPlacement(wallCoordinates, orientation);
+        board.singleTileWallPlacement(wallCoordinates, orientation);
 
         assertNotNull(board.getMatrix()[row][column].getNorthWall());
     }
@@ -39,7 +39,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation orientation = Orientation.VERTICAL;
 
-        board.singletPlacement(wallCoordinates, orientation);
+        board.singleTileWallPlacement(wallCoordinates, orientation);
 
         assertNotNull(board.getMatrix()[row][column].getEastWall());
     }
@@ -87,7 +87,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row, column + 1); //another same wall placed
         Orientation orientation2 = Orientation.HORIZONTAL;
 
-        boolean wallNotPresent = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
+        boolean wallNotPresent = board.isWallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertFalse(wallNotPresent);
     }
@@ -105,7 +105,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row, column); //different wall placed
         Orientation orientation2 = Orientation.VERTICAL;
 
-        boolean wallNotPresent = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
+        boolean wallNotPresent = board.isWallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertTrue(wallNotPresent);
     }
@@ -123,7 +123,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row - 1, column); //different wall placed
         Orientation orientation2 = Orientation.VERTICAL;
 
-        boolean wallNotPresent = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
+        boolean wallNotPresent = board.isWallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertFalse(wallNotPresent);
     }
@@ -195,7 +195,7 @@ class WallPlacementTests {
         coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
 
-        boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
+        boolean illegalWallCombination = board.checkIllegalWallIdsCombination(coordinatesArrayList);
 
         assertTrue(illegalWallCombination);
     }
@@ -221,7 +221,7 @@ class WallPlacementTests {
         coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
 
-        boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
+        boolean illegalWallCombination = board.checkIllegalWallIdsCombination(coordinatesArrayList);
 
         assertFalse(illegalWallCombination);
     }
@@ -234,7 +234,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(0, 1);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean northWallOutOfBounds = board.wallOutOfBoundChecker(wallCoordinates1, or1, dimension);
+        boolean northWallOutOfBounds = board.checkWallOutOfBounds(wallCoordinates1, or1, dimension);
 
         assertFalse(northWallOutOfBounds);
     }
@@ -247,7 +247,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(3, 1);
         Orientation or1 = Orientation.VERTICAL;
 
-        boolean northWallOutOfBounds = board.wallOutOfBoundChecker(wallCoordinates1, or1, dimension);
+        boolean northWallOutOfBounds = board.checkWallOutOfBounds(wallCoordinates1, or1, dimension);
 
         assertFalse(northWallOutOfBounds);
     }
@@ -260,7 +260,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean horizontalWallOnFirstRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean horizontalWallOnFirstRow = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertTrue(horizontalWallOnFirstRow);
     }
@@ -273,7 +273,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean horizontalWallOnFirtsRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean horizontalWallOnFirtsRow = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertFalse(horizontalWallOnFirtsRow);
     }
@@ -286,7 +286,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.VERTICAL;
 
-        boolean verticalWallOnLastColumn = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean verticalWallOnLastColumn = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertTrue(verticalWallOnLastColumn);
     }
@@ -299,7 +299,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.VERTICAL;
 
-        boolean verticalWallOnLastColumn = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean verticalWallOnLastColumn = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertFalse(verticalWallOnLastColumn);
     }
@@ -309,7 +309,7 @@ class WallPlacementTests {
     void trueSameMatrixOfCopyBoardObjectTest(int row, int column){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.clone();
 
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation or1 = Orientation.VERTICAL;
@@ -317,7 +317,7 @@ class WallPlacementTests {
         board.placeWall(wallCoordinates, or1, 1);
         copyBoard.placeWall(wallCoordinates, or1, 1);
 
-        boolean sameBoard = board.equalMatrix(copyBoard);
+        boolean sameBoard = board.isMatrixEqual(copyBoard);
 
         assertTrue(sameBoard);
     }
@@ -326,14 +326,14 @@ class WallPlacementTests {
     void falseSameMatrixOfCopyBoardObjectTest(){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.clone();
 
         Coordinates wallCoordinates = new Coordinates(1, 1);
         Orientation or1 = Orientation.VERTICAL;
 
         copyBoard.placeWall(wallCoordinates, or1, 2);
 
-        boolean sameBoard = board.equalMatrix(copyBoard);
+        boolean sameBoard = board.isMatrixEqual(copyBoard);
 
         assertFalse(sameBoard);
     }
@@ -342,14 +342,14 @@ class WallPlacementTests {
     void checkWallAdiacenciesTestHorizontal(){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.clone();
 
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
         Orientation or1 = Orientation.HORIZONTAL;
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1
@@ -370,14 +370,14 @@ class WallPlacementTests {
     void checkWallAdiacenciesTestVertical(){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.clone();
 
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
         Orientation or1 = Orientation.VERTICAL;
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1

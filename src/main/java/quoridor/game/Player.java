@@ -2,8 +2,6 @@ package quoridor.game;
 
 import quoridor.components.Meeple;
 
-import quoridor.utils.Direction;
-
 public class Player {
 
     private String name;
@@ -34,7 +32,7 @@ public class Player {
 
     public String printPlayerInfo() {
         return "\n  " + this.name + "\n" +
-                "     " + getMeeple().printMeepleInfo() + "\n" +
+                "     " + getMeeple().toString() + "\n" +
                 "     " + "usable walls: " + this.walls;
     }
 }
