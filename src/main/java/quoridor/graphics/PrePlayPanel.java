@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 
 public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
@@ -47,6 +48,11 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     private ButtonGroup buttonGroup;
 
+    private int size1;
+    private int size2;
+    private int numberPlayers;
+    private int wallDimension;
+    private int numberWalls;
 
 
     private Rectangle2D rectGoBackB;
@@ -55,7 +61,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private int xButtonGoBack, yButtonGoBack, xButtonPlay, yButtonPlay;
     private int widthB, heightB;
     private boolean changeB1, changeB2;
-
 
 
     public PrePlayPanel(JFrame jFrame, Color backgroundColor) throws IOException, FontFormatException {
@@ -119,20 +124,17 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jTextField = new JTextField(5);
         //setJTextFieldParameters(jTextField);
 
-        SpinnerModel value1 = new SpinnerNumberModel(6, 6, 20, 1);
+        SpinnerModel value1 = new SpinnerNumberModel(20, 6, 20, 1);
         jSpinner1 = new JSpinner(value1);
         jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
         setJSpinnerParameters1(jSpinner1);
 
-
-        SpinnerModel value2 = new SpinnerNumberModel(1, 1, 4, 1);
+        SpinnerModel value2 = new SpinnerNumberModel(2, 1, 4, 1);
         jSpinner2 = new JSpinner(value2);
         jSpinner2.setEditor(new JSpinner.DefaultEditor(jSpinner2));
         setJSpinnerParameters2(jSpinner2);
 
-
-
-        SpinnerModel value4 = new SpinnerNumberModel(5, 5, 11, 1);
+        SpinnerModel value4 = new SpinnerNumberModel(9, 5, 11, 1);
         jSpinner3 = new JSpinner(value4);
         jSpinner3.setEditor(new JSpinner.DefaultEditor(jSpinner3));
         setJSpinnerParameters3(jSpinner3);
@@ -190,8 +192,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         graphics2D.setRenderingHints(rh);
 
 
-
-        graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 40, null);
+        graphics2D.drawImage(backgroundTitle, width / 2 - backgroundTitle.getWidth() / 2, 40, null);
 
         yButtonGoBack = height / 2 + 200;
         xButtonGoBack = width / 2 - 300;
@@ -205,18 +206,20 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         if (changeB2) graphics2D.drawImage(play_images[1], xButtonPlay, yButtonPlay, null);
         else graphics2D.drawImage(play_images[0], xButtonPlay, yButtonPlay, null);
 
+
     }
 
-    private void setJRadioButton1Parameters(JRadioButton jRadioButton){
+    private void setJRadioButton1Parameters(JRadioButton jRadioButton) {
         jRadioButton.setBounds(510, 193, 50, 50);
         jRadioButton.setText("2");
+        jRadioButton.setSelected(true);
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setForeground(Color.decode("#FFFFE1"));
         jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
         add(jRadioButton);
     }
 
-    private void setJRadioButton2Parameters(JRadioButton jRadioButton){
+    private void setJRadioButton2Parameters(JRadioButton jRadioButton) {
         jRadioButton.setBounds(560, 193, 50, 50);
         jRadioButton.setText("4");
         jRadioButton.setBackground(backgroundColor);
@@ -230,8 +233,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
-
-
         add(jLabel);
     }
 
@@ -274,6 +275,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         add(jSpinner);
     }
+
     private void setJSpinnerParameters3(JSpinner jSpinner) {
         jSpinner.setBackground(backgroundColor);
         jSpinner.setForeground(Color.white);
@@ -281,7 +283,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jSpinner);
     }
 
-
+/*
     private void setJTextFieldParameters(JTextField jTextField) {
         jTextField.setBounds(525, 250, 50, 50);
         jTextField.setBackground(backgroundColor);
@@ -290,94 +292,107 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jTextField);
 
     }
+*/
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-
-        if (rectGoBackB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+    private int radioButtonSelection(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                if (button.getText() == "4") {
+                    return 4;
+                }
             }
-            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
-            jFrame.setContentPane(mainPagePanel);
-            jFrame.revalidate();
-        }
-        if (rectPlayB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            PlayPanel playPanel = new PlayPanel(jFrame, backgroundColor);
-            //PlayPanel  playPanel = new PlayPanel(this, backgroundColor, l1, ngiocatori, dimwall, nwall)
-
-            jFrame.setContentPane(playPanel);
-            jFrame.revalidate();
-        }
+        }return 2;
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
 
-        if (rectGoBackB.contains(x, y)) {
-            if (!changeB1) {
+        @Override
+        public void mouseClicked (MouseEvent e){
+            int x = e.getX();
+            int y = e.getY();
+
+            if (rectGoBackB.contains(x, y)) {
                 try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
+                    buttonAudio[1].createAudio();
+                    buttonAudio[1].playAudio();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
+                jFrame.setContentPane(mainPagePanel);
+                jFrame.revalidate();
             }
-            changeB1 = true;
-        } else changeB1 = false;
-
-        if (rectPlayB.contains(x, y)) {
-            if (!changeB2) {
+            if (rectPlayB.contains(x, y)) {
                 try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
+                    buttonAudio[1].createAudio();
+                    buttonAudio[1].playAudio();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                PlayPanel playPanel = new PlayPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
+                                    radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
+
+                jFrame.setContentPane(playPanel);
+                jFrame.revalidate();
             }
-            changeB2 = true;
-        } else changeB2 = false;
+        }
+
+        @Override
+        public void mouseMoved (MouseEvent e){
+            int x = e.getX();
+            int y = e.getY();
+
+            if (rectGoBackB.contains(x, y)) {
+                if (!changeB1) {
+                    try {
+                        buttonAudio[0].createAudio();
+                        buttonAudio[0].playAudio();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                changeB1 = true;
+            } else changeB1 = false;
+
+            if (rectPlayB.contains(x, y)) {
+                if (!changeB2) {
+                    try {
+                        buttonAudio[0].createAudio();
+                        buttonAudio[0].playAudio();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                changeB2 = true;
+            } else changeB2 = false;
+
+
+        }
+
+        @Override
+        public void mousePressed (MouseEvent mouseEvent){
+
+        }
+
+        @Override
+        public void mouseReleased (MouseEvent mouseEvent){
+
+        }
+
+        @Override
+        public void mouseEntered (MouseEvent mouseEvent){
+
+        }
+
+        @Override
+        public void mouseExited (MouseEvent mouseEvent){
+
+        }
+
+        @Override
+        public void mouseDragged (MouseEvent mouseEvent){
+
+        }
 
 
     }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent mouseEvent) {
-
-    }
-
-
-}
