@@ -57,6 +57,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private boolean changeB1, changeB2;
 
 
+
     public PrePlayPanel(JFrame jFrame, Color backgroundColor) throws IOException, FontFormatException {
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
@@ -116,12 +117,12 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         setJLabelParameters4(jLabelDimBoard);
 
         jTextField = new JTextField(5);
-        //setJTextFieldParameters(jTextField);
+        setJTextFieldParameters(jTextField);
 
         SpinnerModel value1 = new SpinnerNumberModel(6, 6, 20, 1);
         jSpinner1 = new JSpinner(value1);
         jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
-        setJSpinnerParameters1(jSpinner1);
+        //setJSpinnerParameters1(jSpinner1);
 
 
         SpinnerModel value2 = new SpinnerNumberModel(1, 1, 4, 1);
@@ -131,7 +132,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
 
 
-        SpinnerModel value4 = new SpinnerNumberModel(5, 5, 10, 1);
+        SpinnerModel value4 = new SpinnerNumberModel(5, 5, 11, 1);
         jSpinner3 = new JSpinner(value4);
         jSpinner3.setEditor(new JSpinner.DefaultEditor(jSpinner3));
         setJSpinnerParameters3(jSpinner3);
@@ -188,7 +189,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         graphics2D.setRenderingHints(rh);
 
-        //g.setFont(g.getFont().deriveFont(Font.PLAIN, 100));
 
 
         graphics2D.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 40, null);
@@ -283,9 +283,12 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
 
     private void setJTextFieldParameters(JTextField jTextField) {
-        jTextField.setBounds(500, 280, 50, 50);
-        jTextField.setBackground(Color.WHITE);
-        jTextField.setForeground(Color.black);
+        jTextField.setBounds(525, 250, 50, 50);
+        jTextField.setBackground(backgroundColor);
+        jTextField.setForeground(Color.decode("#FFFFE1"));
+        jTextField.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jTextField.setInputVerifier();
+
         add(jTextField);
 
     }
