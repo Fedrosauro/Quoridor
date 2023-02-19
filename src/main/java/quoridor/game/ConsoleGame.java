@@ -38,25 +38,23 @@ public class ConsoleGame {
             printActivePlayer();
             Action actionToPerform = askForWhichActionToPerform();
 
-            switch (actionToPerform) {
-                case MOVE_MEEPLE -> {
-                    Direction direction;
-                    do {
-                        direction = askForDirection();
-                    } while (!gameEngine.moveIsAllowed(activePlayer, direction));
-                    gameEngine.move(activePlayer, direction);
-
-                }
-                case PLACE_WALL -> {
-                    Orientation orientation;
-                    Coordinates position;
-                    do {
-                        orientation = askForOrientation();
-                        position = askForPosition();
-                    } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
-                    gameEngine.placeWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
-                }
+            if(actionToPerform == Action.MOVE_MEEPLE){
+                Direction direction;
+                do {
+                    direction = askForDirection();
+                } while (!gameEngine.moveIsAllowed(activePlayer, direction));
+                gameEngine.move(activePlayer, direction);
             }
+            else{
+                Orientation orientation;
+                Coordinates position;
+                do {
+                    orientation = askForOrientation();
+                    position = askForPosition();
+                } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
+                gameEngine.placeWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
+            }
+
         }
 
         printBoard();
@@ -66,10 +64,10 @@ public class ConsoleGame {
 
     private static void automaticTurn(AutoPlayer player){
         Action action = player.decideActionToPerform();
-        switch (action){
-            case MOVE_MEEPLE -> gameEngine.autoMove(player);
-            case PLACE_WALL -> gameEngine.autoPlace(player, WALL_DIM);
-        }
+
+        if (action == Action.MOVE_MEEPLE) gameEngine.autoMove(player);
+        else gameEngine.autoPlace(player, WALL_DIM);
+
     }
 
     private static void printBoard() {
@@ -89,17 +87,17 @@ public class ConsoleGame {
 
         System.out.print("Row: ");
         int row = scanner.nextInt();
-        System.out.println("");
+        System.out.println();
         System.out.print("Column: ");
         int column = scanner.nextInt();
-        System.out.println("");
+        System.out.println();
 
         return new Coordinates(row, column);
     }
 
     private static Orientation askForOrientation() {
 
-        int orientationId = 0;
+        int orientationId;
 
         do {
             System.out.println("1. Horizontal");
@@ -107,7 +105,7 @@ public class ConsoleGame {
             System.out.print("How do you want to place the wall? ");
             Scanner scanner = new Scanner(System.in);
             orientationId = scanner.nextInt();
-            System.out.println("");
+            System.out.println();
         } while (orientationId < 1 || orientationId > 2);
 
         if (orientationId == 1) return Orientation.HORIZONTAL;
@@ -116,7 +114,7 @@ public class ConsoleGame {
 
     private static Direction askForDirection() {
 
-        int directionId = 0;
+        int directionId;
 
         do {
             System.out.println("1. Up");
@@ -126,7 +124,7 @@ public class ConsoleGame {
             System.out.print("Where do you want to move? ");
             Scanner scanner = new Scanner(System.in);
             directionId = scanner.nextInt();
-            System.out.println("");
+            System.out.println();
         } while (directionId < 1 || directionId > 4);
 
         if (directionId == 1) return Direction.UP;
@@ -138,7 +136,7 @@ public class ConsoleGame {
 
     private static Action askForWhichActionToPerform() {
 
-        int actionId = 0;
+        int actionId;
 
         do {
             System.out.println("1. Move");

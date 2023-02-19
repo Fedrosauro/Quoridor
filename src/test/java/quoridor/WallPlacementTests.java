@@ -510,7 +510,7 @@ class WallPlacementTests {
 
     @ParameterizedTest
     @CsvSource({"4,0", "2,2", "2,1", "3,1", "3,2", "2,3", "4,2", "4,4", "0,4"})
-    void testGameIstanceInWhichWallsCantBePlacedDueToConflict(int row, int column) throws PositionException {
+    void testGameInstanceInWhichWallsCantBePlacedDueToConflict(int row, int column) throws PositionException {
         Board board = new Board(5, 5);
         Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
         board.findFinalMargin(player.getMeeple());
@@ -556,7 +556,7 @@ class WallPlacementTests {
 
     @ParameterizedTest
     @CsvSource({"1,2", "1,3", "1,1", "3,3", "4,3", "4,2", "3,0", "3,2"})
-    void testGameIstanceInWhichWallsCanBePlacedDueToConflict(int row, int column) throws PositionException {
+    void testGameInstanceInWhichWallsCanBePlacedDueToConflict(int row, int column) throws PositionException {
         Board board = new Board(5, 5);
         Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
         board.findFinalMargin(player.getMeeple());

@@ -6,7 +6,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.exceptions.PositionException;
-import quoridor.utils.*;
+import quoridor.utils.Color;
+import quoridor.utils.Coordinates;
+import quoridor.utils.Direction;
+import quoridor.utils.Margin;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,7 +105,6 @@ class WinningConditionTests {
                 board.move(meeple, direction);
                 moves++;
             }
-            Coordinates c = board.findPosition(meeple.getPosition());
             assertTrue(board.checkFinalMarginReached(meeple));
 
         } catch (PositionException e) {

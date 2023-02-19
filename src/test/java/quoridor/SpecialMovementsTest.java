@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.components.Wall;
+import quoridor.exceptions.PositionException;
 import quoridor.utils.Color;
 import quoridor.utils.Direction;
-import quoridor.exceptions.PositionException;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SpecialMovementsTest {
 

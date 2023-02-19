@@ -9,7 +9,9 @@ import quoridor.components.Meeple;
 import quoridor.components.Tile;
 import quoridor.components.Wall;
 import quoridor.exceptions.PositionException;
-import quoridor.utils.*;
+import quoridor.utils.Color;
+import quoridor.utils.Coordinates;
+import quoridor.utils.Direction;
 
 import java.util.ArrayList;
 

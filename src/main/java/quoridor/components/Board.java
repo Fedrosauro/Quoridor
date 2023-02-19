@@ -11,8 +11,8 @@ import java.util.Objects;
 public class Board {
 
     private final Tile[][] matrix;
-    private int rows;
-    private int columns;
+    private final int rows;
+    private final int columns;
     private int wallId;
     private List<Meeple> meeples;
 
@@ -435,11 +435,6 @@ public class Board {
     public int centreOfLine(int number) {
         return ((number - 1) / 2);
     }
-
-    /*public void setMeeplePosition(Meeple meeple) throws PositionException {
-        setMeeplePosition(meeple);
-    }*/
-
     public void setMeeplePosition(Meeple meeple) throws PositionException {
         switch (meeple.getInitialMargin()) {
             case LEFT -> meeple.setPosition(getPosition(centreOfLine(getRows()), 0));
@@ -457,8 +452,8 @@ public class Board {
 
     public String printPathSolution(List<Coordinates> coordinates) {
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i < coordinates.size(); i++) {
-            s.append("[ ").append(coordinates.get(i).getRow()).append(", ").append(coordinates.get(i).getColumn()).append(" ] ");
+        for (Coordinates position : coordinates) {
+            s.append("[ ").append(position.getRow()).append(", ").append(position.getColumn()).append(" ] ");
         }
         return s.toString();
     }
@@ -478,7 +473,7 @@ public class Board {
     }
 
     public List<String> printTile(int i, int j, List<Coordinates> playersPositions, List<Player> players) {
-        String sAbove = "";
+        String sAbove;
         String sUnder = "";
         ArrayList<String> result = new ArrayList<>();
 
@@ -527,8 +522,8 @@ public class Board {
 
     private List<Coordinates> getPlayersPositions(List<Player> playersList) {
         ArrayList<Coordinates> playersPositions = new ArrayList<>();
-        for (int j = 0; j < playersList.size(); j++) {
-            playersPositions.add(findPosition(playersList.get(j).getMeeple().getPosition()));
+        for (Player player : playersList) {
+            playersPositions.add(findPosition(player.getMeeple().getPosition()));
         }
         return playersPositions;
     }
