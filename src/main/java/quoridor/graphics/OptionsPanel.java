@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +37,8 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     private String[] colors;
     private Map<Color, String> colorMap;
 
+    private Font insanIb;
+
     public OptionsPanel(JFrame jFrame, Color backgroundColor){
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
@@ -50,6 +54,13 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
         setBackground(backgroundColor);
+
+        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        try {
+            insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
+            throw new RuntimeException(e);
+        }
 
         loader = new BufferedImageLoader();
 
@@ -72,11 +83,10 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
 
-        colors = new String[]{"black", "white", "red", "yellow", "cyan", "gray", "green", "pink"};
+        colors = new String[]{"black", "red", "yellow", "cyan", "gray", "green", "pink"};
 
         colorMap = new HashMap<>();
         colorMap.put(Color.BLACK, "black");
-        colorMap.put(Color.WHITE, "white");
         colorMap.put(Color.RED, "red");
         colorMap.put(Color.YELLOW, "yellow");
         colorMap.put(Color.CYAN, "cyan");
@@ -178,7 +188,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         colorList.setForeground(Color.white);
         colorList.setSelectionBackground(Color.white);
         colorList.setSelectionForeground(Color.BLACK);
-        colorList.setFont(new Font("Calibri", Font.BOLD, 30));
+        colorList.setFont(insanIb.deriveFont(Font.PLAIN, 30));
     }
 
     @Override
