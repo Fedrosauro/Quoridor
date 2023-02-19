@@ -7,6 +7,7 @@ import quoridor.exceptions.PositionException;
 import quoridor.utils.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class GameEngine {
@@ -155,5 +156,9 @@ public class GameEngine {
 
     public Board getBoard() {
         return board;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }

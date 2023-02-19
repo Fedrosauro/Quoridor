@@ -3,6 +3,8 @@ package quoridor.graphics;
 import quoridor.components.Board;
 import quoridor.game.GameEngine;
 import quoridor.game.Player;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
 import quoridor.utils.*;
 
 import javax.swing.*;
@@ -297,7 +299,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             }
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.UP)) {
-                gameEngine.doMove(activePlayer, Direction.UP);
+                gameEngine.move(activePlayer, Direction.UP);
                 if(gameEngine.didActivePlayerWin()){
                     WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
                     jFrame.setContentPane(winningPanel);
@@ -322,7 +324,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             }
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.DOWN)) {
-                gameEngine.doMove(activePlayer, Direction.DOWN);
+                gameEngine.move(activePlayer, Direction.DOWN);
                 if(gameEngine.didActivePlayerWin()){
                     WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
                     jFrame.setContentPane(winningPanel);
@@ -347,7 +349,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             }
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.LEFT)) {
-                gameEngine.doMove(activePlayer, Direction.LEFT);
+                gameEngine.move(activePlayer, Direction.LEFT);
                 if(gameEngine.didActivePlayerWin()){
                     WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
                     jFrame.setContentPane(winningPanel);
@@ -372,7 +374,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             }
 
             if (gameEngine.moveIsAllowed(activePlayer, Direction.RIGHT)) {
-                gameEngine.doMove(activePlayer, Direction.RIGHT);
+                gameEngine.move(activePlayer, Direction.RIGHT);
                 if(gameEngine.didActivePlayerWin()){
                     WinningPanel winningPanel = new WinningPanel(jFrame, activePlayer, backgroundColor);
                     jFrame.setContentPane(winningPanel);

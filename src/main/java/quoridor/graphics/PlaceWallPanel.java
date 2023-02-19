@@ -3,6 +3,8 @@ package quoridor.graphics;
 import quoridor.components.Board;
 import quoridor.game.GameEngine;
 import quoridor.game.Player;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
 import quoridor.utils.*;
 
 import javax.swing.*;

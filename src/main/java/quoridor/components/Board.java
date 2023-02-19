@@ -446,21 +446,6 @@ public class Board {
 
     }
 
-    public void setFinalMargin(Meeple meeple) {
-        setFinalMargin(meeple, meeple.getInitialMargin());
-    }
-
-    public void setFinalMargin(Meeple meeple, Margin initialMargin) {
-        switch (initialMargin) {
-            case LEFT -> meeple.setFinalMarginGivenInitial(Margin.LEFT);
-            case RIGHT -> meeple.setFinalMarginGivenInitial(Margin.RIGHT);
-            case TOP -> meeple.setFinalMarginGivenInitial(Margin.TOP);
-            case BOTTOM -> meeple.setFinalMarginGivenInitial(Margin.BOTTOM);
-
-        }
-    }
-
-
     public boolean isOdd() {
         return ((this.getRows() % 2) != 0 && (this.getColumns() % 2) != 0);
     }

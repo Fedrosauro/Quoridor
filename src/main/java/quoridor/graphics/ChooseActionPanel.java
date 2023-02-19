@@ -1,8 +1,12 @@
 package quoridor.graphics;
 
 import quoridor.components.Board;
+import quoridor.exceptions.NumberOfPlayerException;
+import quoridor.exceptions.PositionException;
 import quoridor.game.GameEngine;
 import quoridor.game.Player;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
 import quoridor.utils.*;
 
 import javax.swing.*;
@@ -51,7 +55,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
     private final transient GameEngine gameEngine;
     private transient Player activePlayer;
 
-    public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException {
+    public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException, PositionException, NumberOfPlayerException {
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
         this.wallDimension = wallDimension;

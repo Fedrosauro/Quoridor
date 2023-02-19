@@ -1,9 +1,5 @@
 package quoridor.graphics;
 
-import quoridor.utils.BufferedImageLoader;
-import quoridor.utils.AudioPlayer;
-import quoridor.utils.NumberOfPlayerException;
-import quoridor.utils.PositionException;
 import quoridor.media.BufferedImageLoader;
 import quoridor.media.AudioPlayer;
 

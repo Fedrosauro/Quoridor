@@ -1,19 +1,18 @@
 package quoridor.graphics;
 
-import quoridor.utils.AudioPlayer;
-import quoridor.utils.BufferedImageLoader;
 
-import javax.print.attribute.standard.JobKOctets;
+import quoridor.exceptions.NumberOfPlayerException;
+import quoridor.exceptions.PositionException;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
+
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Enumeration;
 
 
@@ -329,10 +328,16 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                PlayPanel playPanel = new PlayPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
-                                    radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
 
-                jFrame.setContentPane(playPanel);
+                ChooseActionPanel chooseActionPanel;
+                try {
+                    chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
+                            radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
+                } catch (PositionException | NumberOfPlayerException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                jFrame.setContentPane(chooseActionPanel);
                 jFrame.revalidate();
             }
         }
