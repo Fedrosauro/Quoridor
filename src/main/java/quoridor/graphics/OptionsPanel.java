@@ -13,27 +13,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OptionsPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
+    private final JFrame jFrame;
     private Color backgroundColor;
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
+    private static final int DELAY = 1;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
-    private BufferedImageLoader loader;
-    private BufferedImage[] menuB_images;
-    private BufferedImage backgroundTitle;
+    private transient BufferedImage[] menuBImages;
+    private transient BufferedImage backgroundTitle;
 
-    private Rectangle2D rectGoBackB;
-    private int xButtons, yButtons;
-    private int widthB, heightB;
+    private transient Rectangle2D rectGoBackB;
+    private int xButtons;
+    private int yButtons;
     private boolean changeB1;
 
-    private  JList colorList;
+    private JList<String> colorList;
     private String[] colors;
-    private Map<Color, String> colorMap;
 
     public OptionsPanel(JFrame jFrame, Color backgroundColor){
         this.jFrame = jFrame;
@@ -47,23 +44,23 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(width, height));
-        setLayout(null);
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setLayout(new CardLayout());
         setBackground(backgroundColor);
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader bufferedImageLoader = new BufferedImageLoader();
 
-        menuB_images = new BufferedImage[2];
+        menuBImages = new BufferedImage[2];
 
-        menuB_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        menuB_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        menuBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
+        menuBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
-        backgroundTitle = loader.loadImage("src/main/resources/images/background_chose_title/background_chose_title.png");
+        backgroundTitle = bufferedImageLoader.loadImage("src/main/resources/images/background_chose_title/background_chose_title.png");
 
-        yButtons = height/2 + 200;
-        xButtons = width/2 - 115;
-        heightB = 58;
-        widthB = 230;
+        yButtons = HEIGHTWINDOW /2 + 200;
+        xButtons = WIDTHWINDOW/2 - 115;
+        int heightB = 58;
+        int widthB = 230;
 
         rectGoBackB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeB1 = false;
@@ -74,7 +71,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
         colors = new String[]{"black", "white", "red", "yellow", "cyan", "gray", "green", "pink"};
 
-        colorMap = new HashMap<>();
+        Map<Color, String> colorMap = new HashMap<>();
         colorMap.put(Color.BLACK, "black");
         colorMap.put(Color.WHITE, "white");
         colorMap.put(Color.RED, "red");
@@ -84,14 +81,14 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         colorMap.put(Color.GREEN, "green");
         colorMap.put(Color.PINK, "pink");
 
-        colorList = new JList(colors);
+        colorList = new JList<>(colors);
         setJListParameters(colorMap);
 
         this.add(colorList);
     }
 
     private void initTimer(){
-        timer = new Timer(delay, this);
+        Timer timer = new Timer(DELAY, this);
         timer.start();
     }
 
@@ -126,13 +123,13 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
             ex.printStackTrace();
         }
 
-        g2d.drawImage(backgroundTitle, width/2 - backgroundTitle.getWidth()/2, 20, null);
+        g2d.drawImage(backgroundTitle, WIDTHWINDOW/2 - backgroundTitle.getWidth()/2, 20, null);
 
-        yButtons = height/2 + 200;
-        xButtons = width/2 - 115;
+        yButtons = HEIGHTWINDOW /2 + 200;
+        xButtons = WIDTHWINDOW/2 - 115;
 
-        if(changeB1) g2d.drawImage(menuB_images[1], xButtons, yButtons, null);
-        else g2d.drawImage(menuB_images[0], xButtons, yButtons, null);
+        if(changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
+        else g2d.drawImage(menuBImages[0], xButtons, yButtons, null);
     }
 
     @Override
@@ -148,7 +145,6 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
                 ex.printStackTrace();
             }
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
-            //PlayPanel  playPanel = new PlayPanel(this, backgroundColor, l1, l2, ngiocatori, dimwall, nwall)
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
         }
@@ -173,7 +169,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     }
 
     private void setJListParameters(Map<Color, String> colorMap){
-        colorList.setBounds(width/2 - 70,160,135,320);
+        colorList.setBounds(WIDTHWINDOW/2 - 70,160,135,320);
         colorList.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
         colorList.setBackground(backgroundColor);
         colorList.setForeground(Color.white);
@@ -184,26 +180,26 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 }

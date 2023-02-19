@@ -2,6 +2,8 @@ package quoridor.graphics;
 
 import quoridor.utils.BufferedImageLoader;
 import quoridor.utils.AudioPlayer;
+import quoridor.utils.NumberOfPlayerException;
+import quoridor.utils.PositionException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,23 +12,30 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
-    private Color backgroundColor;
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
+    private static final int DELAY = 1;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
-    private BufferedImageLoader loader;
-    private BufferedImage[] htpB_images, playB_images, optionsB_images, exitB_images;
-    private BufferedImage title;
-    private Rectangle2D rectHtpB, rectPlayB, rectOptionsB, rectExitB;
-    private int xButtons, yButtons;
-    private int widthB, heightB;
+    private transient BufferedImage[] htpBImages;
+    private transient BufferedImage[] playBImages;
+    private transient BufferedImage[] optionsBImages;
+    private transient BufferedImage[] exitBImages;
+    private transient BufferedImage title;
+    private transient Rectangle2D rectHtpB;
+    private transient Rectangle2D rectPlayB;
+    private transient Rectangle2D rectOptionsB;
+    private transient Rectangle2D rectExitB;
+    private int xButtons;
+    private int yButtons;
     private int distance;
-    private boolean changeB1, changeB2, changeB3, changeB4;
+    private boolean changeB1;
+    private boolean changeB2;
+    private boolean changeB3;
+    private boolean changeB4;
 
 
     public MainPagePanel(JFrame jFrame, Color backgroundColor){
@@ -41,35 +50,35 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader bufferedImageLoader = new BufferedImageLoader();
 
-        title = loader.loadImage("src/main/resources/images/title/title.png");
+        title = bufferedImageLoader.loadImage("src/main/resources/images/title/title.png");
 
-        htpB_images = new BufferedImage[2];
-        playB_images = new BufferedImage[2];
-        optionsB_images = new BufferedImage[2];
-        exitB_images = new BufferedImage[2];
+        htpBImages = new BufferedImage[2];
+        playBImages = new BufferedImage[2];
+        optionsBImages = new BufferedImage[2];
+        exitBImages = new BufferedImage[2];
 
-        htpB_images[0] = loader.loadImage("src/main/resources/images/htpButton/how_to_play_button.png");
-        htpB_images[1] = loader.loadImage("src/main/resources/images/htpButton/how_to_play_button_hover.png");
+        htpBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/htpButton/how_to_play_button.png");
+        htpBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/htpButton/how_to_play_button_hover.png");
 
-        playB_images[0] = loader.loadImage("src/main/resources/images/playButton/play_button.png");
-        playB_images[1] = loader.loadImage("src/main/resources/images/playButton/play_button_hover.png");
+        playBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/playButton/play_button.png");
+        playBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/playButton/play_button_hover.png");
 
-        optionsB_images[0] = loader.loadImage("src/main/resources/images/optionsButton/options_button.png");
-        optionsB_images[1] = loader.loadImage("src/main/resources/images/optionsButton/options_button_hover.png");
+        optionsBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/optionsButton/options_button.png");
+        optionsBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/optionsButton/options_button_hover.png");
 
-        exitB_images[0] = loader.loadImage("src/main/resources/images/exitButton/exit_button.png");
-        exitB_images[1] = loader.loadImage("src/main/resources/images/exitButton/exit_button_hover.png");
+        exitBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/exitButton/exit_button.png");
+        exitBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/exitButton/exit_button_hover.png");
 
-        yButtons = height/2 - 150;
-        xButtons = width/2 - 85;
-        heightB = 100;
-        widthB = 170;
+        yButtons = HEIGHTWINDOW /2 - 150;
+        xButtons = WIDTHWINDOW /2 - 85;
+        int heightB = 100;
+        int widthB = 170;
         distance = 110;
 
         rectHtpB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
@@ -93,7 +102,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void initTimer(){
-        timer = new Timer(delay, this);
+        Timer timer = new Timer(DELAY, this);
         timer.start();
     }
 
@@ -120,26 +129,26 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         g2d.setRenderingHints(rh);
 
-        g2d.drawImage(title, width/2 - title.getWidth()/2, 50, null);
+        g2d.drawImage(title, WIDTHWINDOW /2 - title.getWidth()/2, 50, null);
 
-        yButtons = height/2 - 150;
-        xButtons = width/2 - 85;
+        yButtons = HEIGHTWINDOW /2 - 150;
+        xButtons = WIDTHWINDOW /2 - 85;
         distance = 110;
 
-        if(changeB1) g2d.drawImage(htpB_images[1], xButtons, yButtons, null);
-        else g2d.drawImage(htpB_images[0], xButtons, yButtons, null);
+        if(changeB1) g2d.drawImage(htpBImages[1], xButtons, yButtons, null);
+        else g2d.drawImage(htpBImages[0], xButtons, yButtons, null);
 
         yButtons += distance;
-        if(changeB2) g2d.drawImage(playB_images[1], xButtons, yButtons, null);
-        else g2d.drawImage(playB_images[0], xButtons, yButtons, null);
+        if(changeB2) g2d.drawImage(playBImages[1], xButtons, yButtons, null);
+        else g2d.drawImage(playBImages[0], xButtons, yButtons, null);
 
         yButtons += distance;
-        if(changeB3) g2d.drawImage(optionsB_images[1], xButtons, yButtons, null);
-        else g2d.drawImage(optionsB_images[0], xButtons, yButtons, null);
+        if(changeB3) g2d.drawImage(optionsBImages[1], xButtons, yButtons, null);
+        else g2d.drawImage(optionsBImages[0], xButtons, yButtons, null);
 
         yButtons += distance;
-        if(changeB4) g2d.drawImage(exitB_images[1], xButtons, yButtons, null);
-        else g2d.drawImage(exitB_images[0], xButtons, yButtons, null);
+        if(changeB4) g2d.drawImage(exitBImages[1], xButtons, yButtons, null);
+        else g2d.drawImage(exitBImages[0], xButtons, yButtons, null);
     }
 
     @Override
@@ -166,8 +175,15 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            PrePlayPanel prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
-            jFrame.setContentPane(prePlayPanel);
+
+            ChooseActionPanel chooseActionPanel;
+            try {
+                chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
+            } catch (PositionException | NumberOfPlayerException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            jFrame.setContentPane(chooseActionPanel);
             jFrame.revalidate();
         }
 
@@ -179,6 +195,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
                 ex.printStackTrace();
             }
             OptionsPanel optionsPanel = new OptionsPanel(jFrame, backgroundColor);
+
             jFrame.setContentPane(optionsPanel);
             jFrame.revalidate();
         }
@@ -250,26 +267,26 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not used because not needed
     }
 }
