@@ -163,8 +163,6 @@ public class GameEngine {
         } while (!this.placementIsAllowed(player, wallPosition, orientation, wallDimension));
 
         this.placeWall(player, wallPosition, orientation, wallDimension);
-
-
     }
 
     public Board getBoard() {
@@ -173,5 +171,9 @@ public class GameEngine {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public OpponentType getOpponentType() {
+        return opponentType;
     }
 }

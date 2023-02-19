@@ -1,18 +1,12 @@
 
 [
 +src/main/java/quoridor/utils/Direction.java,4\3\43bb4f661032b84114a19297a52577faf3aa4210
-]
--src/main/java/quoridor/utils/ConsoleMain.java,2\c\2c12dd76f3e166f917ea2025078e97fb5d8fe003
 W
 'src/main/java/quoridor/utils/Color.java,4\4\440ea9ffbb2491b13edcb1d8307ec053e7594786
 ]
 -src/main/java/quoridor/components/Meeple.java,2\7\27212261fe57a5d19de1365bcb53d8ad59133edd
 [
 +src/main/java/quoridor/components/Wall.java,c\b\cb135d5d290728ff80e3f21ac16ac0440f6c4bc7
-W
-'src/main/java/quoridor/game/Player.java,a\4\a4fdefb59e058e8838705193236eed98b31103e5
-\
-,src/main/java/quoridor/game/ConsoleGame.java,8\3\831ea49ee0e2bb6b181dd3fc0a7fb87c094452c6
 ]
 -src/main/java/quoridor/utils/Coordinates.java,4\3\437f59bb7dfeb4057746e86ac8ce8eee9b00b038
 b
@@ -31,5 +25,9 @@ a
 -src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
 _
 /src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
-c
-3src/main/java/quoridor/utils/PositionException.java,8\6\86875f6d317dd6b9b5d6efc426567fcea3e0e051
+a
+1src/main/java/quoridor/graphics/OptionsPanel.java,1\6\16bc8a5ce018d827b545ae57a986c93bea59998e
+a
+1src/main/java/quoridor/graphics/WinningPanel.java,5\e\5e452db9dbcb1558f8087673d50491b287f1507a
+^
+.src/main/java/quoridor/graphics/PlayPanel.java,1\e\1ec31134ec062f7e9ad1525f4a7d5b42f38645c8

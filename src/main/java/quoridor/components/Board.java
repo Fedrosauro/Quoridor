@@ -462,7 +462,7 @@ public class Board {
 
         boolean winningPathExists = pathExistence(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
         if (winningPathExists) {
-            return path.get(0);
+            return path.get(path.size() - 1);
         }
         return findPosition(player.getMeeple().getPosition());
     }
