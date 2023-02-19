@@ -38,10 +38,14 @@ A player can either:
 
 Note that when a player has no more walls, he cannot use them anymore.
 
+## Variants
+
+- Player vs. CPU game mode
+- Variable board size
+- 4 players
+- Variable wall size
+- Variable number of walls per player
+
 ## Resources
 
 [Board Game Geek](https://boardgamegeek.com/boardgame/624/quoridor)
-
-## To Do
-
-- 
