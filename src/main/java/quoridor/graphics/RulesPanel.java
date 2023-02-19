@@ -1,7 +1,9 @@
 package quoridor.graphics;
 
-import quoridor.utils.AudioPlayer;
-import quoridor.utils.BufferedImageLoader;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

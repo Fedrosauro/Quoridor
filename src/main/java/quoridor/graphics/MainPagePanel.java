@@ -162,7 +162,14 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            RulesPanel rulesPanel = new RulesPanel(jFrame, backgroundColor);
+            RulesPanel rulesPanel = null;
+            try {
+                rulesPanel = new RulesPanel(jFrame, backgroundColor);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
             jFrame.setContentPane(rulesPanel);
             jFrame.revalidate();
         }
