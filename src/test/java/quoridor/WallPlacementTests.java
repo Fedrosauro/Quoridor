@@ -273,9 +273,9 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean horizontalWallOnFirtsRow = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
+        boolean horizontalWallOnFirstRow = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
-        assertFalse(horizontalWallOnFirtsRow);
+        assertFalse(horizontalWallOnFirstRow);
     }
 
     @ParameterizedTest
@@ -601,4 +601,4 @@ class WallPlacementTests {
     }
 
 
-}
+} //TODO: aggiungere assertion a due metodi

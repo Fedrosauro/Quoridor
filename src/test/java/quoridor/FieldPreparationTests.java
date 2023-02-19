@@ -9,7 +9,6 @@ import quoridor.components.Meeple;
 import quoridor.components.Tile;
 import quoridor.game.*;
 import quoridor.utils.Margin;
-import quoridor.exceptions.NumberOfPlayerException;
 import quoridor.game.Player;
 import quoridor.utils.Color;
 import quoridor.exceptions.PositionException;
@@ -75,7 +74,6 @@ class FieldPreparationTests {
     @ParameterizedTest
     @EnumSource(Margin.class)
     void checkFinalMargin(Margin margin) {
-        Board board = new Board(8, 8);
         Meeple meeple = new Meeple(new Tile(), Color.RED, margin);
         switch (margin) {
             case TOP -> assertSame(Margin.BOTTOM, meeple.getFinalMargin());
@@ -88,7 +86,7 @@ class FieldPreparationTests {
 
 
     @Test
-    void check2MeeplesCreation() throws PositionException, NumberOfPlayerException {
+    void check2MeeplesCreation() throws PositionException {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
@@ -104,7 +102,7 @@ class FieldPreparationTests {
     }
 
     @Test
-    void check4MeeplesCreation() throws PositionException, NumberOfPlayerException {
+    void check4MeeplesCreation() throws PositionException {
         Board board = new Board(7, 7);
         ArrayList<Player> players = new ArrayList<>();
 
@@ -126,7 +124,7 @@ class FieldPreparationTests {
 
     @ParameterizedTest
     @CsvSource({"24,4", "12,2"})
-    void checkDivisionWallWithEvenWall(int totalWalls, int totalPlayer) throws NumberOfPlayerException, PositionException {
+    void checkDivisionWallWithEvenWall(int totalWalls, int totalPlayer) throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
@@ -140,7 +138,7 @@ class FieldPreparationTests {
 
     @ParameterizedTest
     @CsvSource({"23,2", "13,4"})
-    void checkDivisionWallWithOddWall(int totalWalls, int totalPlayer) throws NumberOfPlayerException, PositionException {
+    void checkDivisionWallWithOddWall(int totalWalls, int totalPlayer) throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
         for (int i = 0; i < totalPlayer; i++) {
@@ -153,7 +151,7 @@ class FieldPreparationTests {
 
     @ParameterizedTest
     @CsvSource({"4045", "2", "3"})
-    void checkValidWallNumberWith2Player(int totalWalls) throws NumberOfPlayerException, PositionException {
+    void checkValidWallNumberWith2Player(int totalWalls) throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
 
@@ -163,12 +161,12 @@ class FieldPreparationTests {
         players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), wallsPerPlayer));
         players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), wallsPerPlayer));
 
-        assertEquals((int) totalWalls / 2, players.get(1).getWalls());
+        assertEquals(totalWalls / 2, players.get(1).getWalls());
     }
 
     @ParameterizedTest
     @CsvSource({"23", "4"})
-    void checkValidWallNumberWith4Players(int totalWalls) throws NumberOfPlayerException, PositionException {
+    void checkValidWallNumberWith4Players(int totalWalls) throws PositionException {
         ArrayList<Player> players = new ArrayList<>();
         Board board = new Board(9, 9);
 
@@ -180,7 +178,7 @@ class FieldPreparationTests {
         players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), wallsPerPlayer));
         players.add(new Player("giova", new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.BOTTOM), wallsPerPlayer));
 
-        assertEquals((int) totalWalls / 4, players.get(1).getWalls());
+        assertEquals(totalWalls / 4, players.get(1).getWalls());
 
     }
 

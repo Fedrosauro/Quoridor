@@ -7,7 +7,6 @@ import quoridor.components.Board;
 import quoridor.components.Meeple;
 import quoridor.exceptions.PositionException;
 import quoridor.utils.Color;
-import quoridor.utils.Coordinates;
 import quoridor.utils.Direction;
 import quoridor.utils.Margin;
 

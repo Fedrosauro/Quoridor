@@ -180,9 +180,7 @@ class GameFlowTest {
         players.add(new Player("fede", new Meeple(board.getPosition(6, 1), Color.RED, Margin.TOP), 10));
         players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.TOP), 10));
         players.add(new Player("giova", new Meeple(board.getPosition(6, 0), Color.BLUE, Margin.TOP), 10));
-        /*for (int i = 0; i < players.size() && i < Margin.values().length; i++) {
-            players.get(i).getMeeple().setFinalMarginGivenInitial(Margin.values()[i]);
-        }*/
+
         GameEngine gameEngine = new GameEngine(players, board);
 
         gameEngine.move(players.get(3), Direction.UP);
