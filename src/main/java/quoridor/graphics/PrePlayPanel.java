@@ -1,18 +1,20 @@
 package quoridor.graphics;
 
+import quoridor.utils.AudioPlayer;
+import quoridor.utils.BufferedImageLoader;
+import quoridor.utils.OpponentType;
 
-import quoridor.exceptions.NumberOfPlayerException;
-import quoridor.exceptions.PositionException;
-import quoridor.media.AudioPlayer;
-import quoridor.media.BufferedImageLoader;
-
+import javax.print.attribute.standard.JobKOctets;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 
@@ -38,14 +40,19 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private JLabel jLabelWalls;
     private JLabel jLabelDimWalls;
     private JLabel jLabelDimBoard;
+
+    private JLabel jLabelPlayAgainst;
     private JSpinner jSpinner1;
     private JSpinner jSpinner2;
     private JSpinner jSpinner3;
 
     private JRadioButton jRadioButton1;
     private JRadioButton jRadioButton2;
-
+    private JRadioButton jRadioButton3;
+    private JRadioButton jRadioButton4;
     private ButtonGroup buttonGroup;
+    private ButtonGroup buttonGroup1;
+
 
     private int size1;
     private int size2;
@@ -119,9 +126,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         jLabelDimBoard = new JLabel("Enter board dimension: ");
         setJLabelParameters4(jLabelDimBoard);
-
-        jTextField = new JTextField(5);
-        //setJTextFieldParameters(jTextField);
 
         SpinnerModel value1 = new SpinnerNumberModel(20, 6, 20, 1);
         jSpinner1 = new JSpinner(value1);
@@ -259,6 +263,8 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jLabel);
     }
 
+
+
     private void setJSpinnerParameters1(JSpinner jSpinner) {
         jSpinner.setBackground(backgroundColor);
         jSpinner.setForeground(Color.white);
@@ -282,16 +288,6 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jSpinner);
     }
 
-/*
-    private void setJTextFieldParameters(JTextField jTextField) {
-        jTextField.setBounds(525, 250, 50, 50);
-        jTextField.setBackground(backgroundColor);
-        jTextField.setForeground(Color.decode("#FFFFE1"));
-        jTextField.setFont(Insanib.deriveFont(Font.PLAIN, 28));
-        add(jTextField);
-
-    }
-*/
 
     private int radioButtonSelection(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
@@ -328,16 +324,11 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                PlayPanel playPanel = new PlayPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
+                                                    radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(),
+                                                    (Integer) jSpinner1.getValue() );
 
-                ChooseActionPanel chooseActionPanel;
-                try {
-                    chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
-                            radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
-                } catch (PositionException | NumberOfPlayerException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                jFrame.setContentPane(chooseActionPanel);
+                jFrame.setContentPane(playPanel);
                 jFrame.revalidate();
             }
         }
