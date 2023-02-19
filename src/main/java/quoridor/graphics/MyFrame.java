@@ -2,14 +2,15 @@ package quoridor.graphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MyFrame extends JFrame {
 
-    public MyFrame(){
+    public MyFrame() throws IOException, FontFormatException {
         initUI();
     }
 
-    public void initUI() {
+    public void initUI() throws IOException, FontFormatException {
         setContentPane(new MainPagePanel(this, Color.BLACK));
 
         setResizable(false);
@@ -22,7 +23,7 @@ public class MyFrame extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String args[]) { ///added just to see how the actual game would look like
+    public static void main(String args[]) throws IOException, FontFormatException { ///added just to see how the actual game would look like
         MyFrame myFrame = new MyFrame();
     }
 

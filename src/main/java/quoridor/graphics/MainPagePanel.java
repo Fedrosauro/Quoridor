@@ -9,9 +9,12 @@ import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private JFrame jFrame;
+    Font Insanibc, Insanib;
+
     private Color backgroundColor;
     private final int width = 700;
     private final int height = 700;
@@ -30,7 +33,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     private boolean changeB1, changeB2, changeB3, changeB4;
 
 
-    public MainPagePanel(JFrame jFrame, Color backgroundColor){
+    public MainPagePanel(JFrame jFrame, Color backgroundColor) {
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
 
@@ -38,9 +41,11 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         initTimer();
     }
 
-    private void setup(){ //used to setup the Panel
+    private void setup()  { //used to setup the Panel
         addMouseListener(this);
         addMouseMotionListener(this);
+
+
 
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
@@ -144,7 +149,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e)  {
         int x = e.getX();
         int y = e.getY();
 
@@ -155,7 +160,16 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            RulesPanel rulesPanel = new RulesPanel(jFrame, backgroundColor);
+            RulesPanel rulesPanel = null;
+            try {
+                rulesPanel = new RulesPanel(jFrame, backgroundColor);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+
+
             jFrame.setContentPane(rulesPanel);
             jFrame.revalidate();
         }

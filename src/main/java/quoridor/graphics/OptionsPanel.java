@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -147,7 +148,8 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
+            MainPagePanel mainPagePanel = null;
+            mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
         }
