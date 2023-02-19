@@ -1,6 +1,7 @@
 package quoridor.graphics;
 
 import quoridor.utils.BufferedImageLoader;
+import quoridor.utils.OpponentType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class PlayPanel extends JPanel implements MouseListener, MouseMotionListe
 
     //merged master into PlayPanel for game engine objects
 
-    public PlayPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls){
+    public PlayPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls, OpponentType opponentType){
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
         this.size1 = size1;

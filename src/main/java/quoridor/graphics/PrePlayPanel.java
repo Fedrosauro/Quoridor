@@ -2,6 +2,7 @@ package quoridor.graphics;
 
 import quoridor.utils.AudioPlayer;
 import quoridor.utils.BufferedImageLoader;
+import quoridor.utils.OpponentType;
 
 import javax.print.attribute.standard.JobKOctets;
 import javax.swing.*;
@@ -39,14 +40,19 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private JLabel jLabelWalls;
     private JLabel jLabelDimWalls;
     private JLabel jLabelDimBoard;
+
+    private JLabel jLabelPlayAgainst;
     private JSpinner jSpinner1;
     private JSpinner jSpinner2;
     private JSpinner jSpinner3;
 
     private JRadioButton jRadioButton1;
     private JRadioButton jRadioButton2;
-
+    private JRadioButton jRadioButton3;
+    private JRadioButton jRadioButton4;
     private ButtonGroup buttonGroup;
+    private ButtonGroup buttonGroup1;
+
 
     private int size1;
     private int size2;
@@ -120,6 +126,20 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         jLabelDimBoard = new JLabel("Enter board dimension: ");
         setJLabelParameters4(jLabelDimBoard);
+
+        jLabelPlayAgainst = new JLabel("Play against: ");
+        setJLabelParameters5(jLabelPlayAgainst);
+
+        jRadioButton3 = new JRadioButton();
+        setJRadioButton3Parameters(jRadioButton3);
+
+        jRadioButton4 = new JRadioButton();
+        setJRadioButton4Parameters(jRadioButton4);
+
+        buttonGroup1 = new ButtonGroup(); //for setting button exclusive
+        buttonGroup1.add(jRadioButton3);
+        buttonGroup1.add(jRadioButton4);
+
 
         jTextField = new JTextField(5);
         //setJTextFieldParameters(jTextField);
@@ -228,6 +248,24 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jRadioButton);
     }
 
+    private void setJRadioButton3Parameters(JRadioButton jRadioButton) {
+        jRadioButton.setBounds(400, 437, 120, 50);
+        jRadioButton.setText("HUMAN");
+        jRadioButton.setSelected(true);
+        jRadioButton.setBackground(backgroundColor);
+        jRadioButton.setForeground(Color.decode("#FFFFE1"));
+        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        add(jRadioButton);
+    }
+
+    private void setJRadioButton4Parameters(JRadioButton jRadioButton) {
+        jRadioButton.setBounds(520, 437, 160, 50);
+        jRadioButton.setText("COMPUTER");
+        jRadioButton.setBackground(backgroundColor);
+        jRadioButton.setForeground(Color.decode("#FFFFE1"));
+        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        add(jRadioButton);
+    }
     private void setJLabelParameters1(JLabel jLabel) {
         jLabel.setBounds(80, 120, 350, 200);
         jLabel.setBackground(backgroundColor);
@@ -254,6 +292,14 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     private void setJLabelParameters4(JLabel jLabel) {
         jLabel.setBounds(80, 300, 500, 200);
+        jLabel.setBackground(backgroundColor);
+        jLabel.setForeground(Color.decode("#FFFFE1"));
+        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        add(jLabel);
+    }
+
+    private void setJLabelParameters5(JLabel jLabel) {
+        jLabel.setBounds(80, 360, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
@@ -330,7 +376,8 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
                     ex.printStackTrace();
                 }
                 PlayPanel playPanel = new PlayPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
-                                    radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
+                                                    radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(),
+                                                    (Integer) jSpinner1.getValue(), OpponentType.valueOf(buttonGroup1.toString()) );
 
                 jFrame.setContentPane(playPanel);
                 jFrame.revalidate();
