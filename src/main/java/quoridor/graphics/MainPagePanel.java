@@ -4,12 +4,15 @@ import quoridor.utils.BufferedImageLoader;
 import quoridor.utils.AudioPlayer;
 import quoridor.utils.NumberOfPlayerException;
 import quoridor.utils.PositionException;
+import quoridor.media.BufferedImageLoader;
+import quoridor.media.AudioPlayer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
     private final JFrame jFrame;
@@ -175,15 +178,15 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
-            ChooseActionPanel chooseActionPanel;
+            PrePlayPanel prePlayPanel = null;
             try {
-                chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, 11, 11, 2, 2, 10);
-            } catch (PositionException | NumberOfPlayerException ex) {
+                prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (FontFormatException ex) {
                 throw new RuntimeException(ex);
             }
-
-            jFrame.setContentPane(chooseActionPanel);
+            jFrame.setContentPane(prePlayPanel);
             jFrame.revalidate();
         }
 

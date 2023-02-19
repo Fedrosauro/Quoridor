@@ -1,4 +1,4 @@
-package quoridor.utils;
+package quoridor.media;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -8,7 +8,7 @@ import java.io.IOException;
 public class BufferedImageLoader {
 
     //this is where we load our images
-    public BufferedImage img;
+    private BufferedImage img;
 
     public BufferedImage loadImage(String path){
         try {

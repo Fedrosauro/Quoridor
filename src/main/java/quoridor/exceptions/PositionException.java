@@ -1,4 +1,4 @@
-package quoridor.utils;
+package quoridor.exceptions;
 
 public class PositionException extends Exception {
 

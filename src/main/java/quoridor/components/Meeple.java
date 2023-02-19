@@ -15,25 +15,23 @@ public class Meeple {
         this.position = position;
         this.color = color;
         this.margin = Margin.TOP;
+        this.setFinalMarginGivenInitial();
     }
 
     public Meeple(Tile position, Color color, Margin margin) {
         this.position = position;
         this.color = color;
         this.margin = margin;
+        this.setFinalMarginGivenInitial();
     }
 
-    public void setFinalMarginGivenInitial(Margin margin) {
-        switch (margin) {
-            case LEFT -> setFinalPosition(Margin.RIGHT);
-            case RIGHT -> setFinalPosition(Margin.LEFT);
-            case TOP -> setFinalPosition(Margin.BOTTOM);
-            case BOTTOM -> setFinalPosition(Margin.TOP);
+    private void setFinalMarginGivenInitial() {
+        switch (this.margin) {
+            case LEFT -> this.finalMargin = Margin.RIGHT;
+            case RIGHT -> this.finalMargin = Margin.LEFT;
+            case TOP -> this.finalMargin = Margin.BOTTOM;
+            case BOTTOM -> this.finalMargin = Margin.TOP;
         }
-    }
-
-    public void setInitialMargin(Margin margin) {
-        this.margin = margin;
     }
 
     public Margin getInitialMargin() {
@@ -64,7 +62,8 @@ public class Meeple {
         this.color = color;
     }
 
-    public String printMeepleInfo() {
-        return "meeple: " + this.color;
+    @Override
+    public String toString() {
+        return "Meeple: " + this.color;
     }
 }

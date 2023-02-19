@@ -29,7 +29,7 @@ public class Tile {
         this.northWall = northWall;
     }
 
-    public boolean equalTile(Tile tile) {
+    public boolean areTilesEqual(Tile tile) {
         boolean equalWalls = true;
         if (this.northWall == null) equalWalls = tile.getNorthWall() == null;
         else equalWalls = this.northWall.getId() == tile.getNorthWall().getId();
