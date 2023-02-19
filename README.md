@@ -36,7 +36,7 @@ A player can either:
 - move his meeple to an adjacent square in any direction (forward, backward, left, right)
 - place a wall
 
-Note that when a player has no more walls, he cannot use them anymore.
+Note that when a player has no spare walls, only the movement is allowed
 
 ## Features
 
