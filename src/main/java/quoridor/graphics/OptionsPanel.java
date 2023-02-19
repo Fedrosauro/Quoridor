@@ -19,12 +19,12 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     private static final int HEIGHTWINDOW = 700;
     private static final int DELAY = 1;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
-    private BufferedImage[] menuBImages;
-    private BufferedImage backgroundTitle;
+    private transient BufferedImage[] menuBImages;
+    private transient BufferedImage backgroundTitle;
 
-    private Rectangle2D rectGoBackB;
+    private transient Rectangle2D rectGoBackB;
     private int xButtons;
     private int yButtons;
     private boolean changeB1;

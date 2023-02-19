@@ -25,27 +25,27 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
     private static final int WIDTHWINDOW = 700;
     private static final int HEIGHTWINDOW = 700;
 
-    private BufferedImage tile;
-    private BufferedImage wallV;
-    private BufferedImage wallH;
-    private BufferedImage pawn1;
-    private BufferedImage pawn2;
-    private BufferedImage pawn3;
-    private BufferedImage pawn4;
-    private BufferedImage pawn1Turn;
-    private BufferedImage pawn2Turn;
-    private BufferedImage pawn3Turn;
-    private BufferedImage pawn4Turn;
+    private transient BufferedImage tile;
+    private transient BufferedImage wallV;
+    private transient BufferedImage wallH;
+    private transient BufferedImage pawn1;
+    private transient BufferedImage pawn2;
+    private transient BufferedImage pawn3;
+    private transient BufferedImage pawn4;
+    private transient BufferedImage pawn1Turn;
+    private transient BufferedImage pawn2Turn;
+    private transient BufferedImage pawn3Turn;
+    private transient BufferedImage pawn4Turn;
 
-    private BufferedImage[] placeWallButton;
-    private BufferedImage[] smallGoBackButton;
+    private transient BufferedImage[] placeWallButton;
+    private transient BufferedImage[] smallGoBackButton;
 
-    private Rectangle2D rectPlaceWall;
-    private Rectangle2D rectSmallButton;
+    private transient Rectangle2D rectPlaceWall;
+    private transient Rectangle2D rectSmallButton;
     private boolean changeBPlaceWall;
     private boolean changeSmallButton;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
     private Font insanIb;
 
@@ -53,8 +53,8 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
     private JSpinner jSpinner2;
     private ButtonGroup buttonGroup;
 
-    private GameEngine gameEngine;
-    private Player activePlayer;
+    private final transient GameEngine gameEngine;
+    private transient Player activePlayer;
     public PlaceWallPanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
         this.jFrame = jFrame;
         this.gameEngine = gameEngine;

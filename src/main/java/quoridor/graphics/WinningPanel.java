@@ -13,26 +13,26 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class WinningPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
-    private Color backgroundColor;
-    private Player winnerPlayer;
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
+    private final transient Player winnerPlayer;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
 
-    private BufferedImageLoader loader;
-    private BufferedImage[] menuB_images;
-    private BufferedImage pawn1, pawn2, pawn3, pawn4;
+    private transient BufferedImage[] menuBImages;
+    private transient BufferedImage pawn1;
+    private transient BufferedImage pawn2;
+    private transient BufferedImage pawn3;
+    private transient BufferedImage pawn4;
 
-    private Rectangle2D rectGoBackB;
-    private int xButtons, yButtons;
-    private int widthB, heightB;
+    private transient Rectangle2D rectGoBackB;
+    private int xButtons;
+    private int yButtons;
     private boolean changeB1;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
-    private Font Insanibc, Insanib;
+    private Font insanIb;
 
 
     public WinningPanel(JFrame jFrame, Player player, Color backgroundColor){
@@ -48,35 +48,33 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
         try {
-            Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader loader = new BufferedImageLoader();
 
-        menuB_images = new BufferedImage[2];
+        menuBImages = new BufferedImage[2];
 
-        menuB_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        menuB_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        menuBImages[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
+        menuBImages[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
         pawn1 = loader.loadImage("src/main/resources/images/meepleImages/pawn1.png");
         pawn2 = loader.loadImage("src/main/resources/images/meepleImages/pawn2.png");
         pawn3 = loader.loadImage("src/main/resources/images/meepleImages/pawn3.png");
         pawn4 = loader.loadImage("src/main/resources/images/meepleImages/pawn4.png");
 
-        yButtons = height/2 + 200;
-        xButtons = width/2 - 115;
-        heightB = 58;
-        widthB = 230;
+        yButtons = HEIGHTWINDOW /2 + 200;
+        xButtons = WIDTHWINDOW /2 - 115;
+        int heightB = 58;
+        int widthB = 230;
 
         rectGoBackB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeB1 = false;
@@ -87,7 +85,8 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
     }
 
     private void initTimer(){
-        timer = new Timer(delay, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -115,7 +114,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         g2d.setRenderingHints(rh);
 
         int startX = 220;
-        int y = height/2 - 100;
+        int y = HEIGHTWINDOW /2 - 100;
 
         switch (winnerPlayer.getMeeple().getColor()){
             case RED -> g2d.drawImage(pawn1, startX, y, null);
@@ -125,14 +124,14 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         }
 
         g2d.setColor(new Color(255, 255, 225));
-        g2d.setFont(Insanib.deriveFont(Font.PLAIN, 30));
+        g2d.setFont(insanIb.deriveFont(Font.PLAIN, 30));
         g2d.drawString("is the WINNER!!!", startX + pawn1.getWidth() + 13, y + pawn1.getHeight() - 10);
 
-        yButtons = height/2 + 200;
-        xButtons = width/2 - 115;
+        yButtons = HEIGHTWINDOW /2 + 200;
+        xButtons = WIDTHWINDOW /2 - 115;
 
-        if(changeB1) g2d.drawImage(menuB_images[1], xButtons, yButtons, null);
-        else g2d.drawImage(menuB_images[0], xButtons, yButtons, null);
+        if(changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
+        else g2d.drawImage(menuBImages[0], xButtons, yButtons, null);
     }
 
     @Override
@@ -173,26 +172,26 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 }

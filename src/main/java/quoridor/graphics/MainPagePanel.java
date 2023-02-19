@@ -18,17 +18,17 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     private static final int HEIGHTWINDOW = 700;
     private static final int DELAY = 1;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
-    private BufferedImage[] htpBImages;
-    private BufferedImage[] playBImages;
-    private BufferedImage[] optionsBImages;
-    private BufferedImage[] exitBImages;
-    private BufferedImage title;
-    private Rectangle2D rectHtpB;
-    private Rectangle2D rectPlayB;
-    private Rectangle2D rectOptionsB;
-    private Rectangle2D rectExitB;
+    private transient BufferedImage[] htpBImages;
+    private transient BufferedImage[] playBImages;
+    private transient BufferedImage[] optionsBImages;
+    private transient BufferedImage[] exitBImages;
+    private transient BufferedImage title;
+    private transient Rectangle2D rectHtpB;
+    private transient Rectangle2D rectPlayB;
+    private transient Rectangle2D rectOptionsB;
+    private transient Rectangle2D rectExitB;
     private int xButtons;
     private int yButtons;
     private int distance;

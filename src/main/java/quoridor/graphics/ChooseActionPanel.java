@@ -24,32 +24,32 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
     private static final int WIDTHWINDOW = 700;
     private static final int HEIGHTWINDOW = 700;
 
-    private BufferedImage tile;
-    private BufferedImage wallV;
-    private BufferedImage wallH;
-    private BufferedImage pawn1;
-    private BufferedImage pawn2;
-    private BufferedImage pawn3;
-    private BufferedImage pawn4;
-    private BufferedImage pawn1Turn;
-    private BufferedImage pawn2Turn;
-    private BufferedImage pawn3Turn;
-    private BufferedImage pawn4Turn;
-    private BufferedImage[] moveButtonImage;
-    private BufferedImage[] placeWallImage;
-    private BufferedImage[] smallGoBackButton;
+    private transient BufferedImage tile;
+    private transient BufferedImage wallV;
+    private transient BufferedImage wallH;
+    private transient BufferedImage pawn1;
+    private transient BufferedImage pawn2;
+    private transient BufferedImage pawn3;
+    private transient BufferedImage pawn4;
+    private transient BufferedImage pawn1Turn;
+    private transient BufferedImage pawn2Turn;
+    private transient BufferedImage pawn3Turn;
+    private transient BufferedImage pawn4Turn;
+    private transient BufferedImage[] moveButtonImage;
+    private transient BufferedImage[] placeWallImage;
+    private transient BufferedImage[] smallGoBackButton;
 
-    private Rectangle2D rectMoveB;
-    private Rectangle2D rectPlaceWallB;
-    private Rectangle2D rectSmallButton;
+    private transient Rectangle2D rectMoveB;
+    private transient Rectangle2D rectPlaceWallB;
+    private transient Rectangle2D rectSmallButton;
     private boolean changeBMove;
     private boolean changeBPlaceWall;
     private boolean changeSmallButton;
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
-    private final GameEngine gameEngine;
-    private Player activePlayer;
+    private final transient GameEngine gameEngine;
+    private transient Player activePlayer;
 
     public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException {
         this.jFrame = jFrame;
@@ -283,11 +283,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             }
 
             MoveMeeplePanel moveMeeplePanel;
-            try {
-                moveMeeplePanel = new MoveMeeplePanel(jFrame, gameEngine, backgroundColor, wallDimension);
-            } catch (PositionException | NumberOfPlayerException ex) {
-                throw new RuntimeException(ex);
-            }
+            moveMeeplePanel = new MoveMeeplePanel(jFrame, gameEngine, backgroundColor, wallDimension);
             jFrame.setContentPane(moveMeeplePanel);
             jFrame.revalidate();
         }

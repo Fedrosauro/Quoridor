@@ -21,29 +21,29 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
     private static final int WIDTHWINDOW = 700;
     private static final int HEIGHTWINDOW = 700;
 
-    private BufferedImage tile;
-    private BufferedImage wallV;
-    private BufferedImage wallH;
-    private BufferedImage pawn1;
-    private BufferedImage pawn2;
-    private BufferedImage pawn3;
-    private BufferedImage pawn4;
-    private BufferedImage pawn1Turn;
-    private BufferedImage pawn2Turn;
-    private BufferedImage pawn3Turn;
-    private BufferedImage pawn4Turn;
+    private transient BufferedImage tile;
+    private transient BufferedImage wallV;
+    private transient BufferedImage wallH;
+    private transient BufferedImage pawn1;
+    private transient BufferedImage pawn2;
+    private transient BufferedImage pawn3;
+    private transient BufferedImage pawn4;
+    private transient BufferedImage pawn1Turn;
+    private transient BufferedImage pawn2Turn;
+    private transient BufferedImage pawn3Turn;
+    private transient BufferedImage pawn4Turn;
 
-    private BufferedImage[] upArrowImage;
-    private BufferedImage[] downArrowImage;
-    private BufferedImage[] leftArrowImage;
-    private BufferedImage[] rightArrowImage;
-    private BufferedImage[] smallGoBackButton;
+    private transient BufferedImage[] upArrowImage;
+    private transient BufferedImage[] downArrowImage;
+    private transient BufferedImage[] leftArrowImage;
+    private transient BufferedImage[] rightArrowImage;
+    private transient BufferedImage[] smallGoBackButton;
 
-    private Rectangle2D rectUpArrow;
-    private Rectangle2D rectDownArrow;
-    private Rectangle2D rectLeftArrow;
-    private Rectangle2D rectRightArrow;
-    private Rectangle2D rectSmallButton;
+    private transient Rectangle2D rectUpArrow;
+    private transient Rectangle2D rectDownArrow;
+    private transient Rectangle2D rectLeftArrow;
+    private transient Rectangle2D rectRightArrow;
+    private transient Rectangle2D rectSmallButton;
     private boolean changeBUpArrow;
     private boolean changeBDownArrow;
     private boolean changeBLeftArrow;
@@ -51,11 +51,11 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
     private boolean changeSmallButton;
 
 
-    private AudioPlayer[] buttonAudio;
+    private transient AudioPlayer[] buttonAudio;
 
 
-    private GameEngine gameEngine;
-    private Player activePlayer;
+    private final transient GameEngine gameEngine;
+    private transient Player activePlayer;
 
 
     public MoveMeeplePanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
