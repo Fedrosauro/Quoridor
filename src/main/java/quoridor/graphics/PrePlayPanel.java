@@ -5,6 +5,7 @@ import quoridor.exceptions.NumberOfPlayerException;
 import quoridor.exceptions.PositionException;
 import quoridor.media.AudioPlayer;
 import quoridor.media.BufferedImageLoader;
+import quoridor.utils.OpponentType;
 
 import javax.swing.*;
 import java.awt.*;

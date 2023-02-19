@@ -1,11 +1,13 @@
 package quoridor.graphics;
 
 import quoridor.components.Board;
+import quoridor.game.AutoPlayer;
 import quoridor.game.GameEngine;
 import quoridor.game.Player;
 import quoridor.media.AudioPlayer;
 import quoridor.media.BufferedImageLoader;
 import quoridor.utils.*;
+import quoridor.utils.Action;
 
 import javax.swing.*;
 import java.awt.*;
@@ -151,9 +153,6 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
 
-        gameEngine.getBoard().placeWall(new Coordinates(3,1), Orientation.HORIZONTAL, 2);
-        gameEngine.getBoard().placeWall(new Coordinates(1,1), Orientation.VERTICAL, 2);
-
         setFont(insanIb.deriveFont(Font.PLAIN, 15));
     }
 
@@ -224,16 +223,8 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
-                g2d.setColor(new Color(44, 4, 4));
-                if(i == 0 && j == 0){
-                    g2d.drawString(i + "," + j, startX + 10, y + 25);
-                }
-                if(i == 0 && j == 1){
-                    g2d.drawString(i + "," + j, startX + 10, y + 25);
-                }
-                if(i == 1 && j == 0){
-                    g2d.drawString(i + "," + j, startX + 10, y + 25);
-                }
+                g2d.setColor(new Color(68, 6, 6, 168));
+                g2d.drawString(i + "," + j, startX + 10, y + 25);
                 if(board.getMatrix()[i][j].getNorthWall() != null)
                     g2d.drawImage(wallH, startX - 2, y - 4, null);
                 if(board.getMatrix()[i][j].getEastWall() != null)

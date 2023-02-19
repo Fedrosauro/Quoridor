@@ -35,7 +35,6 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     private boolean changeB1;
 
 
-
     public RulesPanel(JFrame jFrame, Color backgroundColor){
 
         this.jFrame = jFrame;
