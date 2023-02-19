@@ -1,19 +1,15 @@
 package quoridor;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import quoridor.components.Board;
 import quoridor.components.Meeple;
-import quoridor.game.AutoPlayer;
-import quoridor.game.GameEngine;
+import quoridor.exceptions.PositionException;
 import quoridor.game.Player;
 import quoridor.utils.*;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class PrintGameStateTests {
 
@@ -96,62 +92,9 @@ class PrintGameStateTests {
         Board board = new Board(3, 3);
         Meeple meeple = new Meeple(board.getPosition(1, 1), Color.GREEN);
 
-        String result = meeple.printMeepleInfo();
+        String result = meeple.toString();
 
-        assertEquals("meeple: GREEN", result);
+        assertEquals("Meeple: GREEN", result);
     }
 
-    @Test
-    void printPlayerInfoTest() throws PositionException {
-        Board board = new Board(3, 3);
-        Player player = new Player("giec", new Meeple(board.getPosition(1, 1), Color.GREEN), 10);
-
-        String result = player.printPlayerInfo();
-
-        assertEquals("\n  giec\n" + "     meeple: GREEN\n" + "     usable walls: 10", result);
-    }
-
-    @Test
-    void printPlayersInfoTest() throws PositionException {
-        ArrayList<Player> players = new ArrayList<>();
-        Board board = new Board(3, 3);
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.BLUE), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 7));
-
-        GameEngine gameEngine = new GameEngine(players, board);
-
-        String result = gameEngine.printPlayersInfo();
-
-        assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     meeple: GREEN\n" + "     usable walls: 7", result);
-    }
-
-    @Test
-    void printBoardInfoTest() throws PositionException {
-        ArrayList<Player> players = new ArrayList<>();
-        Board board = new Board(5, 5);
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.BLUE), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 7));
-
-        GameEngine gameEngine = new GameEngine(players, board);
-
-        String result = gameEngine.printBoardInfo();
-
-        assertEquals("\n" + "=====================\n" + "BOARD\n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     B     O     O     O    \n" + "                              \n" + " G     O     O     O     O    \n" + "=====================", result);
-    }
-
-    @Test
-    void printGameStateTest() throws PositionException {
-        ArrayList<Player> players = new ArrayList<>();
-        Board board = new Board(5, 5);
-        players.add(new Player("giec", new Meeple(board.getPosition(1, 1), Color.BLUE), 10));
-        players.add(new Player("ludo", new Meeple(board.getPosition(0, 0), Color.GREEN), 7));
-
-        GameEngine gameEngine = new GameEngine(players, board);
-
-        String result = gameEngine.printGameState();
-
-        System.out.println(result);
-
-        assertEquals("\n" + "=====================\n" + "PLAYERS\n" + "\n  giec\n" + "     meeple: BLUE\n" + "     usable walls: 10\n" + "  ludo\n" + "     meeple: GREEN\n" + "     usable walls: 7\n" + "=====================\n" + "BOARD\n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     O     O     O     O    \n" + "                              \n" + " O     B     O     O     O    \n" + "                              \n" + " G     O     O     O     O    \n" + "=====================\n", result);
-    }
 }

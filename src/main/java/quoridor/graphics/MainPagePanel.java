@@ -1,7 +1,7 @@
 package quoridor.graphics;
 
-import quoridor.utils.BufferedImageLoader;
-import quoridor.utils.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
+import quoridor.media.AudioPlayer;
 
 import javax.swing.*;
 import java.awt.*;

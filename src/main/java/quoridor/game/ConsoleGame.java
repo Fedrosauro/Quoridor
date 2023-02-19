@@ -21,8 +21,6 @@ public class ConsoleGame {
         ArrayList<String> names = new ArrayList<>();
         names.add("Player 1");
         names.add("Player 2");
-        /*names.add("Player 3");
-        names.add("Player 4");*/
 
 
         try {
@@ -33,46 +31,43 @@ public class ConsoleGame {
 
         welcomePlayers();
 
-        while (true) {
+        while (!gameEngine.didActivePlayerWin()) {
+            gameEngine.nextActivePlayer();
             activePlayer = gameEngine.getActivePlayer();
             printBoard();
             printActivePlayer();
             Action actionToPerform = askForWhichActionToPerform();
-            switch (actionToPerform) {
-                case MOVEMEEPLE -> {
-                    Direction direction;
-                    do {
-                        direction = askForDirection();
-                    } while (!gameEngine.moveIsAllowed(activePlayer, direction));
-                    gameEngine.doMove(activePlayer, direction);
 
-                    if (gameEngine.didActivePlayerWin()) {
-                        printBoard();
-                        printWinner();
-                        System.exit(0);
-                    }
-                }
-                case PLACEWALL -> {
-                    Orientation orientation;
-                    Coordinates position;
-                    do {
-                        orientation = askForOrientation();
-                        position = askForPosition();
-                    } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
-                    gameEngine.doPlaceWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
-                }
+            if(actionToPerform == Action.MOVE_MEEPLE){
+                Direction direction;
+                do {
+                    direction = askForDirection();
+                } while (!gameEngine.moveIsAllowed(activePlayer, direction));
+                gameEngine.move(activePlayer, direction);
             }
-            gameEngine.nextActivePlayer();
+            else{
+                Orientation orientation;
+                Coordinates position;
+                do {
+                    orientation = askForOrientation();
+                    position = askForPosition();
+                } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
+                gameEngine.placeWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
+            }
+
         }
+
+        printBoard();
+        printWinner();
 
     }
 
     private static void automaticTurn(AutoPlayer player){
         Action action = player.decideActionToPerform();
-        switch (action){
-            case MOVEMEEPLE -> gameEngine.autoMove(player);
-            case PLACEWALL -> gameEngine.autoPlace(player, WALL_DIM);
-        }
+
+        if (action == Action.MOVE_MEEPLE) gameEngine.autoMove(player);
+        else gameEngine.autoPlace(player, WALL_DIM);
+
     }
 
     private static void printBoard() {
@@ -92,17 +87,17 @@ public class ConsoleGame {
 
         System.out.print("Row: ");
         int row = scanner.nextInt();
-        System.out.println("");
+        System.out.println();
         System.out.print("Column: ");
         int column = scanner.nextInt();
-        System.out.println("");
+        System.out.println();
 
         return new Coordinates(row, column);
     }
 
     private static Orientation askForOrientation() {
 
-        int orientationId = 0;
+        int orientationId;
 
         do {
             System.out.println("1. Horizontal");
@@ -110,7 +105,7 @@ public class ConsoleGame {
             System.out.print("How do you want to place the wall? ");
             Scanner scanner = new Scanner(System.in);
             orientationId = scanner.nextInt();
-            System.out.println("");
+            System.out.println();
         } while (orientationId < 1 || orientationId > 2);
 
         if (orientationId == 1) return Orientation.HORIZONTAL;
@@ -119,7 +114,7 @@ public class ConsoleGame {
 
     private static Direction askForDirection() {
 
-        int directionId = 0;
+        int directionId;
 
         do {
             System.out.println("1. Up");
@@ -129,7 +124,7 @@ public class ConsoleGame {
             System.out.print("Where do you want to move? ");
             Scanner scanner = new Scanner(System.in);
             directionId = scanner.nextInt();
-            System.out.println("");
+            System.out.println();
         } while (directionId < 1 || directionId > 4);
 
         if (directionId == 1) return Direction.UP;
@@ -141,7 +136,7 @@ public class ConsoleGame {
 
     private static Action askForWhichActionToPerform() {
 
-        int actionId = 0;
+        int actionId;
 
         do {
             System.out.println("1. Move");
@@ -151,8 +146,8 @@ public class ConsoleGame {
             actionId = scanner.nextInt();
         } while (actionId < 1 || actionId > 2);
 
-        if (actionId == 1) return Action.MOVEMEEPLE;
-        return Action.PLACEWALL;
+        if (actionId == 1) return Action.MOVE_MEEPLE;
+        return Action.PLACE_WALL;
 
     }
 
@@ -174,20 +169,6 @@ public class ConsoleGame {
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         System.out.println("\t \t  QUORIDOR");
         System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    }
-
-    private static int askForNumberOfPlayers() {
-        System.out.print("How many players will play? ");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("");
-        return scanner.nextInt();
-    }
-
-    private static int askForDimension(int dimension) {
-        System.out.print("Board dimension " + String.valueOf(dimension) + ":");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("");
-        return scanner.nextInt();
     }
 
     public static String getColorOf(Player player) {

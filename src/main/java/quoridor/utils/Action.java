@@ -1,8 +1,5 @@
 package quoridor.utils;
 
 public enum Action {
-    MOVEMEEPLE,
-    PLACEWALL
+    MOVE_MEEPLE, PLACE_WALL
 }
-
-//TODO: refactoring con underscore

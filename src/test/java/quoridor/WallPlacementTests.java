@@ -9,7 +9,7 @@ import quoridor.game.Player;
 import quoridor.utils.Color;
 import quoridor.utils.Coordinates;
 import quoridor.utils.Orientation;
-import quoridor.utils.PositionException;
+import quoridor.exceptions.PositionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation orientation = Orientation.HORIZONTAL;
 
-        board.singletPlacement(wallCoordinates, orientation);
+        board.singleTileWallPlacement(wallCoordinates, orientation);
 
         assertNotNull(board.getMatrix()[row][column].getNorthWall());
     }
@@ -39,7 +39,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation orientation = Orientation.VERTICAL;
 
-        board.singletPlacement(wallCoordinates, orientation);
+        board.singleTileWallPlacement(wallCoordinates, orientation);
 
         assertNotNull(board.getMatrix()[row][column].getEastWall());
     }
@@ -87,7 +87,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row, column + 1); //another same wall placed
         Orientation orientation2 = Orientation.HORIZONTAL;
 
-        boolean wallNotPresent = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
+        boolean wallNotPresent = board.isWallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertFalse(wallNotPresent);
     }
@@ -105,7 +105,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row, column); //different wall placed
         Orientation orientation2 = Orientation.VERTICAL;
 
-        boolean wallNotPresent = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
+        boolean wallNotPresent = board.isWallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertTrue(wallNotPresent);
     }
@@ -123,7 +123,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates2 = new Coordinates(row - 1, column); //different wall placed
         Orientation orientation2 = Orientation.VERTICAL;
 
-        boolean wallNotPresent = board.wallNotPresent(wallCoordinates2, orientation2, dimension);
+        boolean wallNotPresent = board.isWallNotPresent(wallCoordinates2, orientation2, dimension);
 
         assertFalse(wallNotPresent);
     }
@@ -195,7 +195,7 @@ class WallPlacementTests {
         coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
 
-        boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
+        boolean illegalWallCombination = board.checkIllegalWallIdsCombination(coordinatesArrayList);
 
         assertTrue(illegalWallCombination);
     }
@@ -221,7 +221,7 @@ class WallPlacementTests {
         coordinatesArrayList.add(wallCoordinates2);
         coordinatesArrayList.add(wallCoordinates3);
 
-        boolean illegalWallCombination = board.illegalWallIDsCombinationChecker(coordinatesArrayList);
+        boolean illegalWallCombination = board.checkIllegalWallIdsCombination(coordinatesArrayList);
 
         assertFalse(illegalWallCombination);
     }
@@ -234,7 +234,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(0, 1);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean northWallOutOfBounds = board.wallOutOfBoundChecker(wallCoordinates1, or1, dimension);
+        boolean northWallOutOfBounds = board.checkWallOutOfBounds(wallCoordinates1, or1, dimension);
 
         assertFalse(northWallOutOfBounds);
     }
@@ -247,7 +247,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(3, 1);
         Orientation or1 = Orientation.VERTICAL;
 
-        boolean northWallOutOfBounds = board.wallOutOfBoundChecker(wallCoordinates1, or1, dimension);
+        boolean northWallOutOfBounds = board.checkWallOutOfBounds(wallCoordinates1, or1, dimension);
 
         assertFalse(northWallOutOfBounds);
     }
@@ -260,7 +260,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean horizontalWallOnFirstRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean horizontalWallOnFirstRow = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertTrue(horizontalWallOnFirstRow);
     }
@@ -273,7 +273,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.HORIZONTAL;
 
-        boolean horizontalWallOnFirtsRow = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean horizontalWallOnFirtsRow = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertFalse(horizontalWallOnFirtsRow);
     }
@@ -286,7 +286,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.VERTICAL;
 
-        boolean verticalWallOnLastColumn = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean verticalWallOnLastColumn = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertTrue(verticalWallOnLastColumn);
     }
@@ -299,7 +299,7 @@ class WallPlacementTests {
         Coordinates wallCoordinates1 = new Coordinates(row, column);
         Orientation or1 = Orientation.VERTICAL;
 
-        boolean verticalWallOnLastColumn = board.wallOnFirstRowOrLastColumnChecker(wallCoordinates1, or1);
+        boolean verticalWallOnLastColumn = board.checkWallOnFirstRowOrLastColumn(wallCoordinates1, or1);
 
         assertFalse(verticalWallOnLastColumn);
     }
@@ -309,7 +309,7 @@ class WallPlacementTests {
     void trueSameMatrixOfCopyBoardObjectTest(int row, int column){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.cloneBoard();
 
         Coordinates wallCoordinates = new Coordinates(row, column);
         Orientation or1 = Orientation.VERTICAL;
@@ -317,7 +317,7 @@ class WallPlacementTests {
         board.placeWall(wallCoordinates, or1, 1);
         copyBoard.placeWall(wallCoordinates, or1, 1);
 
-        boolean sameBoard = board.equalMatrix(copyBoard);
+        boolean sameBoard = board.isMatrixEqual(copyBoard);
 
         assertTrue(sameBoard);
     }
@@ -326,14 +326,14 @@ class WallPlacementTests {
     void falseSameMatrixOfCopyBoardObjectTest(){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.cloneBoard();
 
         Coordinates wallCoordinates = new Coordinates(1, 1);
         Orientation or1 = Orientation.VERTICAL;
 
         copyBoard.placeWall(wallCoordinates, or1, 2);
 
-        boolean sameBoard = board.equalMatrix(copyBoard);
+        boolean sameBoard = board.isMatrixEqual(copyBoard);
 
         assertFalse(sameBoard);
     }
@@ -342,14 +342,14 @@ class WallPlacementTests {
     void checkWallAdiacenciesTestHorizontal(){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.cloneBoard();
 
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
         Orientation or1 = Orientation.HORIZONTAL;
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1
@@ -370,14 +370,14 @@ class WallPlacementTests {
     void checkWallAdiacenciesTestVertical(){
         Board board = new Board(5, 5);
 
-        Board copyBoard = board.cloneObject();
+        Board copyBoard = board.cloneBoard();
 
         Coordinates wallCoordinates1 = new Coordinates(1, 1);
         Orientation or1 = Orientation.VERTICAL;
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        List<Coordinates[]> adiacencies = copyBoard.getAdiacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1
@@ -488,7 +488,7 @@ class WallPlacementTests {
         Orientation orientation = Orientation.HORIZONTAL;
         int dimension = 2;
 
-        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+        boolean wallCanBePlaced = board.isWallEventuallyPlaceable(wallCoordinates, orientation, dimension, player);
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
 
@@ -496,7 +496,7 @@ class WallPlacementTests {
         Orientation orientation2 = Orientation.VERTICAL;
         int dimension2 = 2;
 
-        boolean wallCanBePlaced2 = board.isWallPlaceableAdvanced(wallCoordinates2, orientation2, dimension2, player);
+        boolean wallCanBePlaced2 = board.isWallEventuallyPlaceable(wallCoordinates2, orientation2, dimension2, player);
 
         if(wallCanBePlaced2) board.placeWall(wallCoordinates2, orientation2, dimension2);
 
@@ -510,7 +510,7 @@ class WallPlacementTests {
 
     @ParameterizedTest
     @CsvSource({"4,0", "2,2", "2,1", "3,1", "3,2", "2,3", "4,2", "4,4", "0,4"})
-    void testGameIstanceInWhichWallsCantBePlacedDueToConflict(int row, int column) throws PositionException {
+    void testGameInstanceInWhichWallsCantBePlacedDueToConflict(int row, int column) throws PositionException {
         Board board = new Board(5, 5);
         Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
         board.findFinalMargin(player.getMeeple());
@@ -519,7 +519,7 @@ class WallPlacementTests {
         Orientation orientation = Orientation.HORIZONTAL;
         int dimension = 2;
 
-        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+        boolean wallCanBePlaced = board.isWallEventuallyPlaceable(wallCoordinates, orientation, dimension, player);
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
 
@@ -527,7 +527,7 @@ class WallPlacementTests {
         Orientation orientation2 = Orientation.VERTICAL;
         int dimension2 = 2;
 
-        boolean wallCanBePlaced2 = board.isWallPlaceableAdvanced(wallCoordinates2, orientation2, dimension2, player);
+        boolean wallCanBePlaced2 = board.isWallEventuallyPlaceable(wallCoordinates2, orientation2, dimension2, player);
 
         if(wallCanBePlaced2) board.placeWall(wallCoordinates2, orientation2, dimension2);
 
@@ -535,7 +535,7 @@ class WallPlacementTests {
         Orientation orientation3 = Orientation.HORIZONTAL;
         int dimension3 = 4;
 
-        boolean wallCanBePlaced3 = board.isWallPlaceableAdvanced(wallCoordinates3, orientation3, dimension3, player);
+        boolean wallCanBePlaced3 = board.isWallEventuallyPlaceable(wallCoordinates3, orientation3, dimension3, player);
 
         if(wallCanBePlaced3) board.placeWall(wallCoordinates3, orientation3, dimension3);
 
@@ -543,7 +543,7 @@ class WallPlacementTests {
         Orientation orientation4 = Orientation.VERTICAL;
         int dimension4 = 4;
 
-        boolean wallCanBePlaced4 = board.isWallPlaceableAdvanced(wallCoordinates4, orientation4, dimension4, player);
+        boolean wallCanBePlaced4 = board.isWallEventuallyPlaceable(wallCoordinates4, orientation4, dimension4, player);
 
         if(wallCanBePlaced4) board.placeWall(wallCoordinates4, orientation4, dimension4);
 
@@ -556,7 +556,7 @@ class WallPlacementTests {
 
     @ParameterizedTest
     @CsvSource({"1,2", "1,3", "1,1", "3,3", "4,3", "4,2", "3,0", "3,2"})
-    void testGameIstanceInWhichWallsCanBePlacedDueToConflict(int row, int column) throws PositionException {
+    void testGameInstanceInWhichWallsCanBePlacedDueToConflict(int row, int column) throws PositionException {
         Board board = new Board(5, 5);
         Player player = new Player("giec",new Meeple(board.getPosition(3, 3), Color.GREEN), 10);
         board.findFinalMargin(player.getMeeple());
@@ -565,7 +565,7 @@ class WallPlacementTests {
         Orientation orientation = Orientation.HORIZONTAL;
         int dimension = 2;
 
-        boolean wallCanBePlaced = board.isWallPlaceableAdvanced(wallCoordinates, orientation, dimension, player);
+        boolean wallCanBePlaced = board.isWallEventuallyPlaceable(wallCoordinates, orientation, dimension, player);
 
         if(wallCanBePlaced) board.placeWall(wallCoordinates, orientation, dimension);
 
@@ -573,7 +573,7 @@ class WallPlacementTests {
         Orientation orientation2 = Orientation.VERTICAL;
         int dimension2 = 2;
 
-        boolean wallCanBePlaced2 = board.isWallPlaceableAdvanced(wallCoordinates2, orientation2, dimension2, player);
+        boolean wallCanBePlaced2 = board.isWallEventuallyPlaceable(wallCoordinates2, orientation2, dimension2, player);
 
         if(wallCanBePlaced2) board.placeWall(wallCoordinates2, orientation2, dimension2);
 
@@ -581,7 +581,7 @@ class WallPlacementTests {
         Orientation orientation3 = Orientation.HORIZONTAL;
         int dimension3 = 4;
 
-        boolean wallCanBePlaced3 = board.isWallPlaceableAdvanced(wallCoordinates3, orientation3, dimension3, player);
+        boolean wallCanBePlaced3 = board.isWallEventuallyPlaceable(wallCoordinates3, orientation3, dimension3, player);
 
         if(wallCanBePlaced3) board.placeWall(wallCoordinates3, orientation3, dimension3);
 
@@ -589,7 +589,7 @@ class WallPlacementTests {
         Orientation orientation4 = Orientation.VERTICAL;
         int dimension4 = 2;
 
-        boolean wallCanBePlaced4 = board.isWallPlaceableAdvanced(wallCoordinates4, orientation4, dimension4, player);
+        boolean wallCanBePlaced4 = board.isWallEventuallyPlaceable(wallCoordinates4, orientation4, dimension4, player);
 
         if(wallCanBePlaced4) board.placeWall(wallCoordinates4, orientation4, dimension4);
 

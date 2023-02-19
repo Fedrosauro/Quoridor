@@ -2,6 +2,7 @@ package quoridor.game;
 
 import quoridor.components.Board;
 import quoridor.components.Meeple;
+import quoridor.exceptions.PositionException;
 import quoridor.utils.*;
 
 import java.util.List;
@@ -9,10 +10,11 @@ import java.util.Random;
 
 public class AutoPlayer extends Player {
 
-    private final int WALL_OFFSET_FROM_OPPONENT = 1;
+    private static final int WALL_OFFSET_FROM_OPPONENT = 1;
     private float moveProbability;
+    private Random r = new Random();
 
-    public AutoPlayer(String name, Meeple meeple, int walls, float moveProbability, Board board) {
+    public AutoPlayer(String name, Meeple meeple, int walls, float moveProbability) {
         super(name, meeple, walls);
 
         if (moveProbability > 1) this.moveProbability = 1;
@@ -21,15 +23,10 @@ public class AutoPlayer extends Player {
 
     }
 
-    public float getMoveProbability() {
-        return moveProbability;
-    }
-
     public Action decideActionToPerform() {
 
-        Random random = new Random();
-        if (random.nextFloat() <= moveProbability) return Action.MOVEMEEPLE;
-        else return Action.PLACEWALL;
+        if (r.nextFloat() <= moveProbability) return Action.MOVE_MEEPLE;
+        else return Action.PLACE_WALL;
 
     }
 
@@ -45,17 +42,14 @@ public class AutoPlayer extends Player {
 
     }
 
-    public Orientation decideWallOrientation(List<Player> opponents) {
+    public Orientation decideWallOrientation() {
 
-        Random r = new Random();
         if (r.nextInt(1) == 1) return Orientation.HORIZONTAL;
         else return Orientation.VERTICAL;
 
     }
 
     public Coordinates decideWallPosition(List<Player> opponents, Board board) {
-
-        Random r = new Random();
 
         Player opponentToConsider = opponents.get(r.nextInt(opponents.size()));
         Coordinates positionToConsider = board.findPosition(opponentToConsider.getMeeple().getPosition());

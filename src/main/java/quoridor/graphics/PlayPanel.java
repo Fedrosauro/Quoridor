@@ -1,6 +1,6 @@
 package quoridor.graphics;
 
-import quoridor.utils.BufferedImageLoader;
+import quoridor.media.BufferedImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
