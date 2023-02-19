@@ -176,7 +176,7 @@ public class ConsoleGame {
         return String.valueOf(color.name().charAt(0));
     }
 
-}
+} //TODO: parlare con i bro per rimuovere i println o no
 
 
 

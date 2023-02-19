@@ -137,7 +137,7 @@ class NonBlockConditionTests {
         Coordinates wallCoordinates4 = new Coordinates(4, 1);
         board.placeWall(wallCoordinates4, or2, 2);
 
-        assertTrue(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
+        assertTrue(board.pathExistence(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
 
     }
 
@@ -158,7 +158,7 @@ class NonBlockConditionTests {
         Coordinates wallCoordinates3 = new Coordinates(1, 1);
         board.placeWall(wallCoordinates3, Orientation.VERTICAL, 2);
 
-        assertFalse(board.pathExistance(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
+        assertFalse(board.pathExistence(path, board.findPosition(player.getMeeple().getPosition()), player.getMeeple()));
 
     }
 

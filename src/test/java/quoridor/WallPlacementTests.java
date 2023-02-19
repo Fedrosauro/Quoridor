@@ -349,7 +349,7 @@ class WallPlacementTests {
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdjacencyOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1
@@ -377,7 +377,7 @@ class WallPlacementTests {
 
         copyBoard.placeWall(wallCoordinates1, or1, 2);
 
-        List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallCoordinates1, or1, 2);
+        List<Coordinates[]> adiacencies = copyBoard.getAdjacencyOfLastWallPlaced(wallCoordinates1, or1, 2);
 
         boolean correctAdiacencies = adiacencies.get(0)[0].getRow() == 1
                 && adiacencies.get(0)[0].getColumn() == 1

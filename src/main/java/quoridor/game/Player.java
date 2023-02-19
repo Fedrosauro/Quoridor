@@ -4,8 +4,8 @@ import quoridor.components.Meeple;
 
 public class Player {
 
-    private String name;
-    private Meeple meeple;
+    private final String name;
+    private final Meeple meeple;
     private int walls;
 
     public Player(String name, Meeple meeple, int walls) {

@@ -7,7 +7,7 @@ public class Meeple {
 
     private Tile position;
     private Color color;
-    private Margin margin;
+    private final Margin margin;
     private Margin finalMargin;
 
 

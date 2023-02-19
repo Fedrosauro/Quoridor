@@ -30,7 +30,7 @@ public class Tile {
     }
 
     public boolean areTilesEqual(Tile tile) {
-        boolean equalWalls = true;
+        boolean equalWalls;
         if (this.northWall == null) equalWalls = tile.getNorthWall() == null;
         else equalWalls = this.northWall.getId() == tile.getNorthWall().getId();
         if (equalWalls) {

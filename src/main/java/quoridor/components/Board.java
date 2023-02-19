@@ -4,7 +4,6 @@ import quoridor.exceptions.PositionException;
 import quoridor.game.Player;
 import quoridor.utils.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -365,7 +364,7 @@ public class Board {
         return isEqual && this.rows == board.getRows() && this.columns == board.getColumns();
     }
 
-    public List<Coordinates[]> getAdjacenciesOfLastWallPlaced(Coordinates wallPosition, Orientation orientation, int dimension) {
+    public List<Coordinates[]> getAdjacencyOfLastWallPlaced(Coordinates wallPosition, Orientation orientation, int dimension) {
         Coordinates positionCopy = new Coordinates(wallPosition.getRow(), wallPosition.getColumn());
         ArrayList<Coordinates[]> adjacencyList = new ArrayList<>();
         for (int i = 0; i < dimension; i++) {
@@ -387,7 +386,7 @@ public class Board {
             Board copyBoard = this.cloneBoard();
             copyBoard.placeWall(wallPosition, orientation, dimension); //because the wall is placeable
 
-            List<Coordinates[]> adjacencyList = copyBoard.getAdjacenciesOfLastWallPlaced(wallPosition, orientation, dimension);
+            List<Coordinates[]> adjacencyList = copyBoard.getAdjacencyOfLastWallPlaced(wallPosition, orientation, dimension);
             for (int i = 0; i < adjacencyList.size() - 1 && placeable; i++) {
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
                 if (orientation == Orientation.HORIZONTAL) {
@@ -461,7 +460,7 @@ public class Board {
     public Coordinates getMoveCoordinates(Player player) {
         ArrayList<Coordinates> path = new ArrayList<>();
 
-        boolean winningPathExists = pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
+        boolean winningPathExists = pathExistence(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
         if (winningPathExists) {
             return path.get(0);
         }
@@ -547,14 +546,14 @@ public class Board {
         return false;
     }
 
-    public boolean pathExistance(List<Coordinates> path, Coordinates position, Meeple meeple) {
+    public boolean pathExistence(List<Coordinates> path, Coordinates position, Meeple meeple) {
         if (!isInsideBoard(position.getRow(), position.getColumn()) || matrix[position.getRow()][position.getColumn()].getVisitedTile())
             return false;
 
         path.add(position);
         matrix[position.getRow()][position.getColumn()].setVisitedTile();
 
-        if (checkFinalMarginCoordinatesReached(position, meeple.getFinalMargin()) || (thereIsNoWall(position, Direction.UP) && pathExistance(path, new Coordinates(position.getRow() + 1, position.getColumn()), meeple)) || (thereIsNoWall(position, Direction.LEFT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() - 1), meeple)) || (thereIsNoWall(position, Direction.RIGHT) && pathExistance(path, new Coordinates(position.getRow(), position.getColumn() + 1), meeple)) || (thereIsNoWall(position, Direction.DOWN) && pathExistance(path, new Coordinates(position.getRow() - 1, position.getColumn()), meeple)))
+        if (checkFinalMarginCoordinatesReached(position, meeple.getFinalMargin()) || (thereIsNoWall(position, Direction.UP) && pathExistence(path, new Coordinates(position.getRow() + 1, position.getColumn()), meeple)) || (thereIsNoWall(position, Direction.LEFT) && pathExistence(path, new Coordinates(position.getRow(), position.getColumn() - 1), meeple)) || (thereIsNoWall(position, Direction.RIGHT) && pathExistence(path, new Coordinates(position.getRow(), position.getColumn() + 1), meeple)) || (thereIsNoWall(position, Direction.DOWN) && pathExistence(path, new Coordinates(position.getRow() - 1, position.getColumn()), meeple)))
             return true;
 
         matrix[path.get(path.size() - 1).getRow()][path.get(path.size() - 1).getColumn()].resetVisitedTile();
@@ -568,7 +567,7 @@ public class Board {
         copyBoard.placeWall(wallC, orientation, dimension);
         ArrayList<Coordinates> path = new ArrayList<>();
 
-        return copyBoard.pathExistance(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
+        return copyBoard.pathExistence(path, findPosition(player.getMeeple().getPosition()), player.getMeeple());
     }
 
     public boolean isWallEventuallyPlaceable(Coordinates wallC, Orientation orientation, int dimension, Player player) {
@@ -578,17 +577,17 @@ public class Board {
             Board copyBoard = this.cloneBoard();
             copyBoard.placeWall(wallC, orientation, dimension); //because the wall is placeable
 
-            List<Coordinates[]> adiacencies = copyBoard.getAdjacenciesOfLastWallPlaced(wallC, orientation, dimension);
-            for (int i = 0; i < adiacencies.size() - 1 && placeable; i++) {
+            List<Coordinates[]> adjacency = copyBoard.getAdjacencyOfLastWallPlaced(wallC, orientation, dimension);
+            for (int i = 0; i < adjacency.size() - 1 && placeable; i++) {
                 ArrayList<Coordinates> coordinatesOf2x2Tiles = new ArrayList<>();
                 if (orientation == Orientation.HORIZONTAL) {
-                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //top left
-                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
-                    coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //bottom right
+                    coordinatesOf2x2Tiles.add(adjacency.get(i + 1)[1]); //top left
+                    coordinatesOf2x2Tiles.add(adjacency.get(i + 1)[0]); //bottom left
+                    coordinatesOf2x2Tiles.add(adjacency.get(i)[0]); //bottom right
                 } else {
-                    coordinatesOf2x2Tiles.add(adiacencies.get(i)[0]); //top left
-                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[0]); //bottom left
-                    coordinatesOf2x2Tiles.add(adiacencies.get(i + 1)[1]); //bottom right
+                    coordinatesOf2x2Tiles.add(adjacency.get(i)[0]); //top left
+                    coordinatesOf2x2Tiles.add(adjacency.get(i + 1)[0]); //bottom left
+                    coordinatesOf2x2Tiles.add(adjacency.get(i + 1)[1]); //bottom right
                 }
                 if (copyBoard.checkCross(coordinatesOf2x2Tiles)) {
                     placeable = !copyBoard.checkIllegalWallIdsCombination(coordinatesOf2x2Tiles);
@@ -598,4 +597,4 @@ public class Board {
 
         return placeable;
     }
-}
+} //TODO: parla con fede per rimuovere il codice duplicato

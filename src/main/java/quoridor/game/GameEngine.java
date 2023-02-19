@@ -7,26 +7,22 @@ import quoridor.exceptions.PositionException;
 import quoridor.utils.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class GameEngine {
     List<Player> players;
     Board board;
     GameType gameType;
-    private final OpponentType opponentType;
     private int indexOfActivePlayer;
 
 
     public GameEngine(List<Player> players, Board board) {
         this.players = players;
         this.board = board;
-        this.opponentType = OpponentType.HUMAN;
     }
 
     public GameEngine(int totPlayers, List<String> nameOfPlayers, int rows, int columns, int totWalls, GameType gameType, OpponentType opponentType) throws PositionException, NumberOfPlayerException {
         this.gameType = gameType;
-        this.opponentType = opponentType;
 
         this.players = new ArrayList<>();
         this.board = new Board(rows, columns);
@@ -37,29 +33,26 @@ public class GameEngine {
 
         players.add(new Player(nameOfPlayers.get(0), new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), wallsPerPlayer));
 
-        switch (opponentType){
-            case HUMAN -> {
-                players.add(new Player(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
+        if(opponentType == OpponentType.HUMAN){
+            players.add(new Player(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
 
-                if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
-                    players.add(new Player(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
-                    players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
-                }
+            if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
+                players.add(new Player(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
+                players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
             }
-            case COMPUTER -> {
+        }
+        else {
+            nameOfPlayers.add("Bot 1");
 
-                nameOfPlayers.add("Bot 1");
+            players.add(new AutoPlayer(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
 
-                players.add(new AutoPlayer(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
+            if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
 
-                if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
+                nameOfPlayers.add("Bot 2");
+                nameOfPlayers.add("Bot 3");
 
-                    nameOfPlayers.add("Bot 2");
-                    nameOfPlayers.add("Bot 3");
-
-                    players.add(new AutoPlayer(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
-                    players.add(new AutoPlayer(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
-                }
+                players.add(new AutoPlayer(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
+                players.add(new AutoPlayer(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
             }
         }
 
