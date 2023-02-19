@@ -11,6 +11,7 @@ import java.util.Random;
 public class AutoPlayer extends Player {
 
     private static final int WALL_OFFSET_FROM_OPPONENT = 1;
+    private static final float DEFAULT_MOVE_PROBABILITY = .8f;
     private float moveProbability;
     private Random r = new Random();
 
@@ -20,6 +21,11 @@ public class AutoPlayer extends Player {
         if (moveProbability > 1) this.moveProbability = 1;
         else if (moveProbability < 0) this.moveProbability = 0;
         else this.moveProbability = moveProbability;
+
+    }
+
+    public AutoPlayer(String name, Meeple meeple, int walls) {
+        this(name,meeple,walls, DEFAULT_MOVE_PROBABILITY);
 
     }
 
