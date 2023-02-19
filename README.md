@@ -38,7 +38,7 @@ A player can either:
 
 Note that when a player has no more walls, he cannot use them anymore.
 
-## Variants
+## Features
 
 - Player vs. CPU game mode
 - Variable board size
