@@ -9,10 +9,6 @@ W
 +src/main/java/quoridor/components/Wall.java,c\b\cb135d5d290728ff80e3f21ac16ac0440f6c4bc7
 ]
 -src/main/java/quoridor/utils/Coordinates.java,4\3\437f59bb7dfeb4057746e86ac8ce8eee9b00b038
-b
-2src/test/java/quoridor/NonBlockConditionTests.java,4\7\472357aae54a636d86cf9a6003ca599e0617eea9
-^
-.src/test/java/quoridor/WallPlacementTests.java,b\2\b213f7c1156cc25419a12d66e1cb55ce275fd6e6
 [
 +src/main/java/quoridor/components/Tile.java,f\7\f7fd990c6863c76bb1a779570842857053fec4f0
 _

@@ -182,18 +182,17 @@ class NonBlockConditionTests {
 
     }
 
-    @ParameterizedTest
-    @CsvSource({"4,4", "4,0", "3,1", "1,1", "0,3", "2,4", "0,4"})
+    @Test
     void winningPathNotExistsTest() throws PositionException {
         Board board = new Board(5, 5);
-        Player player = new Player("giec", new Meeple(board.getPosition(4, 4), Color.GREEN), 10);
+        Player player = new Player("giec", new Meeple(board.getPosition(4, 2), Color.GREEN), 10);
         board.findFinalMargin(player.getMeeple());
 
-        Coordinates wallCoordinates1 = new Coordinates(4, 2);
-        board.placeWall(wallCoordinates1, Orientation.VERTICAL, 3);
+        Coordinates wallCoordinates1 = new Coordinates(1, 2);
+        board.placeWall(wallCoordinates1, Orientation.HORIZONTAL, 2);
 
-        Coordinates wallCoordinates3 = new Coordinates(1, 1);
-        board.placeWall(wallCoordinates3, Orientation.VERTICAL, 2);
+        Coordinates wallCoordinates3 = new Coordinates(2, 2);
+        board.placeWall(wallCoordinates3, Orientation.HORIZONTAL, 2);
 
         Coordinates wallCoordinates2 = new Coordinates(1, 4);
 
