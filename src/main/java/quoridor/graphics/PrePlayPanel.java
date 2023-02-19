@@ -1,72 +1,49 @@
 package quoridor.graphics;
 
-import quoridor.utils.AudioPlayer;
-import quoridor.utils.BufferedImageLoader;
-import quoridor.utils.OpponentType;
+import quoridor.exceptions.NumberOfPlayerException;
+import quoridor.exceptions.PositionException;
+import quoridor.media.AudioPlayer;
+import quoridor.media.BufferedImageLoader;
 
-import javax.print.attribute.standard.JobKOctets;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Enumeration;
 
 
 public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
-    private Color backgroundColor;
-    Font Insanibc, Insanib;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
+    private Font insanIb;
 
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
-    private AudioPlayer[] buttonAudio;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
+    private transient AudioPlayer[] buttonAudio;
 
-    private BufferedImageLoader loader;
-    private BufferedImage[] goBack_images;
-    private BufferedImage[] play_images;
+    private transient BufferedImage[] goBackImages;
+    private transient BufferedImage[] playImages;
 
-    private BufferedImage backgroundTitle;
-    private JTextField jTextField;
+    private transient BufferedImage backgroundTitle;
 
-    private JLabel jLabelPlayers;
-    private JLabel jLabelWalls;
-    private JLabel jLabelDimWalls;
-    private JLabel jLabelDimBoard;
-
-    private JLabel jLabelPlayAgainst;
     private JSpinner jSpinner1;
     private JSpinner jSpinner2;
     private JSpinner jSpinner3;
 
-    private JRadioButton jRadioButton1;
-    private JRadioButton jRadioButton2;
-    private JRadioButton jRadioButton3;
-    private JRadioButton jRadioButton4;
     private ButtonGroup buttonGroup;
-    private ButtonGroup buttonGroup1;
 
+    private transient Rectangle2D rectGoBackB;
+    private transient Rectangle2D rectPlayB;
 
-    private int size1;
-    private int size2;
-    private int numberPlayers;
-    private int wallDimension;
-    private int numberWalls;
-
-
-    private Rectangle2D rectGoBackB;
-    private Rectangle2D rectPlayB;
-
-    private int xButtonGoBack, yButtonGoBack, xButtonPlay, yButtonPlay;
-    private int widthB, heightB;
-    private boolean changeB1, changeB2;
+    private int xButtonGoBack;
+    private int yButtonGoBack;
+    private int xButtonPlay;
+    private int yButtonPlay;
+    private boolean changeB1;
+    private boolean changeB2;
 
 
     public PrePlayPanel(JFrame jFrame, Color backgroundColor) throws IOException, FontFormatException {
@@ -82,35 +59,35 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseMotionListener(this);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
-        Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
+        insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
 
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader loader = new BufferedImageLoader();
 
         backgroundTitle = loader.loadImage("src/main/resources/images/game_settings_title/game_settings_title.png");
 
-        goBack_images = new BufferedImage[2];
+        goBackImages = new BufferedImage[2];
 
-        goBack_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        goBack_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        goBackImages[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
+        goBackImages[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
-        play_images = new BufferedImage[2];
+        playImages = new BufferedImage[2];
 
-        play_images[0] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button.png");
-        play_images[1] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button_hover.png");
+        playImages[0] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button.png");
+        playImages[1] = loader.loadImage("src/main/resources/images/prePlayButton/prePlay_button_hover.png");
 
 
-        jLabelPlayers = new JLabel("Enter number of players: ");
+        JLabel jLabelPlayers = new JLabel("Enter number of players: ");
         setJLabelParameters1(jLabelPlayers);
 
-        jRadioButton1 = new JRadioButton();
+        JRadioButton jRadioButton1 = new JRadioButton();
         setJRadioButton1Parameters(jRadioButton1);
 
-        jRadioButton2 = new JRadioButton();
+        JRadioButton jRadioButton2 = new JRadioButton();
         setJRadioButton2Parameters(jRadioButton2);
 
         buttonGroup = new ButtonGroup(); //for setting button exclusive
@@ -118,13 +95,13 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         buttonGroup.add(jRadioButton2);
 
 
-        jLabelWalls = new JLabel("Enter number of total walls:");
+        JLabel jLabelWalls = new JLabel("Enter number of total walls:");
         setJLabelParameters2(jLabelWalls);
 
-        jLabelDimWalls = new JLabel("Enter dimension of wall: ");
+        JLabel jLabelDimWalls = new JLabel("Enter dimension of wall: ");
         setJLabelParameters3(jLabelDimWalls);
 
-        jLabelDimBoard = new JLabel("Enter board dimension: ");
+        JLabel jLabelDimBoard = new JLabel("Enter board dimension: ");
         setJLabelParameters4(jLabelDimBoard);
 
         SpinnerModel value1 = new SpinnerNumberModel(20, 6, 20, 1);
@@ -145,14 +122,14 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         //jSpinner.addChangeListener(new ChangeListener() )
 
 
-        yButtonGoBack = height / 2 + 200;
-        xButtonGoBack = width / 2 - 300;
+        yButtonGoBack = HEIGHTWINDOW / 2 + 200;
+        xButtonGoBack = WIDTHWINDOW / 2 - 300;
 
-        yButtonPlay = height / 2 + 200;
-        xButtonPlay = width / 2 + 60;
+        yButtonPlay = HEIGHTWINDOW / 2 + 200;
+        xButtonPlay = WIDTHWINDOW / 2 + 60;
 
-        heightB = 58;
-        widthB = 230;
+        int heightB = 58;
+        int widthB = 230;
 
         rectGoBackB = new Rectangle2D.Float(xButtonGoBack, yButtonGoBack, widthB, heightB);
         changeB1 = false;
@@ -167,7 +144,8 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     }
 
     private void initTimer() {
-        timer = new Timer(delay, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -195,19 +173,19 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         graphics2D.setRenderingHints(rh);
 
 
-        graphics2D.drawImage(backgroundTitle, width / 2 - backgroundTitle.getWidth() / 2, 40, null);
+        graphics2D.drawImage(backgroundTitle, WIDTHWINDOW / 2 - backgroundTitle.getWidth() / 2, 40, null);
 
-        yButtonGoBack = height / 2 + 200;
-        xButtonGoBack = width / 2 - 300;
+        yButtonGoBack = HEIGHTWINDOW / 2 + 200;
+        xButtonGoBack = WIDTHWINDOW / 2 - 300;
 
-        yButtonPlay = height / 2 + 200;
-        xButtonPlay = width / 2 + 60;
+        yButtonPlay = HEIGHTWINDOW / 2 + 200;
+        xButtonPlay = WIDTHWINDOW / 2 + 60;
 
-        if (changeB1) graphics2D.drawImage(goBack_images[1], xButtonGoBack, yButtonGoBack, null);
-        else graphics2D.drawImage(goBack_images[0], xButtonGoBack, yButtonGoBack, null);
+        if (changeB1) graphics2D.drawImage(goBackImages[1], xButtonGoBack, yButtonGoBack, null);
+        else graphics2D.drawImage(goBackImages[0], xButtonGoBack, yButtonGoBack, null);
 
-        if (changeB2) graphics2D.drawImage(play_images[1], xButtonPlay, yButtonPlay, null);
-        else graphics2D.drawImage(play_images[0], xButtonPlay, yButtonPlay, null);
+        if (changeB2) graphics2D.drawImage(playImages[1], xButtonPlay, yButtonPlay, null);
+        else graphics2D.drawImage(playImages[0], xButtonPlay, yButtonPlay, null);
 
 
     }
@@ -218,7 +196,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jRadioButton.setSelected(true);
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setForeground(Color.decode("#FFFFE1"));
-        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jRadioButton.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jRadioButton);
     }
 
@@ -227,7 +205,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jRadioButton.setText("4");
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setForeground(Color.decode("#FFFFE1"));
-        jRadioButton.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jRadioButton.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jRadioButton);
     }
 
@@ -235,7 +213,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jLabel.setBounds(80, 120, 350, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
@@ -243,7 +221,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jLabel.setBounds(80, 180, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
@@ -251,7 +229,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jLabel.setBounds(80, 240, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
@@ -259,7 +237,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jLabel.setBounds(80, 300, 500, 200);
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(Insanib.deriveFont(Font.PLAIN, 28));
+        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
 
@@ -292,11 +270,9 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private int radioButtonSelection(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
             AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                if (button.getText() == "4") {
+            if (button.isSelected() && button.getText().equals("4")) {
                     return 4;
                 }
-            }
         }return 2;
     }
 
@@ -324,11 +300,16 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                PlayPanel playPanel = new PlayPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
-                                                    radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(),
-                                                    (Integer) jSpinner1.getValue() );
 
-                jFrame.setContentPane(playPanel);
+                ChooseActionPanel chooseActionPanel = null;
+                try {
+                    chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
+                                                        radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
+                } catch (PositionException | NumberOfPlayerException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                jFrame.setContentPane(chooseActionPanel);
                 jFrame.revalidate();
             }
         }
@@ -367,28 +348,26 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
         @Override
         public void mousePressed (MouseEvent mouseEvent){
-
+            //not needed to use
         }
 
         @Override
         public void mouseReleased (MouseEvent mouseEvent){
-
+            //not needed to use
         }
 
         @Override
         public void mouseEntered (MouseEvent mouseEvent){
-
+            //not needed to use
         }
 
         @Override
         public void mouseExited (MouseEvent mouseEvent){
-
+            //not needed to use
         }
 
         @Override
         public void mouseDragged (MouseEvent mouseEvent){
-
+            //not needed to use
         }
-
-
     }

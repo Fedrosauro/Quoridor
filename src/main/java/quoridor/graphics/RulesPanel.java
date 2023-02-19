@@ -2,8 +2,6 @@ package quoridor.graphics;
 
 import quoridor.media.AudioPlayer;
 import quoridor.media.BufferedImageLoader;
-import quoridor.media.AudioPlayer;
-import quoridor.media.BufferedImageLoader;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,34 +18,22 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class RulesPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
-    private JFrame jFrame;
-    private Color backgroundColor;
-    Font lowerArial, Insanib;
+    private final JFrame jFrame;
+    private final Color backgroundColor;
+    private Font lowerArial;
 
-    private final int width = 700;
-    private final int height = 700;
-    private final int delay = 1;
-    private Timer timer;
-    private AudioPlayer[] buttonAudio;
 
-    private BufferedImageLoader loader;
-    private BufferedImage[] goBack_images;
-    private BufferedImage backgroundTitle;
-    private JTextField jTextField;
-    private JTextArea jTextArea;
-    private JTextPane jTextPane;
-    private JTextPane jTextPaneGoodLuck;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
+    private transient AudioPlayer[] buttonAudio;
 
-    private Image image;
-
-    private Rectangle2D rectGoBackB;
-    private int xButtons, yButtons;
-    private int widthB, heightB;
+    private transient BufferedImage[] goBackImages;
+    private transient BufferedImage backgroundTitle;
+    private transient Rectangle2D rectGoBackB;
+    private int xButtons;
+    private int yButtons;
     private boolean changeB1;
 
 
@@ -61,32 +47,30 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     private void setup() throws IOException, FontFormatException {
-        addMouseListener((MouseListener) this);
-        addMouseMotionListener((MouseMotionListener) this);
+        addMouseListener( this);
+        addMouseMotionListener(this);
 
-        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
-        Insanib = Font.createFont(Font.TRUETYPE_FONT, is);
 
         InputStream is1 = getClass().getResourceAsStream("/font/arlrdbd.ttf");
         lowerArial = Font.createFont(Font.TRUETYPE_FONT, is1);
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
-        loader = new BufferedImageLoader();
+        BufferedImageLoader loader = new BufferedImageLoader();
 
-        goBack_images = new BufferedImage[2];
+        goBackImages = new BufferedImage[2];
 
-        goBack_images[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        goBack_images[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        goBackImages[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
+        goBackImages[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
 
         backgroundTitle = loader.loadImage("src/main/resources/images/background_rules_title/how_to_play_title.png");
 
-        yButtons = height / 2 + 200;
-        xButtons = width / 2 - 115;
-        heightB = 58;
-        widthB = 230;
+        yButtons = HEIGHTWINDOW / 2 + 200;
+        xButtons = WIDTHWINDOW / 2 - 115;
+        int heightB = 58;
+        int widthB = 230;
 
         rectGoBackB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeB1 = false;
@@ -95,16 +79,17 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
 
-        jTextPane = new JTextPane();
+        JTextPane jTextPane = new JTextPane();
         setJTextPaneParameters(jTextPane);
 
-        jTextPaneGoodLuck = new JTextPane();
+        JTextPane jTextPaneGoodLuck = new JTextPane();
         setJTextPaneParametersGoodLuck(jTextPaneGoodLuck);
 
     }
 
     private void initTimer() {
-        timer = new Timer(delay, (ActionListener) this);
+        int delay = 1;
+        Timer timer = new Timer(delay,this);
         timer.start();
     }
 
@@ -132,13 +117,13 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         graphics2D.setRenderingHints(rh);
 
 
-        graphics2D.drawImage(backgroundTitle, width / 2 - backgroundTitle.getWidth() / 2, 40, null);
+        graphics2D.drawImage(backgroundTitle, WIDTHWINDOW / 2 - backgroundTitle.getWidth() / 2, 40, null);
 
-        yButtons = height / 2 + 200;
-        xButtons = width / 2 - 115;
+        yButtons = HEIGHTWINDOW / 2 + 200;
+        xButtons = WIDTHWINDOW / 2 - 115;
 
-        if (changeB1) graphics2D.drawImage(goBack_images[1], xButtons, yButtons, null);
-        else graphics2D.drawImage(goBack_images[0], xButtons, yButtons, null);
+        if (changeB1) graphics2D.drawImage(goBackImages[1], xButtons, yButtons, null);
+        else graphics2D.drawImage(goBackImages[0], xButtons, yButtons, null);
 
 
 
@@ -167,12 +152,6 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         jTextPane.setForeground(Color.decode("#FFFFE1"));
         jTextPane.setFont(lowerArial.deriveFont( Font.BOLD,21));
         jTextPane.setEditable(false);
-
-        //StyledDocument doc = jTextPane.getStyledDocument();
-        //SimpleAttributeSet center = new SimpleAttributeSet();
-        //StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        //doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
         add(jTextPane);
 
     }
@@ -215,28 +194,26 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
+        //not needed to use
     }
-
-
 }

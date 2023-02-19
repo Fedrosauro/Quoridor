@@ -173,7 +173,4 @@ public class GameEngine {
         return players;
     }
 
-    public OpponentType getOpponentType() {
-        return opponentType;
-    }
 }

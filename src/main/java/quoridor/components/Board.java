@@ -597,4 +597,4 @@ public class Board {
 
         return placeable;
     }
-} //TODO: parla con fede per rimuovere il codice duplicato
+}

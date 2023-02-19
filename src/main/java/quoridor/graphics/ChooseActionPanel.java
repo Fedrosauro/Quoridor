@@ -200,16 +200,10 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
-        Stroke defaultStroke = g2d.getStroke();
-        BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
         g2d.setColor(new Color(96, 10, 10));
         g2d.drawRoundRect(WIDTH_WINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
-
-        g2d.setStroke(strokeForBoardBorder);
-        g2d.setStroke(defaultStroke);
 
         int y = 20;
 
