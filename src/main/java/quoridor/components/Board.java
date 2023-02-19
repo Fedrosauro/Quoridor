@@ -153,7 +153,7 @@ public class Board {
         switch (direction) {
             case RIGHT -> {
 
-                if (actualCoordinates.getColumn() == columns - 1) return false; //true
+                if (actualCoordinates.getColumn() == columns - 1) return false;
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
                 if (tile.getEastWall() == null) return true;
@@ -161,7 +161,7 @@ public class Board {
             }
             case LEFT -> {
 
-                if (actualCoordinates.getColumn() == 0) return false; //true
+                if (actualCoordinates.getColumn() == 0) return false;
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn() - 1];
                 if (tile.getEastWall() == null) return true;
@@ -169,7 +169,7 @@ public class Board {
             }
             case UP -> {
 
-                if (actualCoordinates.getRow() == rows - 1) return false; //true
+                if (actualCoordinates.getRow() == rows - 1) return false;
 
                 tile = matrix[actualCoordinates.getRow()][actualCoordinates.getColumn()];
                 if (tile.getNorthWall() == null) return true;
@@ -177,7 +177,7 @@ public class Board {
             }
             case DOWN -> {
 
-                if (actualCoordinates.getRow() == 0) return false; //true
+                if (actualCoordinates.getRow() == 0) return false;
 
                 tile = matrix[actualCoordinates.getRow() - 1][actualCoordinates.getColumn()];
                 if (tile.getNorthWall() == null) return true;
@@ -200,7 +200,7 @@ public class Board {
 
         for (Meeple opponent : this.meeples) {
 
-            if (meeple.getColor() != opponent.getColor()) { //
+            if (meeple.getColor() != opponent.getColor()) {
                 Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
                 if (canMeepleBeJumpedOver(coordinates, opponentCoordinates, direction)) return true;
             } //
