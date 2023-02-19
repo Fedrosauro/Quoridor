@@ -25,8 +25,6 @@ a
 -src/main/java/quoridor/utils/Orientation.java,5\2\528637bba357af77e52d4e322ff85909b3d18d2a
 _
 /src/test/java/quoridor/MeepleMovementTests.java,7\d\7db2a01a997a9c70e142f58e238b9c578d8464f7
-\
-,src/main/java/quoridor/graphics/MyFrame.java,3\8\38355b44dc7f5698f7d10a1e769f05d2093c5564
 a
 1src/main/java/quoridor/graphics/OptionsPanel.java,1\6\16bc8a5ce018d827b545ae57a986c93bea59998e
 a
