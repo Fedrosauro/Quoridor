@@ -96,7 +96,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         setFont(insanIb.deriveFont(Font.PLAIN, 15));

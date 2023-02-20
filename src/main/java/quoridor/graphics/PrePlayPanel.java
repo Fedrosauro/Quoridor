@@ -82,13 +82,21 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
 
         JLabel jLabelPlayers = new JLabel("Enter number of players: ");
-        setJLabelParameters1(jLabelPlayers);
+        setJLabelParameters(jLabelPlayers);
+        jLabelPlayers.setBounds(80, 120, 350, 200);
+
 
         JRadioButton jRadioButton1 = new JRadioButton();
-        setJRadioButton1Parameters(jRadioButton1);
+        setJRadioButtonParameters(jRadioButton1);
+        jRadioButton1.setText("2");
+        jRadioButton1.setBounds(510, 193, 50, 50);
+
 
         JRadioButton jRadioButton2 = new JRadioButton();
-        setJRadioButton2Parameters(jRadioButton2);
+        setJRadioButtonParameters(jRadioButton2);
+        jRadioButton2.setText("4");
+        jRadioButton2.setBounds(560, 193, 50, 50);
+
 
         buttonGroup = new ButtonGroup(); //for setting button exclusive
         buttonGroup.add(jRadioButton1);
@@ -96,13 +104,18 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
 
         JLabel jLabelWalls = new JLabel("Enter number of total walls:");
-        setJLabelParameters2(jLabelWalls);
+        setJLabelParameters(jLabelWalls);
+        jLabelWalls.setBounds(80, 180, 500, 200);
+
 
         JLabel jLabelDimWalls = new JLabel("Enter dimension of wall: ");
-        setJLabelParameters3(jLabelDimWalls);
+        setJLabelParameters(jLabelDimWalls);
+        jLabelDimWalls.setBounds(80, 240, 500, 200);
+
 
         JLabel jLabelDimBoard = new JLabel("Enter board dimension: ");
-        setJLabelParameters4(jLabelDimBoard);
+        setJLabelParameters(jLabelDimBoard);
+        jLabelDimBoard.setBounds(80, 300, 500, 200);
 
         SpinnerModel value1 = new SpinnerNumberModel(20, 6, 20, 1);
         jSpinner1 = new JSpinner(value1);
@@ -190,9 +203,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     }
 
-    private void setJRadioButton1Parameters(JRadioButton jRadioButton) {
-        jRadioButton.setBounds(510, 193, 50, 50);
-        jRadioButton.setText("2");
+    private void setJRadioButtonParameters(JRadioButton jRadioButton) {
         jRadioButton.setSelected(true);
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setForeground(Color.decode("#FFFFE1"));
@@ -200,47 +211,12 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         add(jRadioButton);
     }
 
-    private void setJRadioButton2Parameters(JRadioButton jRadioButton) {
-        jRadioButton.setBounds(560, 193, 50, 50);
-        jRadioButton.setText("4");
-        jRadioButton.setBackground(backgroundColor);
-        jRadioButton.setForeground(Color.decode("#FFFFE1"));
-        jRadioButton.setFont(insanIb.deriveFont(Font.PLAIN, 28));
-        add(jRadioButton);
-    }
-
-    private void setJLabelParameters1(JLabel jLabel) {
-        jLabel.setBounds(80, 120, 350, 200);
+    private void setJLabelParameters(JLabel jLabel) {
         jLabel.setBackground(backgroundColor);
         jLabel.setForeground(Color.decode("#FFFFE1"));
         jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
         add(jLabel);
     }
-
-    private void setJLabelParameters2(JLabel jLabel) {
-        jLabel.setBounds(80, 180, 500, 200);
-        jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
-        add(jLabel);
-    }
-
-    private void setJLabelParameters3(JLabel jLabel) {
-        jLabel.setBounds(80, 240, 500, 200);
-        jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
-        add(jLabel);
-    }
-
-    private void setJLabelParameters4(JLabel jLabel) {
-        jLabel.setBounds(80, 300, 500, 200);
-        jLabel.setBackground(backgroundColor);
-        jLabel.setForeground(Color.decode("#FFFFE1"));
-        jLabel.setFont(insanIb.deriveFont(Font.PLAIN, 28));
-        add(jLabel);
-    }
-
 
 
     private void setJSpinnerParameters1(JSpinner jSpinner) {
@@ -306,7 +282,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
                     chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
                                                         radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
                 } catch (PositionException | NumberOfPlayerException ex) {
-                    throw new RuntimeException(ex);
+                    ex.printStackTrace();
                 }
 
                 jFrame.setContentPane(chooseActionPanel);

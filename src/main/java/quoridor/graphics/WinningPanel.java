@@ -56,7 +56,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         BufferedImageLoader loader = new BufferedImageLoader();

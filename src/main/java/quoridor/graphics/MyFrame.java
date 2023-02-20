@@ -14,6 +14,7 @@ public class MyFrame extends JFrame {
         pack();
 
         setTitle("Quoridor");
+        setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon("src/main/resources/images/logo/logo.png").getImage());
         setLocationRelativeTo(null);

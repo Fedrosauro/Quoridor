@@ -79,7 +79,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         BufferedImageLoader loader = new BufferedImageLoader();

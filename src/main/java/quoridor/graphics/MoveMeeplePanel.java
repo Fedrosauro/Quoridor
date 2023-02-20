@@ -59,6 +59,8 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
     private final transient GameEngine gameEngine;
     private transient Player activePlayer;
 
+    private Font insanIb;
+
 
     public MoveMeeplePanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
         this.jFrame = jFrame;
@@ -79,12 +81,11 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         setBackground(backgroundColor);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
-        Font insanIb;
         try {
             assert is != null;
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         BufferedImageLoader loader = new BufferedImageLoader();

@@ -166,7 +166,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             try {
                 rulesPanel = new RulesPanel(jFrame, backgroundColor);
             } catch (IOException | FontFormatException ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
             jFrame.setContentPane(rulesPanel);
             jFrame.revalidate();
@@ -184,7 +184,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
             try {
                 prePlayPanel = new PrePlayPanel(jFrame, backgroundColor);
             } catch (IOException | FontFormatException ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
             jFrame.setContentPane(prePlayPanel);
             jFrame.revalidate();

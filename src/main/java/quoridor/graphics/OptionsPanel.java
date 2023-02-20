@@ -56,7 +56,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -179,13 +179,15 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     }
 
     private void setJListParameters(Map<Color, String> colorMap){
-        colorList.setBounds(WIDTHWINDOW /2 - 70,160,135,320);
+        colorList.setBounds(WIDTHWINDOW /2 - 70,160,130,320);
         colorList.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
         colorList.setBackground(backgroundColor);
         colorList.setForeground(Color.white);
         colorList.setSelectionBackground(Color.white);
         colorList.setSelectionForeground(Color.BLACK);
         colorList.setFont(insanIb.deriveFont(Font.PLAIN, 30));
+        DefaultListCellRenderer renderer = (DefaultListCellRenderer) colorList.getCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     @Override
