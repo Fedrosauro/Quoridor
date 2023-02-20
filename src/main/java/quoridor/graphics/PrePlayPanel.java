@@ -102,7 +102,7 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         jRadioButton2.setBounds(560, 193, 50, 50);
 
 
-        buttonGroup = new ButtonGroup(); //for setting button exclusive
+        buttonGroup = new ButtonGroup();
         buttonGroup.add(jRadioButton1);
         buttonGroup.add(jRadioButton2);
 
@@ -309,26 +309,21 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not needed
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not needed
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not needed
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not needed
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not needed
     }
 }

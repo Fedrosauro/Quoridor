@@ -62,7 +62,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         this.backgroundColor = backgroundColor;
         this.wallDimension = wallDimension;
 
-        ArrayList<String> names = new ArrayList<>(); //names just added due to the GameEngine Constructor
+        ArrayList<String> names = new ArrayList<>();
         names.add("Player 1");
         names.add("Player 2");
         names.add("Player 3");
@@ -102,7 +102,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         setFont(insanIb.deriveFont(Font.PLAIN, 15));
 
         BufferedImageLoader loader = new BufferedImageLoader();
-        ///////////////////////////////////////////////////////////
+
         tile = loader.loadImage("src/main/resources/drawable/images/tile/tile.png");
         wallH = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallH.png");
         wallV = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallV.png");
@@ -114,7 +114,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         pawn2Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn2turn.png");
         pawn3Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn3turn.png");
         pawn4Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn4turn.png");
-        ///////////////////////////////////////////////////////////
+
         moveButtonImage = new BufferedImage[2];
         placeWallImage = new BufferedImage[2];
         smallGoBackButton = new BufferedImage[2];
@@ -147,7 +147,6 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
         rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
         changeSmallButton = false;
-        ///////////////////////////////////////////////////////////
 
         buttonAudio = new AudioPlayer[2];
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
@@ -336,26 +335,21 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not needed to use
     }
 }

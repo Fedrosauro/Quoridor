@@ -191,26 +191,21 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not needed to use
     }
 }

@@ -46,7 +46,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         initTimer();
     }
 
-    private void setup() { //used to setup the Panel
+    private void setup() {
         addMouseListener(this);
         addMouseMotionListener(this);
 
@@ -190,7 +190,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         if (rectExitB.contains(x, y)) {
             playAudio(1);
-            jFrame.dispatchEvent(new WindowEvent(jFrame, WindowEvent.WINDOW_CLOSING)); //X with custom button
+            jFrame.dispatchEvent(new WindowEvent(jFrame, WindowEvent.WINDOW_CLOSING));
         }
     }
 
@@ -239,26 +239,21 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not used because not needed
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not used because not needed
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not used because not needed
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not used because not needed
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not used because not needed
     }
 }

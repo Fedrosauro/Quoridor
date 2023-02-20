@@ -203,7 +203,7 @@ public class Board {
             if (meeple.getColor() != opponent.getColor()) {
                 Coordinates opponentCoordinates = this.findPosition(opponent.getPosition());
                 if (canMeepleBeJumpedOver(coordinates, opponentCoordinates, direction)) return true;
-            } //
+            }
         }
 
         return false;

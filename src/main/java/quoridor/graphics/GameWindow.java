@@ -20,7 +20,7 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) { ///added just to see how the actual game would look like
+    public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
 
             GameWindow gameWindow = new GameWindow();

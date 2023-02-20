@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class BufferedImageLoader {
-
-    //this is where we load our images
     private BufferedImage img;
 
     public BufferedImage loadImage(String path){

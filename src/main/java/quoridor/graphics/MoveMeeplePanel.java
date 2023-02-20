@@ -89,7 +89,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         }
 
         BufferedImageLoader loader = new BufferedImageLoader();
-        ///////////////////////////////////////////////////////////
+
         tile = loader.loadImage("src/main/resources/drawable/images/tile/tile.png");
         wallH = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallH.png");
         wallV = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallV.png");
@@ -101,7 +101,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         pawn2Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn2turn.png");
         pawn3Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn3turn.png");
         pawn4Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn4turn.png");
-        ///////////////////////////////////////////////////////////
+
         upArrowImage = new BufferedImage[2];
         downArrowImage = new BufferedImage[2];
         leftArrowImage = new BufferedImage[2];
@@ -146,7 +146,6 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
         rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
         changeSmallButton = false;
-        ///////////////////////////////////////////////////////////
 
         buttonAudio = new AudioPlayer[2];
         buttonAudio[0] = new AudioPlayer("src/main/resources/audio/effects/hoverSound.wav");
@@ -410,26 +409,21 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not needed to use
     }
 }

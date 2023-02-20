@@ -84,7 +84,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         }
 
         BufferedImageLoader loader = new BufferedImageLoader();
-        ///////////////////////////////////////////////////////////
+
         tile = loader.loadImage("src/main/resources/drawable/images/tile/tile.png");
         wallH = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallH.png");
         wallV = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallV.png");
@@ -96,7 +96,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         pawn2Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn2turn.png");
         pawn3Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn3turn.png");
         pawn4Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn4turn.png");
-        ///////////////////////////////////////////////////////////
+
         placeWallButton = new BufferedImage[2];
         smallGoBackButton = new BufferedImage[2];
 
@@ -120,7 +120,6 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
         rectSmallButton = new Rectangle2D.Float(xSmallButton, ySmallButton, smallWidth, smallHeight);
         changeSmallButton = false;
-        ///////////////////////////////////////////////////////////
 
         int yStart = 530;
         int xCoord = 240;
@@ -165,7 +164,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         jRadioButton2.setForeground(Color.GREEN);
 
 
-        buttonGroup = new ButtonGroup(); //for setting button exclusive
+        buttonGroup = new ButtonGroup();
         buttonGroup.add(jRadioButton1);
         buttonGroup.add(jRadioButton2);
         buttonGroup.getElements().nextElement().setEnabled(true);
@@ -364,26 +363,21 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not needed to use
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not needed to use
     }
 }
