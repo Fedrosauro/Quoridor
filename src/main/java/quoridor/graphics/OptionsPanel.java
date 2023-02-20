@@ -15,11 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OptionsPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+    public static final int Y_DELAY_BUTTON = 200;
+    public static final int X_DELAY_BUTTON = 115;
     private final JFrame jFrame;
     private Color backgroundColor;
-    private static final int WIDTHWINDOW = 700;
-    private static final int HEIGHTWINDOW = 700;
-    private static final int DELAY = 1;
+    private static final int WIDTH_WINDOW = 700;
+    private static final int HEIGHT_WINDOW = 700;
 
     private transient AudioPlayer[] buttonAudio;
 
@@ -48,7 +49,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
@@ -63,13 +64,13 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
         menuBImages = new BufferedImage[2];
 
-        menuBImages[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        menuBImages[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        menuBImages[0] = loader.loadImage("src/main/resources/drawable/images/goBackButton/go_back_button.png");
+        menuBImages[1] = loader.loadImage("src/main/resources/drawable/images/goBackButton/go_back_button_hover.png");
 
-        backgroundTitle = loader.loadImage("src/main/resources/images/background_chose_title/background_chose_title.png");
+        backgroundTitle = loader.loadImage("src/main/resources/drawable/images/background_chose_title/background_chose_title.png");
 
-        yButtons = HEIGHTWINDOW / 2 + 200;
-        xButtons = WIDTHWINDOW / 2 - 115;
+        yButtons = HEIGHT_WINDOW / 2 + Y_DELAY_BUTTON;
+        xButtons = WIDTH_WINDOW / 2 - X_DELAY_BUTTON;
         int heightB = 58;
         int widthB = 230;
 
@@ -98,7 +99,8 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     }
 
     private void initTimer() {
-        Timer timer = new Timer(DELAY, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -130,10 +132,10 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
             ex.printStackTrace();
         }
 
-        g2d.drawImage(backgroundTitle, WIDTHWINDOW / 2 - backgroundTitle.getWidth() / 2, 20, null);
+        g2d.drawImage(backgroundTitle, WIDTH_WINDOW / 2 - backgroundTitle.getWidth() / 2, 20, null);
 
-        yButtons = HEIGHTWINDOW / 2 + 200;
-        xButtons = WIDTHWINDOW / 2 - 115;
+        yButtons = HEIGHT_WINDOW / 2 + Y_DELAY_BUTTON;
+        xButtons = WIDTH_WINDOW / 2 - X_DELAY_BUTTON;
 
         if (changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
         else g2d.drawImage(menuBImages[0], xButtons, yButtons, null);
@@ -145,15 +147,20 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         int y = e.getY();
 
         if (rectGoBackB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+
+            playAudio(1);
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
+        }
+    }
+
+    private void playAudio(int x) {
+        try {
+            buttonAudio[x].createAudio();
+            buttonAudio[x].playAudio();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -164,19 +171,14 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
         if (rectGoBackB.contains(x, y)) {
             if (!changeB1) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeB1 = true;
         } else changeB1 = false;
     }
 
     private void setJListParameters(Map<Color, String> colorMap) {
-        colorList.setBounds(WIDTHWINDOW / 2 - 70, 160, 130, 320);
+        colorList.setBounds(WIDTH_WINDOW / 2 - 70, 160, 130, 320);
         colorList.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
         colorList.setBackground(backgroundColor);
         colorList.setForeground(Color.white);

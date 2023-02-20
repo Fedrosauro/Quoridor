@@ -24,8 +24,8 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
     private final int wallDimension;
 
-    private static final int WIDTHWINDOW = 700;
-    private static final int HEIGHTWINDOW = 700;
+    private static final int WIDTH_WINDOW = 700;
+    private static final int HEIGHT_WINDOW = 700;
 
     private transient BufferedImage tile;
     private transient BufferedImage wallV;
@@ -72,7 +72,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
@@ -85,25 +85,25 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
         BufferedImageLoader loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
-        tile = loader.loadImage("src/main/resources/images/tile/tile.png");
-        wallH = loader.loadImage("src/main/resources/images/wallsImages/wallH.png");
-        wallV = loader.loadImage("src/main/resources/images/wallsImages/wallV.png");
-        pawn1 = loader.loadImage("src/main/resources/images/meepleImages/pawn1.png");
-        pawn2 = loader.loadImage("src/main/resources/images/meepleImages/pawn2.png");
-        pawn3 = loader.loadImage("src/main/resources/images/meepleImages/pawn3.png");
-        pawn4 = loader.loadImage("src/main/resources/images/meepleImages/pawn4.png");
-        pawn1Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn1turn.png");
-        pawn2Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn2turn.png");
-        pawn3Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn3turn.png");
-        pawn4Turn = loader.loadImage("src/main/resources/images/playersTurnImages/pawn4turn.png");
+        tile = loader.loadImage("src/main/resources/drawable/images/tile/tile.png");
+        wallH = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallH.png");
+        wallV = loader.loadImage("src/main/resources/drawable/images/wallsImages/wallV.png");
+        pawn1 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn1.png");
+        pawn2 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn2.png");
+        pawn3 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn3.png");
+        pawn4 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn4.png");
+        pawn1Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn1turn.png");
+        pawn2Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn2turn.png");
+        pawn3Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn3turn.png");
+        pawn4Turn = loader.loadImage("src/main/resources/drawable/images/playersTurnImages/pawn4turn.png");
         ///////////////////////////////////////////////////////////
         placeWallButton = new BufferedImage[2];
         smallGoBackButton = new BufferedImage[2];
 
-        placeWallButton[0] = loader.loadImage("src/main/resources/images/placeActualWallButton/placeActualWall_button.png");
-        placeWallButton[1] = loader.loadImage("src/main/resources/images/placeActualWallButton/placeActualWall_button_hover.png");
-        smallGoBackButton[0] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button.png");
-        smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
+        placeWallButton[0] = loader.loadImage("src/main/resources/drawable/images/placeActualWallButton/placeActualWall_button.png");
+        placeWallButton[1] = loader.loadImage("src/main/resources/drawable/images/placeActualWallButton/placeActualWall_button_hover.png");
+        smallGoBackButton[0] = loader.loadImage("src/main/resources/drawable/images/goBackButtonSmall/gobackHomeSmall_button.png");
+        smallGoBackButton[1] = loader.loadImage("src/main/resources/drawable/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
         int yButtons = 580;
         int xButtons = 40;
@@ -263,42 +263,41 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
         int sizeBoard = board.getMatrix().length;
 
-        g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
+        Color backgroundColorAndCoordinatesColor = new Color(68, 6, 6);
+        g2d.setColor(backgroundColorAndCoordinatesColor);
+        g2d.fillRoundRect(WIDTH_WINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
 
-        Stroke defaultStroke = g2d.getStroke();
-        BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
-        g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
+        Color borderColor = new Color(96, 10, 10);
+        g2d.setColor(borderColor);
+        g2d.drawRoundRect(WIDTH_WINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
 
-        g2d.setStroke(strokeForBoardBorder);
-        g2d.setStroke(defaultStroke);
-
-        g2d.setColor(Color.white);
-        int y = 20;
+        int startY = 20;
+        int delayImages = 4;
+        int delayXString = 10;
+        int delayYString = 25;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2;
+            int startX = WIDTH_WINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2;
             for (int j = 0; j < board.getColumns(); j++) {
-                g2d.drawImage(tile, startX, y, null);
-                g2d.setColor(new Color(68, 6, 6, 168));
-                g2d.drawString(i + "," + j, startX + 10, y + 25);
-                if (board.getMatrix()[i][j].getNorthWall() != null) g2d.drawImage(wallH, startX - 2, y - 4, null);
-                if (board.getMatrix()[i][j].getEastWall() != null) g2d.drawImage(wallV, startX + 4, y - 2, null);
+                g2d.drawImage(tile, startX, startY, null);
+                g2d.setColor(backgroundColorAndCoordinatesColor);
+                g2d.drawString(i + "," + j, startX + delayXString, startY + delayYString);
+                if (board.getMatrix()[i][j].getNorthWall() != null) g2d.drawImage(wallH, startX - delayImages /2, startY - delayImages, null);
+                if (board.getMatrix()[i][j].getEastWall() != null) g2d.drawImage(wallV, startX + delayImages, startY - delayImages /2, null);
                 for (int k = 0; k < gameEngine.getPlayers().size(); k++) {
                     Coordinates playerCoords = gameEngine.getBoard().getPlayersPositions(gameEngine.getPlayers()).get(k);
                     if (playerCoords.getRow() == i && playerCoords.getColumn() == j) {
                         switch (gameEngine.getPlayers().get(k).getMeeple().getColor()) {
-                            case RED -> g2d.drawImage(pawn1, startX, y, null);
-                            case BLUE -> g2d.drawImage(pawn2, startX, y, null);
-                            case GREEN -> g2d.drawImage(pawn3, startX, y, null);
-                            case YELLOW -> g2d.drawImage(pawn4, startX, y, null);
+                            case RED -> g2d.drawImage(pawn1, startX, startY, null);
+                            case BLUE -> g2d.drawImage(pawn2, startX, startY, null);
+                            case GREEN -> g2d.drawImage(pawn3, startX, startY, null);
+                            case YELLOW -> g2d.drawImage(pawn4, startX, startY, null);
                         }
                     }
                 }
-                startX += tile.getHeight() + 4;
+                startX += tile.getHeight() + delayImages;
             }
-            y += tile.getWidth() + 4;
+            startY += tile.getWidth() + delayImages;
         }
     }
 
@@ -308,12 +307,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int y = e.getY();
 
         if (rectPlaceWall.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playAudio(1);
 
             Coordinates position = new Coordinates((int) jSpinner1.getValue(), (int) jSpinner2.getValue());
             Orientation orientation = radioButtonSelection(buttonGroup);
@@ -331,16 +325,20 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         }
 
         if (rectSmallButton.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playAudio(1);
 
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
+        }
+    }
+
+    private void playAudio(int x) {
+        try {
+            buttonAudio[x].createAudio();
+            buttonAudio[x].playAudio();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -351,24 +349,14 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
         if (rectPlaceWall.contains(x, y)) {
             if (!changeBPlaceWall) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeBPlaceWall = true;
         } else changeBPlaceWall = false;
 
         if (rectSmallButton.contains(x, y)) {
             if (!changeSmallButton) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeSmallButton = true;
         } else changeSmallButton = false;

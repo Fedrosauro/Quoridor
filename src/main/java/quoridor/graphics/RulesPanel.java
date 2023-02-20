@@ -26,7 +26,6 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     private final Color backgroundColor;
     private Font lowerArial;
 
-
     private static final int WIDTH_WINDOW = 700;
     private static final int HEIGHT_WINDOW = 700;
     final int BUTTON_HEIGHT = 58;
@@ -66,10 +65,10 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
         goBackImages = new BufferedImage[2];
 
-        goBackImages[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        goBackImages[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        goBackImages[0] = loader.loadImage("src/main/resources/drawable/images/goBackButton/go_back_button.png");
+        goBackImages[1] = loader.loadImage("src/main/resources/drawable/images/goBackButton/go_back_button_hover.png");
 
-        backgroundTitle = loader.loadImage("src/main/resources/images/background_rules_title/how_to_play_title.png");
+        backgroundTitle = loader.loadImage("src/main/resources/drawable/images/background_rules_title/how_to_play_title.png");
 
         yButtons = HEIGHT_WINDOW / 2 + BUTTON_POSITION_Y;
         xButtons = WIDTH_WINDOW / 2 - BUTTON_POSITION_X;
@@ -161,15 +160,19 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         int y = e.getY();
 
         if (rectGoBackB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playSound(1);
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
+        }
+    }
+
+    private void playSound(int x) {
+        try {
+            buttonAudio[x].createAudio();
+            buttonAudio[x].playAudio();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -180,12 +183,7 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
         if (rectGoBackB.contains(x, y)) {
             if (!changeB1) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playSound(0);
             }
             changeB1 = true;
         } else changeB1 = false;

@@ -16,8 +16,8 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
     private final JFrame jFrame;
     private final Color backgroundColor;
     private final transient Player winnerPlayer;
-    private static final int WIDTHWINDOW = 700;
-    private static final int HEIGHTWINDOW = 700;
+    private static final int WIDTH_WINDOW = 700;
+    private static final int HEIGHT_WINDOW = 700;
 
     private transient BufferedImage[] menuBImages;
     private transient BufferedImage pawn1;
@@ -48,7 +48,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
@@ -63,16 +63,16 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
 
         menuBImages = new BufferedImage[2];
 
-        menuBImages[0] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button.png");
-        menuBImages[1] = loader.loadImage("src/main/resources/images/goBackButton/go_back_button_hover.png");
+        menuBImages[0] = loader.loadImage("src/main/resources/drawable/images/goBackButton/go_back_button.png");
+        menuBImages[1] = loader.loadImage("src/main/resources/drawable/images/goBackButton/go_back_button_hover.png");
 
-        pawn1 = loader.loadImage("src/main/resources/images/meepleImages/pawn1.png");
-        pawn2 = loader.loadImage("src/main/resources/images/meepleImages/pawn2.png");
-        pawn3 = loader.loadImage("src/main/resources/images/meepleImages/pawn3.png");
-        pawn4 = loader.loadImage("src/main/resources/images/meepleImages/pawn4.png");
+        pawn1 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn1.png");
+        pawn2 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn2.png");
+        pawn3 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn3.png");
+        pawn4 = loader.loadImage("src/main/resources/drawable/images/meepleImages/pawn4.png");
 
-        yButtons = HEIGHTWINDOW / 2 + 200;
-        xButtons = WIDTHWINDOW / 2 - 115;
+        yButtons = HEIGHT_WINDOW / 2 + 200;
+        xButtons = WIDTH_WINDOW / 2 - 115;
         int heightB = 58;
         int widthB = 230;
 
@@ -111,7 +111,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         g2d.setRenderingHints(rh);
 
         int startX = 220;
-        int y = HEIGHTWINDOW / 2 - 100;
+        int y = HEIGHT_WINDOW / 2 - 100;
 
         switch (winnerPlayer.getMeeple().getColor()) {
             case RED -> g2d.drawImage(pawn1, startX, y, null);
@@ -120,12 +120,13 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
             case YELLOW -> g2d.drawImage(pawn4, startX, y, null);
         }
 
-        g2d.setColor(new Color(255, 255, 225));
+        Color yellowNaples = new Color(255, 255, 225);
+        g2d.setColor(yellowNaples);
         g2d.setFont(insanIb.deriveFont(Font.PLAIN, 30));
         g2d.drawString("is the WINNER!!!", startX + pawn1.getWidth() + 13, y + pawn1.getHeight() - 10);
 
-        yButtons = HEIGHTWINDOW / 2 + 200;
-        xButtons = WIDTHWINDOW / 2 - 115;
+        yButtons = HEIGHT_WINDOW / 2 + 200;
+        xButtons = WIDTH_WINDOW / 2 - 115;
 
         if (changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
         else g2d.drawImage(menuBImages[0], xButtons, yButtons, null);
@@ -137,15 +138,19 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         int y = e.getY();
 
         if (rectGoBackB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playSound(1);
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();
+        }
+    }
+
+    private void playSound(int x) {
+        try {
+            buttonAudio[x].createAudio();
+            buttonAudio[x].playAudio();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -156,12 +161,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
 
         if (rectGoBackB.contains(x, y)) {
             if (!changeB1) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playSound(0);
             }
             changeB1 = true;
         } else changeB1 = false;

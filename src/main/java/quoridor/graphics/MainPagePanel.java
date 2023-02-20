@@ -11,11 +11,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class MainPagePanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+    public static final int X_START_VARIABLE = 85;
+    public static final int Y_START_VARIABLE = 150;
     private final JFrame jFrame;
     private final Color backgroundColor;
-    private static final int WIDTHWINDOW = 700;
-    private static final int HEIGHTWINDOW = 700;
-    private static final int DELAY = 1;
+    private static final int WIDTH_WINDOW = 700;
+    private static final int HEIGHT_WINDOW = 700;
 
     private transient AudioPlayer[] buttonAudio;
 
@@ -49,33 +50,33 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
         BufferedImageLoader bufferedImageLoader = new BufferedImageLoader();
 
-        title = bufferedImageLoader.loadImage("src/main/resources/images/title/title.png");
+        title = bufferedImageLoader.loadImage("src/main/resources/drawable/images/title/title.png");
 
         htpBImages = new BufferedImage[2];
         playBImages = new BufferedImage[2];
         optionsBImages = new BufferedImage[2];
         exitBImages = new BufferedImage[2];
 
-        htpBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/htpButton/how_to_play_button.png");
-        htpBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/htpButton/how_to_play_button_hover.png");
+        htpBImages[0] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/htpButton/how_to_play_button.png");
+        htpBImages[1] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/htpButton/how_to_play_button_hover.png");
 
-        playBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/playButton/play_button.png");
-        playBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/playButton/play_button_hover.png");
+        playBImages[0] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/playButton/play_button.png");
+        playBImages[1] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/playButton/play_button_hover.png");
 
-        optionsBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/optionsButton/options_button.png");
-        optionsBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/optionsButton/options_button_hover.png");
+        optionsBImages[0] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/optionsButton/options_button.png");
+        optionsBImages[1] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/optionsButton/options_button_hover.png");
 
-        exitBImages[0] = bufferedImageLoader.loadImage("src/main/resources/images/exitButton/exit_button.png");
-        exitBImages[1] = bufferedImageLoader.loadImage("src/main/resources/images/exitButton/exit_button_hover.png");
+        exitBImages[0] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/exitButton/exit_button.png");
+        exitBImages[1] = bufferedImageLoader.loadImage("src/main/resources/drawable/images/exitButton/exit_button_hover.png");
 
-        yButtons = HEIGHTWINDOW / 2 - 150;
-        xButtons = WIDTHWINDOW / 2 - 85;
+        yButtons = HEIGHT_WINDOW / 2 - Y_START_VARIABLE;
+        xButtons = WIDTH_WINDOW / 2 - X_START_VARIABLE;
         int heightB = 100;
         int widthB = 170;
         distance = 110;
@@ -101,7 +102,8 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void initTimer() {
-        Timer timer = new Timer(DELAY, this);
+        int delay = 1;
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -125,10 +127,11 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         g2d.setRenderingHints(rh);
 
-        g2d.drawImage(title, WIDTHWINDOW / 2 - title.getWidth() / 2, 50, null);
+        int yTitle = 50;
+        g2d.drawImage(title, WIDTH_WINDOW / 2 - title.getWidth() / 2, yTitle, null);
 
-        yButtons = HEIGHTWINDOW / 2 - 150;
-        xButtons = WIDTHWINDOW / 2 - 85;
+        yButtons = HEIGHT_WINDOW / 2 - Y_START_VARIABLE;
+        xButtons = WIDTH_WINDOW / 2 - X_START_VARIABLE;
         distance = 110;
 
         if (changeB1) g2d.drawImage(htpBImages[1], xButtons, yButtons, null);
@@ -153,12 +156,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         int y = e.getY();
 
         if (rectHtpB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playAudio(1);
             RulesPanel rulesPanel = null;
             try {
                 rulesPanel = new RulesPanel(jFrame, backgroundColor);
@@ -170,12 +168,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         }
 
         if (rectPlayB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playAudio(1);
 
             PrePlayPanel prePlayPanel = null;
             try {
@@ -188,12 +181,7 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         }
 
         if (rectOptionsB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playAudio(1);
             OptionsPanel optionsPanel = new OptionsPanel(jFrame, backgroundColor);
 
             jFrame.setContentPane(optionsPanel);
@@ -201,13 +189,17 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
         }
 
         if (rectExitB.contains(x, y)) {
-            try {
-                buttonAudio[1].createAudio();
-                buttonAudio[1].playAudio();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            playAudio(1);
             jFrame.dispatchEvent(new WindowEvent(jFrame, WindowEvent.WINDOW_CLOSING)); //X with custom button
+        }
+    }
+
+    private void playAudio(int x) {
+        try {
+            buttonAudio[x].createAudio();
+            buttonAudio[x].playAudio();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -218,48 +210,28 @@ public class MainPagePanel extends JPanel implements MouseListener, MouseMotionL
 
         if (rectHtpB.contains(x, y)) {
             if (!changeB1) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeB1 = true;
         } else changeB1 = false;
 
         if (rectPlayB.contains(x, y)) {
             if (!changeB2) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeB2 = true;
         } else changeB2 = false;
 
         if (rectOptionsB.contains(x, y)) {
             if (!changeB3) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeB3 = true;
         } else changeB3 = false;
 
         if (rectExitB.contains(x, y)) {
             if (!changeB4) {
-                try {
-                    buttonAudio[0].createAudio();
-                    buttonAudio[0].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                playAudio(0);
             }
             changeB4 = true;
         } else changeB4 = false;
