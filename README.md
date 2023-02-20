@@ -41,6 +41,4 @@ Note that when a player has no more walls, he cannot use them anymore.
 
 [Board Game Geek](https://boardgamegeek.com/boardgame/624/quoridor)
 
-## To Do
 
-- 
