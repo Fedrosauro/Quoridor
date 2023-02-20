@@ -25,8 +25,8 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
     private final int wallDimension;
 
-    private static final int WIDTH_WINDOW = 700;
-    private static final int HEIGHT_WINDOW = 700;
+    private static final int WIDTHWINDOW = 700;
+    private static final int HEIGHTWINDOW = 700;
 
     private transient BufferedImage tile;
     private transient BufferedImage wallV;
@@ -54,6 +54,8 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
 
     private final transient GameEngine gameEngine;
     private transient Player activePlayer;
+
+    private Font insanIb;
 
     public ChooseActionPanel(JFrame jFrame, Color backgroundColor, int size1, int size2, int numberPlayers, int wallDimension, int numberWalls) throws PositionException, NumberOfPlayerException {
         this.jFrame = jFrame;
@@ -86,19 +88,18 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
+        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
         InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
-        Font insanib;
         try {
-            insanib = Font.createFont(Font.TRUETYPE_FONT, is);
+            insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        setFont(insanib.deriveFont(Font.PLAIN, 15));
+        setFont(insanIb.deriveFont(Font.PLAIN, 15));
 
         BufferedImageLoader loader = new BufferedImageLoader();
         ///////////////////////////////////////////////////////////
@@ -126,7 +127,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         smallGoBackButton[1] = loader.loadImage("src/main/resources/images/goBackButtonSmall/gobackHomeSmall_button_hover.png");
 
         int yButtons = 588;
-        int xButtons = WIDTH_WINDOW / 2 - moveButtonImage[0].getWidth() - 48;
+        int xButtons = WIDTHWINDOW / 2 - moveButtonImage[0].getWidth() - 48;
         int heightB = 63;
         int widthB = 202;
         int distance = 100;
@@ -134,7 +135,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         rectMoveB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBMove = false;
 
-        xButtons = WIDTH_WINDOW /2 + distance /2;
+        xButtons = WIDTHWINDOW /2 + distance /2;
         rectPlaceWallB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
 
@@ -196,19 +197,19 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         int sizeBoard = board.getMatrix().length;
 
         g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(WIDTH_WINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.fillRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
         g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(WIDTH_WINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
+        g2d.drawRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
                 ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
                 20, 20);
 
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = WIDTH_WINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
+            int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
             for(int j = 0; j < board.getColumns(); j++){
                 g2d.drawImage(tile, startX, y, null);
                 g2d.setColor(new Color(68, 6, 6, 168));
@@ -241,8 +242,17 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             case GREEN -> g2d.drawImage(pawn3Turn, 0, 510, null);
             case YELLOW -> g2d.drawImage(pawn4Turn, 0, 510, null);
         }
+        g2d.setColor(Color.WHITE);
+        Font actualFont = g2d.getFont();
+        g2d.setFont(insanIb.deriveFont(Font.PLAIN, 30));
 
-        int xImages = WIDTH_WINDOW /2 - moveButtonImage[0].getWidth() - 50;
+        g2d.setColor(new Color(255,255, 225));
+        g2d.drawString("Walls:", WIDTHWINDOW/2 - 55, 560);
+
+        g2d.drawString(activePlayer.getWalls() + "", WIDTHWINDOW/2 + 50, 560);
+        g2d.setFont(actualFont);
+
+        int xImages = WIDTHWINDOW /2 - moveButtonImage[0].getWidth() - 50;
         int yImages = 585;
 
         if(changeBMove) g2d.drawImage(moveButtonImage[1], xImages, yImages, null);

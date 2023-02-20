@@ -224,15 +224,6 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int xImages = 35;
         int yImages = 577;
 
-        g2d.setColor(new Color(255,255, 225));
-        g2d.drawString("Usable walls", 572, 560);
-
-        g2d.setColor(Color.WHITE);
-        Font actualFont = g2d.getFont();
-        g2d.setFont(insanIb.deriveFont(Font.PLAIN, 30));
-        g2d.drawString(activePlayer.getWalls() + "", 610, 590);
-        g2d.setFont(actualFont);
-
         if(changeBPlaceWall) g2d.drawImage(placeWallButton[1], xImages, yImages, null);
         else g2d.drawImage(placeWallButton[0], xImages, yImages, null);
 
