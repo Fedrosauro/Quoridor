@@ -24,7 +24,7 @@ Each player puts his meeple on the bord in the center of the nearest row.
 
 ### Goal of the Game
 
-The board is a 10x10 matrix where there is room for walls between each pair of tiles.
+The board is a 9x9 matrix where there is room for walls between each pair of tiles.
 
 A player wins when his meeple is moved to the opposite side of the board.
 
