@@ -38,11 +38,17 @@ A player can either:
 
 Note that when a player has no spare walls, only the movement is allowed
 
+**_NOTE:_** Given a set of coordinate, the wall will be placed from the north or east side of the tile, for horizontal and vertical wall respectively. As you can see below: 
+<div align="center">
+  <h1>Quoridor</h1>
+  <img alt="CircleCI" src="https://raw.githubusercontent.com/Fedrosauro/Images/main/Immagine%202023-02-20%20143439.png">
+</div>
+
+
 ## Features
 
-- Player vs. CPU game mode
 - Variable board size
-- 4 players
+- 4 players game mode
 - Variable wall size
 - Variable number of walls per player
 
