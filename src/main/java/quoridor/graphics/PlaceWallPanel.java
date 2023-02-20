@@ -319,7 +319,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             Orientation orientation = radioButtonSelection(buttonGroup);
 
             if (gameEngine.everyPlayerCanWin(position, orientation, wallDimension)) {
-                gameEngine.placeWall(activePlayer, position, orientation, wallDimension);
+                gameEngine.placeWall(position, orientation, wallDimension);
 
                 gameEngine.nextActivePlayer();
 

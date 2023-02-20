@@ -87,7 +87,7 @@ public class GameEngine {
         }
     }
 
-    public void placeWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
+    public void placeWall(Coordinates coordinates, Orientation orientation, int dimWall) {
         board.placeWall(coordinates, orientation, dimWall);
         int walls = this.getActivePlayer().getWalls();
         this.getActivePlayer().setWalls(walls - 1);
@@ -165,7 +165,7 @@ public class GameEngine {
             wallPosition = player.decideWallPosition(players, board);
         } while (!this.placementIsAllowed(player, wallPosition, orientation, wallDimension));
 
-        this.placeWall(player, wallPosition, orientation, wallDimension);
+        this.placeWall(wallPosition, orientation, wallDimension);
     }
 
     public Board getBoard() {

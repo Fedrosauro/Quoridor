@@ -51,7 +51,7 @@ public class ConsoleGame {
                     orientation = askForOrientation();
                     position = askForPosition();
                 } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
-                gameEngine.placeWall(gameEngine.getActivePlayer(), position, orientation, WALL_DIM);
+                gameEngine.placeWall(position, orientation, WALL_DIM);
             }
 
         }

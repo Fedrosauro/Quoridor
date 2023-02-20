@@ -41,7 +41,7 @@ class GameFlowTest {
 
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.placeWall(players.get(0), new Coordinates(2, 2), Orientation.HORIZONTAL, 2);
+        gameEngine.placeWall(new Coordinates(2, 2), Orientation.HORIZONTAL, 2);
 
         assertFalse(board.isWallNotPresent(new Coordinates(2, 2), Orientation.HORIZONTAL, 2));
 
@@ -57,7 +57,7 @@ class GameFlowTest {
 
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.placeWall(players.get(0), new Coordinates(1, 1), Orientation.HORIZONTAL, 1);
+        gameEngine.placeWall(new Coordinates(1, 1), Orientation.HORIZONTAL, 1);
         gameEngine.move(players.get(0), Direction.UP);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
@@ -74,7 +74,7 @@ class GameFlowTest {
 
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.placeWall(players.get(0), new Coordinates(1, 0), Orientation.VERTICAL, 1);
+        gameEngine.placeWall(new Coordinates(1, 0), Orientation.VERTICAL, 1);
         gameEngine.move(players.get(0), Direction.LEFT);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
@@ -91,7 +91,7 @@ class GameFlowTest {
 
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.placeWall(players.get(0), new Coordinates(1, 1), Orientation.VERTICAL, 1);
+        gameEngine.placeWall(new Coordinates(1, 1), Orientation.VERTICAL, 1);
         gameEngine.move(players.get(0), Direction.RIGHT);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
@@ -107,7 +107,7 @@ class GameFlowTest {
 
         GameEngine gameEngine = new GameEngine(players, board);
 
-        gameEngine.placeWall(players.get(0), new Coordinates(0, 1), Orientation.HORIZONTAL, 1);
+        gameEngine.placeWall(new Coordinates(0, 1), Orientation.HORIZONTAL, 1);
         gameEngine.move(players.get(0), Direction.DOWN);
 
         assertSame(board.getPosition(1, 1), players.get(0).getMeeple().getPosition());
@@ -198,7 +198,7 @@ class GameFlowTest {
         players.add(new Player("fede", new Meeple(board.getPosition(3, 1), Color.RED, Margin.TOP), 10));
 
         GameEngine gameEngine = new GameEngine(players, board);
-        gameEngine.placeWall(players.get(0), new Coordinates(1, 1), Orientation.HORIZONTAL, 1);
+        gameEngine.placeWall(new Coordinates(1, 1), Orientation.HORIZONTAL, 1);
 
         assertFalse(gameEngine.placementIsAllowed(players.get(0), new Coordinates(1, 1), Orientation.HORIZONTAL, 2));
 
