@@ -124,17 +124,17 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int yStart = 530;
         int xCoord = 240;
 
-        JLabel jLabelXCoord = new JLabel("Select X coordinate:");
+        JLabel jLabelXCoord = new JLabel("Select ROW coordinate:");
         jLabelXCoord.setBounds(xCoord, yStart, 270, 50);
         setJLabelParameters(jLabelXCoord);
 
         SpinnerModel value1 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns() - 1, 1);
         jSpinner1 = new JSpinner(value1);
         jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
-        jSpinner1.setBounds(xCoord + jLabelXCoord.getWidth(), yStart + 10, 40, 30);
+        jSpinner1.setBounds(xCoord + jLabelXCoord.getWidth() + 10, yStart + 10, 40, 30);
         setJSpinnerParameters(jSpinner1);
 
-        JLabel jLabelYCoord = new JLabel("Select Y coordinate:");
+        JLabel jLabelYCoord = new JLabel("Select COL coordinate:");
         yStart += 45;
         jLabelYCoord.setBounds(xCoord, yStart, 270, 50);
         setJLabelParameters(jLabelYCoord);
@@ -142,7 +142,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         SpinnerModel value2 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns() - 1, 1);
         jSpinner2 = new JSpinner(value2);
         jSpinner2.setEditor(new JSpinner.DefaultEditor(jSpinner2));
-        jSpinner2.setBounds(xCoord + jLabelYCoord.getWidth(), yStart + 10, 40, 30);
+        jSpinner2.setBounds(xCoord + jLabelYCoord.getWidth() + 10, yStart + 10, 40, 30);
         setJSpinnerParameters(jSpinner2);
 
         yStart += 45;
