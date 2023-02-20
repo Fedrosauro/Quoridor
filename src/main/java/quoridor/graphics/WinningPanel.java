@@ -52,7 +52,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         setLayout(null);
         setBackground(backgroundColor);
 
-        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        InputStream is = getClass().getResourceAsStream("/drawable/font/Insanibu.ttf");
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {

@@ -25,7 +25,7 @@ public class AutoPlayer extends Player {
     }
 
     public AutoPlayer(String name, Meeple meeple, int walls) {
-        this(name,meeple,walls, DEFAULT_MOVE_PROBABILITY);
+        this(name, meeple, walls, DEFAULT_MOVE_PROBABILITY);
 
     }
 

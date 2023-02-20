@@ -16,12 +16,16 @@ import java.util.Enumeration;
 
 
 public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+    public static final int GO_BACK_POSITION_Y = 200;
+    public static final int GO_BACK_POSITION_X = 300;
+    public static final int PLAY_BUTTON_POSITION_Y = 200;
+    public static final int PLAY_BUTTON_POSITION_X = 60;
     private final JFrame jFrame;
     private final Color backgroundColor;
     private Font insanIb;
 
-    private static final int WIDTHWINDOW = 700;
-    private static final int HEIGHTWINDOW = 700;
+    private static final int WIDTH_WINDOW = 700;
+    private static final int HEIGHT_WINDOW = 700;
     private transient AudioPlayer[] buttonAudio;
 
     private transient BufferedImage[] goBackImages;
@@ -58,11 +62,11 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        InputStream is = getClass().getResourceAsStream("/drawable/font/Insanibu.ttf");
         insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
 
 
-        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
@@ -135,11 +139,11 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         //jSpinner.addChangeListener(new ChangeListener() )
 
 
-        yButtonGoBack = HEIGHTWINDOW / 2 + 200;
-        xButtonGoBack = WIDTHWINDOW / 2 - 300;
+        yButtonGoBack = HEIGHT_WINDOW / 2 + 200;
+        xButtonGoBack = WIDTH_WINDOW / 2 - 300;
 
-        yButtonPlay = HEIGHTWINDOW / 2 + 200;
-        xButtonPlay = WIDTHWINDOW / 2 + 60;
+        yButtonPlay = HEIGHT_WINDOW / 2 + 200;
+        xButtonPlay = WIDTH_WINDOW / 2 + 60;
 
         int heightB = 58;
         int widthB = 230;
@@ -183,13 +187,13 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         graphics2D.setRenderingHints(rh);
 
 
-        graphics2D.drawImage(backgroundTitle, WIDTHWINDOW / 2 - backgroundTitle.getWidth() / 2, 40, null);
+        graphics2D.drawImage(backgroundTitle, WIDTH_WINDOW / 2 - backgroundTitle.getWidth() / 2, 40, null);
 
-        yButtonGoBack = HEIGHTWINDOW / 2 + 200;
-        xButtonGoBack = WIDTHWINDOW / 2 - 300;
+        yButtonGoBack = HEIGHT_WINDOW / 2 + GO_BACK_POSITION_Y;
+        xButtonGoBack = WIDTH_WINDOW / 2 - GO_BACK_POSITION_X;
 
-        yButtonPlay = HEIGHTWINDOW / 2 + 200;
-        xButtonPlay = WIDTHWINDOW / 2 + 60;
+        yButtonPlay = HEIGHT_WINDOW / 2 + PLAY_BUTTON_POSITION_Y;
+        xButtonPlay = WIDTH_WINDOW / 2 + PLAY_BUTTON_POSITION_X;
 
         if (changeB1) graphics2D.drawImage(goBackImages[1], xButtonGoBack, yButtonGoBack, null);
         else graphics2D.drawImage(goBackImages[0], xButtonGoBack, yButtonGoBack, null);
@@ -321,26 +325,26 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        //not needed to use
+        //not needed
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-        //not needed to use
+        //not needed
     }
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-        //not needed to use
+        //not needed
     }
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-        //not needed to use
+        //not needed
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        //not needed to use
+        //not needed
     }
 }

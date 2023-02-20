@@ -80,7 +80,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         setLayout(null);
         setBackground(backgroundColor);
 
-        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        InputStream is = getClass().getResourceAsStream("/drawable/font/Insanibu.ttf");
         try {
             assert is != null;
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -377,6 +377,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();

@@ -40,7 +40,7 @@ public class Tile {
         return equalWalls;
     }
 
-    public void setVisitedTile(){
+    public void setVisitedTile() {
         this.visitedTile = true;
     }
 

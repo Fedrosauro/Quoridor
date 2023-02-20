@@ -50,7 +50,7 @@ public class ConsoleGame {
                 do {
                     orientation = askForOrientation();
                     position = askForPosition();
-                } while (!gameEngine.placementIsAllowed(activePlayer, position, orientation, WALL_DIM));
+                } while (!gameEngine.everyPlayerCanWin(position, orientation, WALL_DIM));
                 gameEngine.placeWall(position, orientation, WALL_DIM);
             }
 

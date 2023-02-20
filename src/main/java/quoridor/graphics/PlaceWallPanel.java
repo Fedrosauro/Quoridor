@@ -76,7 +76,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         setLayout(null);
         setBackground(backgroundColor);
 
-        InputStream is = getClass().getResourceAsStream("/font/Insanibu.ttf");
+        InputStream is = getClass().getResourceAsStream("/drawable/font/Insanibu.ttf");
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
@@ -337,6 +337,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
             MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
             jFrame.setContentPane(mainPagePanel);
             jFrame.revalidate();

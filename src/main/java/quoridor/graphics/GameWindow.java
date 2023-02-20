@@ -3,9 +3,9 @@ package quoridor.graphics;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyFrame extends JFrame {
+public class GameWindow extends JFrame {
 
-    public MyFrame() {
+    public GameWindow() {
         initUI();
     }
 
@@ -23,8 +23,8 @@ public class MyFrame extends JFrame {
     public static void main(String[] args) { ///added just to see how the actual game would look like
         EventQueue.invokeLater(() -> {
 
-            MyFrame myFrame = new MyFrame();
-            myFrame.setVisible(true);
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.setVisible(true);
         });
     }
 

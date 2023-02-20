@@ -20,13 +20,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class RulesPanel extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+    public static final int BUTTON_POSITION_Y = 200;
+    public static final int BUTTON_POSITION_X = 115;
     private final JFrame jFrame;
     private final Color backgroundColor;
     private Font lowerArial;
 
 
-    private static final int WIDTHWINDOW = 700;
-    private static final int HEIGHTWINDOW = 700;
+    private static final int WIDTH_WINDOW = 700;
+    private static final int HEIGHT_WINDOW = 700;
+    final int BUTTON_HEIGHT = 58;
+    final int BUTTON_WIDTH = 230;
     private transient AudioPlayer[] buttonAudio;
 
     private transient BufferedImage[] goBackImages;
@@ -51,10 +55,10 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         addMouseMotionListener(this);
 
 
-        InputStream is1 = getClass().getResourceAsStream("/font/arlrdbd.ttf");
+        InputStream is1 = getClass().getResourceAsStream("/drawable/font/arlrdbd.ttf");
         lowerArial = Font.createFont(Font.TRUETYPE_FONT, is1);
 
-        setPreferredSize(new Dimension(WIDTHWINDOW, HEIGHTWINDOW));
+        setPreferredSize(new Dimension(WIDTH_WINDOW, HEIGHT_WINDOW));
         setLayout(null);
         setBackground(backgroundColor);
 
@@ -67,12 +71,10 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
         backgroundTitle = loader.loadImage("src/main/resources/images/background_rules_title/how_to_play_title.png");
 
-        yButtons = HEIGHTWINDOW / 2 + 200;
-        xButtons = WIDTHWINDOW / 2 - 115;
-        int heightB = 58;
-        int widthB = 230;
+        yButtons = HEIGHT_WINDOW / 2 + BUTTON_POSITION_Y;
+        xButtons = WIDTH_WINDOW / 2 - BUTTON_POSITION_X;
 
-        rectGoBackB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
+        rectGoBackB = new Rectangle2D.Float(xButtons, yButtons, BUTTON_WIDTH, BUTTON_HEIGHT);
         changeB1 = false;
 
         buttonAudio = new AudioPlayer[2];
@@ -107,20 +109,17 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     private void doDrawing(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
 
-        RenderingHints rh =
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         graphics2D.setRenderingHints(rh);
 
 
-        graphics2D.drawImage(backgroundTitle, WIDTHWINDOW / 2 - backgroundTitle.getWidth() / 2, 40, null);
+        graphics2D.drawImage(backgroundTitle, WIDTH_WINDOW / 2 - backgroundTitle.getWidth() / 2, 40, null);
 
-        yButtons = HEIGHTWINDOW / 2 + 200;
-        xButtons = WIDTHWINDOW / 2 - 115;
+        yButtons = HEIGHT_WINDOW / 2 + BUTTON_POSITION_Y;
+        xButtons = WIDTH_WINDOW / 2 - BUTTON_POSITION_X;
 
         if (changeB1) graphics2D.drawImage(goBackImages[1], xButtons, yButtons, null);
         else graphics2D.drawImage(goBackImages[0], xButtons, yButtons, null);
