@@ -28,8 +28,8 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
     private static final int WIDTH_WINDOW = 700;
     private static final int HEIGHT_WINDOW = 700;
-    final int BUTTON_HEIGHT = 58;
-    final int BUTTON_WIDTH = 230;
+    private static final int BUTTON_HEIGHT = 58;
+    private static final int BUTTON_WIDTH = 230;
     private transient AudioPlayer[] buttonAudio;
 
     private transient BufferedImage[] goBackImages;
