@@ -35,7 +35,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
     private Font insanIb;
 
 
-    public WinningPanel(JFrame jFrame, Player player, Color backgroundColor){
+    public WinningPanel(JFrame jFrame, Player player, Color backgroundColor) {
         this.jFrame = jFrame;
         this.winnerPlayer = player;
         this.backgroundColor = backgroundColor;
@@ -71,8 +71,8 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         pawn3 = loader.loadImage("src/main/resources/images/meepleImages/pawn3.png");
         pawn4 = loader.loadImage("src/main/resources/images/meepleImages/pawn4.png");
 
-        yButtons = HEIGHTWINDOW /2 + 200;
-        xButtons = WIDTHWINDOW /2 - 115;
+        yButtons = HEIGHTWINDOW / 2 + 200;
+        xButtons = WIDTHWINDOW / 2 - 115;
         int heightB = 58;
         int widthB = 230;
 
@@ -84,14 +84,14 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
     }
 
-    private void initTimer(){
+    private void initTimer() {
         int delay = 1;
         Timer timer = new Timer(delay, this);
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         doDrawing(g);
     }
@@ -104,19 +104,16 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        RenderingHints rh =
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
 
         int startX = 220;
-        int y = HEIGHTWINDOW /2 - 100;
+        int y = HEIGHTWINDOW / 2 - 100;
 
-        switch (winnerPlayer.getMeeple().getColor()){
+        switch (winnerPlayer.getMeeple().getColor()) {
             case RED -> g2d.drawImage(pawn1, startX, y, null);
             case BLUE -> g2d.drawImage(pawn2, startX, y, null);
             case GREEN -> g2d.drawImage(pawn3, startX, y, null);
@@ -127,10 +124,10 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         g2d.setFont(insanIb.deriveFont(Font.PLAIN, 30));
         g2d.drawString("is the WINNER!!!", startX + pawn1.getWidth() + 13, y + pawn1.getHeight() - 10);
 
-        yButtons = HEIGHTWINDOW /2 + 200;
-        xButtons = WIDTHWINDOW /2 - 115;
+        yButtons = HEIGHTWINDOW / 2 + 200;
+        xButtons = WIDTHWINDOW / 2 - 115;
 
-        if(changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
+        if (changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
         else g2d.drawImage(menuBImages[0], xButtons, yButtons, null);
     }
 
@@ -158,7 +155,7 @@ public class WinningPanel extends JPanel implements MouseListener, MouseMotionLi
         int y = e.getY();
 
         if (rectGoBackB.contains(x, y)) {
-            if(!changeB1){
+            if (!changeB1) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();

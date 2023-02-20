@@ -33,15 +33,14 @@ public class GameEngine {
 
         players.add(new Player(nameOfPlayers.get(0), new Meeple(board.getPosition(0, 0), Color.GREEN, Margin.TOP), wallsPerPlayer));
 
-        if(opponentType == OpponentType.HUMAN){
+        if (opponentType == OpponentType.HUMAN) {
             players.add(new Player(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
 
             if (totPlayers == 4 && nameOfPlayers.size() >= 4) {
                 players.add(new Player(nameOfPlayers.get(2), new Meeple(board.getPosition(0, 0), Color.BLUE, Margin.LEFT), wallsPerPlayer));
                 players.add(new Player(nameOfPlayers.get(3), new Meeple(board.getPosition(0, 0), Color.YELLOW, Margin.RIGHT), wallsPerPlayer));
             }
-        }
-        else {
+        } else {
             nameOfPlayers.add("Bot 1");
 
             players.add(new AutoPlayer(nameOfPlayers.get(1), new Meeple(board.getPosition(0, 0), Color.RED, Margin.BOTTOM), wallsPerPlayer));
@@ -89,9 +88,6 @@ public class GameEngine {
     }
 
     public void placeWall(Player player, Coordinates coordinates, Orientation orientation, int dimWall) {
-
-        if (!board.isWallEventuallyPlaceable(coordinates, orientation, dimWall, player)) return;
-
         board.placeWall(coordinates, orientation, dimWall);
         int walls = this.getActivePlayer().getWalls();
         this.getActivePlayer().setWalls(walls - 1);
@@ -132,6 +128,13 @@ public class GameEngine {
     public boolean placementIsAllowed(Player activePlayer, Coordinates position, Orientation orientation, int dimension) {
         if (activePlayer.getWalls() <= 0) return false;
         return board.isWallEventuallyPlaceable(position, orientation, dimension, activePlayer);
+    }
+
+    public boolean everyPlayerCanWin(Coordinates position, Orientation orientation, int dimension) {
+        for (Player player : players) {
+            if (!placementIsAllowed(player, position, orientation, dimension)) return false;
+        }
+        return true;
     }
 
     public void autoMove(AutoPlayer player) {

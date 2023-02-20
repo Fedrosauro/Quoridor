@@ -57,6 +57,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
 
     private final transient GameEngine gameEngine;
     private transient Player activePlayer;
+
     public PlaceWallPanel(JFrame jFrame, GameEngine gameEngine, Color backgroundColor, int wallDimension) {
         this.jFrame = jFrame;
         this.gameEngine = gameEngine;
@@ -128,7 +129,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         jLabelXCoord.setBounds(xCoord, yStart, 270, 50);
         setJLabelParameters(jLabelXCoord);
 
-        SpinnerModel value1 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns()-1, 1);
+        SpinnerModel value1 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns() - 1, 1);
         jSpinner1 = new JSpinner(value1);
         jSpinner1.setEditor(new JSpinner.DefaultEditor(jSpinner1));
         jSpinner1.setBounds(xCoord + jLabelXCoord.getWidth(), yStart + 10, 40, 30);
@@ -139,7 +140,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         jLabelYCoord.setBounds(xCoord, yStart, 270, 50);
         setJLabelParameters(jLabelYCoord);
 
-        SpinnerModel value2 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns()-1, 1);
+        SpinnerModel value2 = new SpinnerNumberModel(0, 0, gameEngine.getBoard().getColumns() - 1, 1);
         jSpinner2 = new JSpinner(value2);
         jSpinner2.setEditor(new JSpinner.DefaultEditor(jSpinner2));
         jSpinner2.setBounds(xCoord + jLabelYCoord.getWidth(), yStart + 10, 40, 30);
@@ -176,14 +177,14 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         setFont(insanIb.deriveFont(Font.PLAIN, 15));
     }
 
-    private void initTimer(){
+    private void initTimer() {
         int delay = 1;
         Timer timer = new Timer(delay, this);
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         doDrawing(g);
     }
@@ -194,27 +195,24 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         repaint();
     }
 
-    private void doDrawing(Graphics g){
+    private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        RenderingHints rh =
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
 
-        if(activePlayer != null) {
+        if (activePlayer != null) {
             printBoard(g2d);
 
             printPlayerUI(g2d);
         }
     }
 
-    private void printPlayerUI(Graphics2D g2d){
-        switch(activePlayer.getMeeple().getColor()){
+    private void printPlayerUI(Graphics2D g2d) {
+        switch (activePlayer.getMeeple().getColor()) {
             case RED -> g2d.drawImage(pawn1Turn, 0, 510, null);
             case BLUE -> g2d.drawImage(pawn2Turn, 0, 510, null);
             case GREEN -> g2d.drawImage(pawn3Turn, 0, 510, null);
@@ -224,10 +222,10 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int xImages = 35;
         int yImages = 577;
 
-        if(changeBPlaceWall) g2d.drawImage(placeWallButton[1], xImages, yImages, null);
+        if (changeBPlaceWall) g2d.drawImage(placeWallButton[1], xImages, yImages, null);
         else g2d.drawImage(placeWallButton[0], xImages, yImages, null);
 
-        if(changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
+        if (changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
         else g2d.drawImage(smallGoBackButton[0], 650, 10, null);
     }
 
@@ -244,7 +242,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         add(jSpinner);
     }
 
-    private void setJRadioButtonParameters(JRadioButton jRadioButton){
+    private void setJRadioButtonParameters(JRadioButton jRadioButton) {
         jRadioButton.setBackground(backgroundColor);
         jRadioButton.setFont(insanIb.deriveFont(Font.PLAIN, 22));
         add(jRadioButton);
@@ -254,28 +252,24 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected() && button.getText().equals("H")) {
-                    return Orientation.HORIZONTAL;
-                }
-        }return Orientation.VERTICAL;
+                return Orientation.HORIZONTAL;
+            }
+        }
+        return Orientation.VERTICAL;
     }
 
-    private void printBoard(Graphics2D g2d){
+    private void printBoard(Graphics2D g2d) {
         Board board = gameEngine.getBoard();
 
         int sizeBoard = board.getMatrix().length;
 
         g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
-                ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
-                20, 20);
+        g2d.fillRoundRect(WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
 
         Stroke defaultStroke = g2d.getStroke();
-        BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
+        BasicStroke strokeForBoardBorder = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 1.0f, null, 2f);
         g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
-                ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
-                20, 20);
+        g2d.drawRoundRect(WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
 
         g2d.setStroke(strokeForBoardBorder);
         g2d.setStroke(defaultStroke);
@@ -284,19 +278,17 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
-            for(int j = 0; j < board.getColumns(); j++){
+            int startX = WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2;
+            for (int j = 0; j < board.getColumns(); j++) {
                 g2d.drawImage(tile, startX, y, null);
                 g2d.setColor(new Color(68, 6, 6, 168));
                 g2d.drawString(i + "," + j, startX + 10, y + 25);
-                if(board.getMatrix()[i][j].getNorthWall() != null)
-                    g2d.drawImage(wallH, startX - 2, y - 4, null);
-                if(board.getMatrix()[i][j].getEastWall() != null)
-                    g2d.drawImage(wallV, startX + 4, y - 2, null);
-                for(int k = 0; k < gameEngine.getPlayers().size(); k++){
+                if (board.getMatrix()[i][j].getNorthWall() != null) g2d.drawImage(wallH, startX - 2, y - 4, null);
+                if (board.getMatrix()[i][j].getEastWall() != null) g2d.drawImage(wallV, startX + 4, y - 2, null);
+                for (int k = 0; k < gameEngine.getPlayers().size(); k++) {
                     Coordinates playerCoords = gameEngine.getBoard().getPlayersPositions(gameEngine.getPlayers()).get(k);
-                    if(playerCoords.getRow() == i && playerCoords.getColumn() == j){
-                        switch(gameEngine.getPlayers().get(k).getMeeple().getColor()){
+                    if (playerCoords.getRow() == i && playerCoords.getColumn() == j) {
+                        switch (gameEngine.getPlayers().get(k).getMeeple().getColor()) {
                             case RED -> g2d.drawImage(pawn1, startX, y, null);
                             case BLUE -> g2d.drawImage(pawn2, startX, y, null);
                             case GREEN -> g2d.drawImage(pawn3, startX, y, null);
@@ -323,10 +315,10 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
                 ex.printStackTrace();
             }
 
-            Coordinates position = new Coordinates((int)jSpinner1.getValue(), (int)jSpinner2.getValue());
+            Coordinates position = new Coordinates((int) jSpinner1.getValue(), (int) jSpinner2.getValue());
             Orientation orientation = radioButtonSelection(buttonGroup);
 
-            if (gameEngine.placementIsAllowed(activePlayer, position, orientation, wallDimension)) {
+            if (gameEngine.everyPlayerCanWin(position, orientation, wallDimension)) {
                 gameEngine.placeWall(activePlayer, position, orientation, wallDimension);
 
                 gameEngine.nextActivePlayer();
@@ -338,7 +330,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
             }
         }
 
-        if(rectSmallButton.contains(x, y)){
+        if (rectSmallButton.contains(x, y)) {
             try {
                 buttonAudio[1].createAudio();
                 buttonAudio[1].playAudio();
@@ -369,7 +361,7 @@ public class PlaceWallPanel extends JPanel implements MouseListener, MouseMotion
         } else changeBPlaceWall = false;
 
         if (rectSmallButton.contains(x, y)) {
-            if(!changeSmallButton){
+            if (!changeSmallButton) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();

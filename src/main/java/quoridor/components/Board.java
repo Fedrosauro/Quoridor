@@ -435,6 +435,7 @@ public class Board {
     public int centreOfLine(int number) {
         return ((number - 1) / 2);
     }
+
     public void setMeeplePosition(Meeple meeple) throws PositionException {
         switch (meeple.getInitialMargin()) {
             case LEFT -> meeple.setPosition(getPosition(centreOfLine(getRows()), 0));

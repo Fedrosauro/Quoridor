@@ -38,14 +38,13 @@ public class ConsoleGame {
             printActivePlayer();
             Action actionToPerform = askForWhichActionToPerform();
 
-            if(actionToPerform == Action.MOVE_MEEPLE){
+            if (actionToPerform == Action.MOVE_MEEPLE) {
                 Direction direction;
                 do {
                     direction = askForDirection();
                 } while (!gameEngine.moveIsAllowed(activePlayer, direction));
                 gameEngine.move(activePlayer, direction);
-            }
-            else{
+            } else {
                 Orientation orientation;
                 Coordinates position;
                 do {
@@ -62,7 +61,7 @@ public class ConsoleGame {
 
     }
 
-    private static void automaticTurn(AutoPlayer player){
+    private static void automaticTurn(AutoPlayer player) {
         Action action = player.decideActionToPerform();
 
         if (action == Action.MOVE_MEEPLE) gameEngine.autoMove(player);

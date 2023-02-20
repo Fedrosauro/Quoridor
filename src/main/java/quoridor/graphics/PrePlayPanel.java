@@ -176,12 +176,9 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
     private void doDrawing(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
 
-        RenderingHints rh =
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         graphics2D.setRenderingHints(rh);
 
@@ -247,103 +244,103 @@ public class PrePlayPanel extends JPanel implements MouseListener, MouseMotionLi
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected() && button.getText().equals("4")) {
-                    return 4;
-                }
-        }return 2;
+                return 4;
+            }
+        }
+        return 2;
     }
 
 
-        @Override
-        public void mouseClicked (MouseEvent e){
-            int x = e.getX();
-            int y = e.getY();
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
 
-            if (rectGoBackB.contains(x, y)) {
-                try {
-                    buttonAudio[1].createAudio();
-                    buttonAudio[1].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
-                jFrame.setContentPane(mainPagePanel);
-                jFrame.revalidate();
+        if (rectGoBackB.contains(x, y)) {
+            try {
+                buttonAudio[1].createAudio();
+                buttonAudio[1].playAudio();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            if (rectPlayB.contains(x, y)) {
-                try {
-                    buttonAudio[1].createAudio();
-                    buttonAudio[1].playAudio();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-                ChooseActionPanel chooseActionPanel = null;
-                try {
-                    chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(),
-                                                        radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
-                } catch (PositionException | NumberOfPlayerException ex) {
-                    ex.printStackTrace();
-                }
-
-                jFrame.setContentPane(chooseActionPanel);
-                jFrame.revalidate();
+            MainPagePanel mainPagePanel = new MainPagePanel(jFrame, backgroundColor);
+            jFrame.setContentPane(mainPagePanel);
+            jFrame.revalidate();
+        }
+        if (rectPlayB.contains(x, y)) {
+            try {
+                buttonAudio[1].createAudio();
+                buttonAudio[1].playAudio();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        }
 
-        @Override
-        public void mouseMoved (MouseEvent e){
-            int x = e.getX();
-            int y = e.getY();
+            ChooseActionPanel chooseActionPanel = null;
+            try {
+                chooseActionPanel = new ChooseActionPanel(jFrame, backgroundColor, (Integer) jSpinner3.getValue(), (Integer) jSpinner3.getValue(), radioButtonSelection(buttonGroup), (Integer) jSpinner2.getValue(), (Integer) jSpinner1.getValue());
+            } catch (PositionException | NumberOfPlayerException ex) {
+                ex.printStackTrace();
+            }
 
-            if (rectGoBackB.contains(x, y)) {
-                if (!changeB1) {
-                    try {
-                        buttonAudio[0].createAudio();
-                        buttonAudio[0].playAudio();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                changeB1 = true;
-            } else changeB1 = false;
-
-            if (rectPlayB.contains(x, y)) {
-                if (!changeB2) {
-                    try {
-                        buttonAudio[0].createAudio();
-                        buttonAudio[0].playAudio();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                changeB2 = true;
-            } else changeB2 = false;
-
-
-        }
-
-        @Override
-        public void mousePressed (MouseEvent mouseEvent){
-            //not needed to use
-        }
-
-        @Override
-        public void mouseReleased (MouseEvent mouseEvent){
-            //not needed to use
-        }
-
-        @Override
-        public void mouseEntered (MouseEvent mouseEvent){
-            //not needed to use
-        }
-
-        @Override
-        public void mouseExited (MouseEvent mouseEvent){
-            //not needed to use
-        }
-
-        @Override
-        public void mouseDragged (MouseEvent mouseEvent){
-            //not needed to use
+            jFrame.setContentPane(chooseActionPanel);
+            jFrame.revalidate();
         }
     }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+
+        if (rectGoBackB.contains(x, y)) {
+            if (!changeB1) {
+                try {
+                    buttonAudio[0].createAudio();
+                    buttonAudio[0].playAudio();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            changeB1 = true;
+        } else changeB1 = false;
+
+        if (rectPlayB.contains(x, y)) {
+            if (!changeB2) {
+                try {
+                    buttonAudio[0].createAudio();
+                    buttonAudio[0].playAudio();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            changeB2 = true;
+        } else changeB2 = false;
+
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        //not needed to use
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+        //not needed to use
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        //not needed to use
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        //not needed to use
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent mouseEvent) {
+        //not needed to use
+    }
+}

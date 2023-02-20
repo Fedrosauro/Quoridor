@@ -36,7 +36,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
     private Font insanIb;
 
-    public OptionsPanel(JFrame jFrame, Color backgroundColor){
+    public OptionsPanel(JFrame jFrame, Color backgroundColor) {
         this.jFrame = jFrame;
         this.backgroundColor = backgroundColor;
 
@@ -44,7 +44,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         initTimer();
     }
 
-    private void setup(){
+    private void setup() {
         addMouseListener(this);
         addMouseMotionListener(this);
 
@@ -68,8 +68,8 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
 
         backgroundTitle = loader.loadImage("src/main/resources/images/background_chose_title/background_chose_title.png");
 
-        yButtons = HEIGHTWINDOW /2 + 200;
-        xButtons = WIDTHWINDOW /2 - 115;
+        yButtons = HEIGHTWINDOW / 2 + 200;
+        xButtons = WIDTHWINDOW / 2 - 115;
         int heightB = 58;
         int widthB = 230;
 
@@ -97,13 +97,13 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         this.add(colorList);
     }
 
-    private void initTimer(){
+    private void initTimer() {
         Timer timer = new Timer(DELAY, this);
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         doDrawing(g);
     }
@@ -116,12 +116,9 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        RenderingHints rh =
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
 
@@ -129,16 +126,16 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
             backgroundColor = (Color) Color.class.getField("" + colorList.getSelectedValue()).get(null);
             setBackground(backgroundColor);
             colorList.setBackground(backgroundColor);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        g2d.drawImage(backgroundTitle, WIDTHWINDOW /2 - backgroundTitle.getWidth()/2, 20, null);
+        g2d.drawImage(backgroundTitle, WIDTHWINDOW / 2 - backgroundTitle.getWidth() / 2, 20, null);
 
-        yButtons = HEIGHTWINDOW /2 + 200;
-        xButtons = WIDTHWINDOW /2 - 115;
+        yButtons = HEIGHTWINDOW / 2 + 200;
+        xButtons = WIDTHWINDOW / 2 - 115;
 
-        if(changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
+        if (changeB1) g2d.drawImage(menuBImages[1], xButtons, yButtons, null);
         else g2d.drawImage(menuBImages[0], xButtons, yButtons, null);
     }
 
@@ -166,7 +163,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         int y = e.getY();
 
         if (rectGoBackB.contains(x, y)) {
-            if(!changeB1){
+            if (!changeB1) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();
@@ -178,8 +175,8 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         } else changeB1 = false;
     }
 
-    private void setJListParameters(Map<Color, String> colorMap){
-        colorList.setBounds(WIDTHWINDOW /2 - 70,160,130,320);
+    private void setJListParameters(Map<Color, String> colorMap) {
+        colorList.setBounds(WIDTHWINDOW / 2 - 70, 160, 130, 320);
         colorList.setSelectedIndex(Arrays.asList(colors).indexOf(colorMap.get(backgroundColor)));
         colorList.setBackground(backgroundColor);
         colorList.setForeground(Color.white);

@@ -135,7 +135,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         rectMoveB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBMove = false;
 
-        xButtons = WIDTHWINDOW /2 + distance /2;
+        xButtons = WIDTHWINDOW / 2 + distance / 2;
         rectPlaceWallB = new Rectangle2D.Float(xButtons, yButtons, widthB, heightB);
         changeBPlaceWall = false;
 
@@ -153,14 +153,14 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         buttonAudio[1] = new AudioPlayer("src/main/resources/audio/effects/menuSound.wav");
     }
 
-    private void initTimer(){
+    private void initTimer() {
         int delay = 1;
         Timer timer = new Timer(delay, this);
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         doDrawing(g);
     }
@@ -171,57 +171,48 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         repaint();
     }
 
-    private void doDrawing(Graphics g){
+    private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        RenderingHints rh =
-                new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        rh.put(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
 
         g2d.setColor(Color.WHITE);
 
-        if(activePlayer != null) {
+        if (activePlayer != null) {
             printBoard(g2d);
             printPlayerUI(g2d);
         }
     }
 
-    private void printBoard(Graphics2D g2d){
+    private void printBoard(Graphics2D g2d) {
         Board board = gameEngine.getBoard();
 
         int sizeBoard = board.getMatrix().length;
 
         g2d.setColor(new Color(68, 6, 6));
-        g2d.fillRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
-                ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
-                20, 20);
+        g2d.fillRoundRect(WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
 
         g2d.setColor(new Color(96, 10, 10));
-        g2d.drawRoundRect(WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2 - 10, 10,
-                ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15,
-                20, 20);
+        g2d.drawRoundRect(WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2 - 10, 10, ((pawn1.getWidth() + 4) * sizeBoard) + 15, ((pawn1.getHeight() + 4) * sizeBoard) + 15, 20, 20);
 
         int y = 20;
 
         for (int i = board.getRows() - 1; i >= 0; i--) {
-            int startX = WIDTHWINDOW /2 - (board.getRows() * (tile.getWidth() + 4))/2;
-            for(int j = 0; j < board.getColumns(); j++){
+            int startX = WIDTHWINDOW / 2 - (board.getRows() * (tile.getWidth() + 4)) / 2;
+            for (int j = 0; j < board.getColumns(); j++) {
                 g2d.drawImage(tile, startX, y, null);
                 g2d.setColor(new Color(68, 6, 6, 168));
                 g2d.drawString(i + "," + j, startX + 10, y + 25);
-                if(board.getMatrix()[i][j].getNorthWall() != null)
-                    g2d.drawImage(wallH, startX - 2, y - 4, null);
-                if(board.getMatrix()[i][j].getEastWall() != null)
-                    g2d.drawImage(wallV, startX + 4, y - 2, null);
-                for(int k = 0; k < gameEngine.getPlayers().size(); k++){
+                if (board.getMatrix()[i][j].getNorthWall() != null) g2d.drawImage(wallH, startX - 2, y - 4, null);
+                if (board.getMatrix()[i][j].getEastWall() != null) g2d.drawImage(wallV, startX + 4, y - 2, null);
+                for (int k = 0; k < gameEngine.getPlayers().size(); k++) {
                     Coordinates playerCoords = gameEngine.getBoard().getPlayersPositions(gameEngine.getPlayers()).get(k);
-                    if(playerCoords.getRow() == i && playerCoords.getColumn() == j){
-                        switch(gameEngine.getPlayers().get(k).getMeeple().getColor()){
+                    if (playerCoords.getRow() == i && playerCoords.getColumn() == j) {
+                        switch (gameEngine.getPlayers().get(k).getMeeple().getColor()) {
                             case RED -> g2d.drawImage(pawn1, startX, y, null);
                             case BLUE -> g2d.drawImage(pawn2, startX, y, null);
                             case GREEN -> g2d.drawImage(pawn3, startX, y, null);
@@ -235,8 +226,8 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         }
     }
 
-    private void printPlayerUI(Graphics2D g2d){
-        switch(activePlayer.getMeeple().getColor()){
+    private void printPlayerUI(Graphics2D g2d) {
+        switch (activePlayer.getMeeple().getColor()) {
             case RED -> g2d.drawImage(pawn1Turn, 0, 510, null);
             case BLUE -> g2d.drawImage(pawn2Turn, 0, 510, null);
             case GREEN -> g2d.drawImage(pawn3Turn, 0, 510, null);
@@ -246,23 +237,23 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         Font actualFont = g2d.getFont();
         g2d.setFont(insanIb.deriveFont(Font.PLAIN, 30));
 
-        g2d.setColor(new Color(255,255, 225));
-        g2d.drawString("Walls:", WIDTHWINDOW/2 - 55, 560);
+        g2d.setColor(new Color(255, 255, 225));
+        g2d.drawString("Walls:", WIDTHWINDOW / 2 - 55, 560);
 
-        g2d.drawString(activePlayer.getWalls() + "", WIDTHWINDOW/2 + 50, 560);
+        g2d.drawString(activePlayer.getWalls() + "", WIDTHWINDOW / 2 + 50, 560);
         g2d.setFont(actualFont);
 
-        int xImages = WIDTHWINDOW /2 - moveButtonImage[0].getWidth() - 50;
+        int xImages = WIDTHWINDOW / 2 - moveButtonImage[0].getWidth() - 50;
         int yImages = 585;
 
-        if(changeBMove) g2d.drawImage(moveButtonImage[1], xImages, yImages, null);
+        if (changeBMove) g2d.drawImage(moveButtonImage[1], xImages, yImages, null);
         else g2d.drawImage(moveButtonImage[0], xImages, yImages, null);
 
         xImages += moveButtonImage[0].getWidth() + 50 + 50;
-        if(changeBPlaceWall) g2d.drawImage(placeWallImage[1], xImages, yImages, null);
+        if (changeBPlaceWall) g2d.drawImage(placeWallImage[1], xImages, yImages, null);
         else g2d.drawImage(placeWallImage[0], xImages, yImages, null);
 
-        if(changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
+        if (changeSmallButton) g2d.drawImage(smallGoBackButton[1], 650, 10, null);
         else g2d.drawImage(smallGoBackButton[0], 650, 10, null);
     }
 
@@ -299,7 +290,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
             jFrame.revalidate();
         }
 
-        if(rectSmallButton.contains(x, y)){
+        if (rectSmallButton.contains(x, y)) {
             try {
                 buttonAudio[1].createAudio();
                 buttonAudio[1].playAudio();
@@ -342,7 +333,7 @@ public class ChooseActionPanel extends JPanel implements MouseListener, MouseMot
         } else changeBPlaceWall = false;
 
         if (rectSmallButton.contains(x, y)) {
-            if(!changeSmallButton){
+            if (!changeSmallButton) {
                 try {
                     buttonAudio[0].createAudio();
                     buttonAudio[0].playAudio();

@@ -47,7 +47,7 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     private void setup() throws IOException, FontFormatException {
-        addMouseListener( this);
+        addMouseListener(this);
         addMouseMotionListener(this);
 
 
@@ -89,7 +89,7 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
     private void initTimer() {
         int delay = 1;
-        Timer timer = new Timer(delay,this);
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -126,14 +126,14 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
         else graphics2D.drawImage(goBackImages[0], xButtons, yButtons, null);
 
 
-
     }
-    private void setJTextPaneParameters(JTextPane jTextPane){
+
+    private void setJTextPaneParameters(JTextPane jTextPane) {
         jTextPane.setBounds(110, 150, 480, 300);
-        jTextPane.setText("The object of the game is to advance your pawn to the opposite side of the board. \n\nOn your turn, you may either move your pawn (one square forward, backward, left or right) or place one wall. You may jump over another pawn if it is directly next to you, but you cannot jump over walls! \nYou can obstacle your opponent's path by placing a wall, but you are not allowed to completely block him off.") ; // showing off
+        jTextPane.setText("The object of the game is to advance your pawn to the opposite side of the board. \n\nOn your turn, you may either move your pawn (one square forward, backward, left or right) or place one wall. You may jump over another pawn if it is directly next to you, but you cannot jump over walls! \nYou can obstacle your opponent's path by placing a wall, but you are not allowed to completely block him off."); // showing off
         jTextPane.setBackground(backgroundColor);
         jTextPane.setForeground(Color.decode("#FFFFE1"));
-        jTextPane.setFont(lowerArial.deriveFont( Font.BOLD,21));
+        jTextPane.setFont(lowerArial.deriveFont(Font.BOLD, 21));
         jTextPane.setEditable(false);
 
         StyledDocument doc = jTextPane.getStyledDocument();
@@ -145,12 +145,12 @@ public class RulesPanel extends JPanel implements MouseListener, MouseMotionList
 
     }
 
-    private void setJTextPaneParametersGoodLuck(JTextPane jTextPane){
-        jTextPane.setBounds(xButtons+40 , 460 , 500, 50);
-        jTextPane.setText("GOOD LUCK!") ; // showing off
+    private void setJTextPaneParametersGoodLuck(JTextPane jTextPane) {
+        jTextPane.setBounds(xButtons + 40, 460, 500, 50);
+        jTextPane.setText("GOOD LUCK!"); // showing off
         jTextPane.setBackground(backgroundColor);
         jTextPane.setForeground(Color.decode("#FFFFE1"));
-        jTextPane.setFont(lowerArial.deriveFont( Font.BOLD,21));
+        jTextPane.setFont(lowerArial.deriveFont(Font.BOLD, 21));
         jTextPane.setEditable(false);
         add(jTextPane);
 
