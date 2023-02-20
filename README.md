@@ -38,7 +38,7 @@ A player can either:
 
 Note that when a player has no spare walls, only the movement is allowed
 
-**_NOTE:_** Given a set of coordinate, the wall will be placed from the north or east side of the tile, for horizontal and vertical wall respectively. As you can see below: 
+**_NOTE:_** Given a set of coordinate, the wall will be placed from the north or east side of the tile, for horizontal and vertical wall respectively. The picture shows the coordinate (2,2) with wall dimension equals to 2:
 <div align="center">
   <img alt="CircleCI" src="https://raw.githubusercontent.com/Fedrosauro/Images/main/Immagine%202023-02-20%20143439.png">
 </div>
