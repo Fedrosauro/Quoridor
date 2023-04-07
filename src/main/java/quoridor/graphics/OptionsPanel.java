@@ -56,6 +56,7 @@ public class OptionsPanel extends JPanel implements MouseListener, MouseMotionLi
         InputStream is = getClass().getResourceAsStream("/drawable/font/Insanibu.ttf");
         try {
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
+            is.close();
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }

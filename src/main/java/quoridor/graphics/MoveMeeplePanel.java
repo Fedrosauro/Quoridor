@@ -84,6 +84,7 @@ public class MoveMeeplePanel extends JPanel implements MouseListener, MouseMotio
         try {
             assert is != null;
             insanIb = Font.createFont(Font.TRUETYPE_FONT, is);
+            is.close();
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
